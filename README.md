@@ -20,6 +20,11 @@ Laravel 8 with Vuexy HTML Bootstrap 5 Admin Templates
 - yarn
 - yarn mix
 
+### Second step: Intergate Laravel UI
+- composer require laravel/ui
+- php artisan ui:controllers
+- php artisan ui:auth
+
 ### Note
 - eg: database (mariadb), name of db 'vuexy'
 - Eg: Watching for changes:``yarn mix watch``
