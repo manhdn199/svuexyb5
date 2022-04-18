@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Auth\Api\UserController;
+use App\Http\Controllers\Auth\Api\RoleController;
+use App\Http\Controllers\Auth\Api\ProjectController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,14 +19,7 @@ use App\Http\Controllers\Api\RoleController;
 
 Route::middleware('auth:sanctum')->group(function ()
 {
-    Route::get('/user',[AuthController::class,'user']);
-    Route::get('/logout',[AuthController::class,'logout']);
-
 });
-Route::post('/login',[AuthController::class,'login']);
-Route::post('/register',[AuthController::class,'register']);
-
-
 Route::post('/users',[UserController::class,'index']);
 Route::post('/users/store',[UserController::class,'store']);
 Route::get('/users/update/{id}', [UserController::class, 'show']);
@@ -38,4 +32,5 @@ Route::get('/roles/update/{id}', [RoleController::class, 'show']);
 Route::post('/roles/update/{id}', [RoleController::class, 'update']);
 Route::get('/roles/delete/{id}', [RoleController::class, 'destroy']);
 
-
+Route::get('/projects', [ProjectController::class, 'viewProject']);
+Route::post('/showProject', [ProjectController::class, 'showProjects']);

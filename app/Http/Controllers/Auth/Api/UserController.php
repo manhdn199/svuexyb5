@@ -22,7 +22,6 @@ class UserController extends Controller
     {
         return User::all();
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,7 +35,6 @@ class UserController extends Controller
         $user = User::create($input);
         return response()->json(['success' => 'Tạo thành công'], 200);
     }
-
     /**
      * Display the specified resource.
      *
@@ -48,7 +46,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return view('users.update', compact('user'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -58,14 +55,12 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        // Tìm đến đối tượng muốn update
         $user = User::findOrFail($id);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         User::where('id', $id)->update($input);
         return response()->json(['success' => 'Update Success'], 200);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -74,9 +69,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // Tìm đến đối tượng muốn xóa
         $user = User::findOrFail($id);
-
         $user->delete();
         echo"success delete user";
     }
