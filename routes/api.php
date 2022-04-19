@@ -32,5 +32,9 @@ Route::get('/roles/update/{id}', [RoleController::class, 'show']);
 Route::post('/roles/update/{id}', [RoleController::class, 'update']);
 Route::get('/roles/delete/{id}', [RoleController::class, 'destroy']);
 
-Route::get('/projects', [ProjectController::class, 'viewProject']);
-Route::post('/showProject', [ProjectController::class, 'showProjects']);
+Route::get('/projects/{id}', [ProjectController::class, 'viewProject']);
+Route::get('/showProjects', [ProjectController::class, 'showProjects']);
+Route::post('/projects/createProject', [ProjectController::class, 'createProject']);
+Route::get('/requestUserProject/1', [ProjectController::class, 'showRequestAddUser'])->name('showUserProject');
+
+
