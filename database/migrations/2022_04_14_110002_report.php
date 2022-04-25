@@ -16,14 +16,17 @@ class Report extends Migration
         Schema::create('reports',function (Blueprint $table)
         {
             $table->id();
-            $table->string('name');
             $table->string('detail');
-            $table->integer('duration');
-            $table->integer('revenue');
+            $table->date('working_time');
+            $table->integer('working_type');
             $table->unsignedBigInteger('position_id');
             $table->foreign('position_id')->references('id')->on('positions');
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('time');
+            $table->string('status');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Project extends Seeder
+class User_has_RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +14,9 @@ class Project extends Seeder
      */
     public function run()
     {
-        DB::table('projects')->insert([
-            'name' => 'PHP-Fresher',
-            'detail' => 'Project by fresher',
-            'duration' => '160',
-            'revenue' => '0',
+        DB::table('user_has_role')->insert([
+            'user_id' => '2',
+            'role_id' => '2'
         ]);
-
     }
 }

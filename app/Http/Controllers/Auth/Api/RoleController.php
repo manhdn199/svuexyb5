@@ -53,6 +53,7 @@ class RoleController extends Controller
         Role::create([
             'name' => $request->name,
         ]);
+
         return response()->json([
             'message' => 'Created'
         ],200);
@@ -66,6 +67,7 @@ class RoleController extends Controller
     public function show($id)
     {
         $role = Role::findOrFail($id);
+
         return view('roles.update', compact('role'));
     }
     /**
@@ -90,8 +92,12 @@ class RoleController extends Controller
     {
         $user = Role::findOrFail($id);
         $input = $request->all();
-        Role::where('id', $id)->update($input);
-        return response()->json(['success' => 'Update Success'], 200);
+        Role::where('id', $id)
+            ->update($input);
+
+        return response()->json([
+            'success' => 'Update Success'
+        ], 200);
     }
     /**
      * Remove the specified resource from storage.
@@ -103,7 +109,10 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->delete();
-        return response()->json(['success' => 'Delete Success'], 200);
+
+        return response()->json([
+            'success' => 'Delete Success'
+        ], 200);
     }
 }
 

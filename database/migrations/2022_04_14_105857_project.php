@@ -19,8 +19,6 @@ class Project extends Migration
             $table->string('detail');
             $table->integer('duration');
             $table->integer('revenue');
-            $table->unsignedBigInteger('position_id');
-            $table->foreign('position_id')->references('id')->on('positions');
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
