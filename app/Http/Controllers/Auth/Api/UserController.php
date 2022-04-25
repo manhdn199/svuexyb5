@@ -33,7 +33,10 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
-        return response()->json(['success' => 'Tạo thành công'], 200);
+
+        return response()->json([
+            'success' => 'Tạo thành công'
+        ], 200);
     }
     /**
      * Display the specified resource.
@@ -44,6 +47,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+
         return view('users.update', compact('user'));
     }
     /**
@@ -58,8 +62,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        User::where('id', $id)->update($input);
-        return response()->json(['success' => 'Update Success'], 200);
+        User::where('id', $id)
+            ->update($input);
+
+        return response()->json([
+            'success' => 'Update Success'
+        ], 200);
     }
     /**
      * Remove the specified resource from storage.

@@ -15,6 +15,9 @@ class Role extends Model
     protected $fillable = [
         'name',
     ];
+    const MANAGER = 1;
+    const ADMIN = 2;
+    const MEMBER = 3;
 }
 
 

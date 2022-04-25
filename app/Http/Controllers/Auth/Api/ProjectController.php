@@ -37,23 +37,30 @@ class ProjectController extends Controller
                     'project_id' => $project_id
                 ]);
             } else {
-                return response()->json(['success' => 'Exist'], 200);
+                return response()->json([
+                    'success' => 'Exist'
+                ], 200);
             }
         }
-        return response()->json(['success' => 'Created'], 200);
+
+        return response()->json([
+            'success' => 'Created'
+        ], 200);
     }
 
     public function showProjects()
     {
+        $arrayProject = [];
         $project = Memberlist::with([
             'hasUser',
             'hasPosition',
             'hasProject'])
             ->get();
         foreach ($project as $value) {
-            echo "<pre>";
-            print_r($value->hasUser->name);
+            $arrayProject[] = $value;
         }
+
+        return $arrayProject;
     }
 
     public function createProject(ProjectRequest $request)
@@ -66,6 +73,7 @@ class ProjectController extends Controller
             'duration' => $request->duration,
             'revenue' => $request->revenue,
         ]);
+
         return response()->json([
             'message' => 'Created'
         ], 200);
@@ -76,13 +84,13 @@ class ProjectController extends Controller
         $project = Projects::findOrFail($id);
         $input = $request->all();
         Projects::where('id', $id)->update($input);
-        return response()->json(['success' => 'Update Success'], 200);
+
+        return response()->json([
+            'success' => 'Update Success'
+        ], 200);
 
     }
-    public function updateUserProject(Request $request, $id)
-    {
-        //
-    }
+
     public function deleteProject($id)
     {
         $project = Projects::findOrFail($id);
