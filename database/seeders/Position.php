@@ -15,7 +15,7 @@ class Position extends Seeder
     public function run()
     {
         DB::table('positions')->insert([
-            'name' => 'PM',
+            'name' => 'OTHER',
         ]);
     }
 }

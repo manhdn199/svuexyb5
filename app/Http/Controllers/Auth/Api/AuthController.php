@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 class AuthController extends Controller
 {
     public function getLogin()
     {
-        return view('login');
+        return view('auth/login');
     }
 
     public function login(LoginRequest $request)
@@ -40,13 +40,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Login!',
-            'access_token' => $token,
-            'type_token' => 'Bearer',
-            'role_id' => $user->userHasRole->role_id,
-        ],200);
+        dd(auth('sanctum')->user());
+        return view('content.home',compact('user'));
     }
 
     public function register(Request $request)
@@ -56,17 +51,20 @@ class AuthController extends Controller
             'email.required' => 'Required email',
             'password.required' => 'Required password'
         ];
+
         $validator = Validator::make($request->all(),
             [
                 'email'=>'email| required'
             ]
             , $messages);
+
         if ($validator->fails())
         {
             return response()->json([
                 'message' => $validator->errors()
             ],404);
         }
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -86,6 +84,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->user()->tokens()->delete();
+
         return response()->json([
             'message' => 'Log out!'
         ],200);

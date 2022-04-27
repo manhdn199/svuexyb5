@@ -15,7 +15,7 @@ class Project extends Seeder
     public function run()
     {
         DB::table('projects')->insert([
-            'name' => 'PHP-Fresher',
+            'name' => 'Ruby',
             'detail' => 'Project by fresher',
             'duration' => '160',
             'revenue' => '0',
