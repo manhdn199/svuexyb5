@@ -14,9 +14,9 @@ class MemberListSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('memberlist')->insert([
-            'user_id' => 2,
-            'position_id' => 1,
+        DB::table('memberList')->insert([
+            'user_id' => 3,
+            'position_id' => 3,
             'project_id' => 1
         ]);
     }

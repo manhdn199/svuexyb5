@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function ()
 });
 
 Route::get('/login',[AuthController::class,'getLogin'])->name('getLogin');
-Route::post('login',[AuthController::class,'login']);
+Route::post('/login',[AuthController::class,'login']);
 
 Route::middleware('auth.admin')->group(function (){
     Route::post('/users',[UserController::class,'index']);
