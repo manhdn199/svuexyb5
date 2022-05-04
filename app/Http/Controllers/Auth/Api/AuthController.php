@@ -12,16 +12,13 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 class AuthController extends Controller
 {
-    public function getLogin()
+    public function login(Request $request)
     {
-        return view('auth/login');
-    }
 
-    public function login(LoginRequest $request)
-    {
         $user = User::where(
             'email', $request->email
         )->first();
+        $role = $user->userHasRole->role_id;
 
         if (!$user)
         {
@@ -40,8 +37,15 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('authToken')->plainTextToken;
-        dd(auth('sanctum')->user());
-        return view('content.home',compact('user'));
+
+        return response()->json([
+            'message' => 'Login!',
+            'access_token' => $token,
+            'type_token' => 'Bearer',
+            'role_id' => $user->userHasRole->role_id,
+        ],200);
+//        return view('content/home');
+
     }
 
     public function register(Request $request)

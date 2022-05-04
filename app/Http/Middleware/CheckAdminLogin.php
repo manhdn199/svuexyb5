@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\User;
 
 class CheckAdminLogin
 {
@@ -17,12 +18,20 @@ class CheckAdminLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = auth('sanctum')->user();
-        $role = $user->userHasRole->role_id;
+//        $user = User::where(
+//            'email', $request->email
+//        )->first();
 
-        if ($role == Role::ADMIN)
+        $user = auth('sanctum')->user();
+
+        if (!empty($user))
         {
-            return $next($request);
+            $role = $user->userHasRole->role_id;
+
+            if ($role == Role::ADMIN)
+            {
+                return $next($request);
+            }
         }
 
         return redirect()->route('getLogin');

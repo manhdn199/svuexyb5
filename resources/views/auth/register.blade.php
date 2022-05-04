@@ -61,6 +61,42 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="gender" id="gender">
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Birthday') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="birthday" type="date" class="form-control" name="birthday" required >
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Tel') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="tel" type="number" class="form-control" name="tel" required >
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address" type="text" class="form-control" name="address" required >
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

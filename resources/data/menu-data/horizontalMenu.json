@@ -7,20 +7,20 @@
       "slug": "home"
     },
     {
-      "name": "Page Layouts",
+      "name": "Home",
       "icon": "layout",
       "dropdown": "1",
       "slug": "",
       "submenu": [
         {
-          "url": "layouts/full",
-          "name": "Layout Full",
-          "slug": "layout-full"
+          "url": "api/users",
+          "name": "Users",
+          "slug": "users"
         },
         {
-          "url": "layouts/without-menu",
-          "name": "Without Menu",
-          "slug": "without-menu"
+          "url": "api/roles",
+          "name": "Roles",
+          "slug": "roles"
         },
         {
           "url": "layouts/empty",

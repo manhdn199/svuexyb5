@@ -18,15 +18,15 @@ use App\Http\Controllers\Auth\Api\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function ()
-{
-});
-
-Route::get('/login',[AuthController::class,'getLogin'])->name('getLogin');
+//Route::middleware('auth:sanctum')->group(function ()
+//{
+//});
 Route::post('/login',[AuthController::class,'login']);
 
-Route::middleware('auth.admin')->group(function (){
-    Route::post('/users',[UserController::class,'index']);
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+    Route::get('/users',[UserController::class,'showUsers']);
+    Route::post('/users',[UserController::class,'index'])->name('users');
     Route::post('/users/store',[UserController::class,'store']);
     Route::get('/users/update/{id}', [UserController::class, 'show']);
     Route::post('/users/update/{id}', [UserController::class, 'update']);

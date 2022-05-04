@@ -41,6 +41,10 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -68,6 +72,10 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'gender' => $data['gender'],
+            'birthday' => $data['birthday'],
+            'tel' => $data['tel'],
+            'address' => $data['address']
         ]);
     }
 }
