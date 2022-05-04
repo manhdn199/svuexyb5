@@ -18,6 +18,11 @@ class Role extends Model
     const MANAGER = 1;
     const ADMIN = 2;
     const MEMBER = 3;
+
+    public function userHasRole()
+    {
+        return $this->hasOne(UserhasRole::class,'role_id');
+    }
 }
 
 

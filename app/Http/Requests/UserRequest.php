@@ -30,8 +30,7 @@ class UserRequest extends FormRequest
             'name' => 'required|max:255',
             'gender' => 'required',
             'email'=>'email|required|unique:users',
-            'password' => 'bail|required|min:8',
-            'password_confirmation' => 'bail|required|same:password',
+            'password' => 'required|min:8',
             'birthday' =>'required|date|date_format:Y/m/d|before:'.now()->subYears(18)->toDateString(),
         ];
     }
@@ -44,7 +43,6 @@ class UserRequest extends FormRequest
             'email' => 'Exists Email',
             'password.required' => 'Required password',
             'gender.required' => 'Required gender',
-            'password.confirmed' => ' confirmed ',
             'birthday.before' => 'underage'
         ];
     }

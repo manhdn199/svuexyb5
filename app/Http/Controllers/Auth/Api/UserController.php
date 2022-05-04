@@ -79,7 +79,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
         echo"success delete user";
+    }
+
+    public function showUsers()
+    {
+        return view('auth.users');
     }
 }
 

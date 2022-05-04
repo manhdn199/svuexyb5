@@ -14,16 +14,16 @@
       "badgeClass": "badge rounded-pill badge-light-danger ms-auto me-1",
       "submenu": [
         {
-          "url": "layouts/collapsed-menu",
-          "name": "Collapsed Menu",
+          "url": "api/users",
+          "name": "Users",
           "icon": "circle",
-          "slug": "collapsed-menu"
+          "slug": "users"
         },
         {
-          "url": "layouts/full",
-          "name": "Layout Full",
+          "url": "api/roles",
+          "name": "Roles",
           "icon": "circle",
-          "slug": "layout-full"
+          "slug": "roles"
         },
         {
           "url": "layouts/without-menu",
