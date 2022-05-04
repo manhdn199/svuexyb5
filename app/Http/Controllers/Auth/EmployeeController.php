@@ -110,6 +110,25 @@ class EmployeeController extends Controller
 
     public function showFormReport()
     {
+        $user = Auth::user();
+
+        $project = DB::table('project_has_user')
+            ->select('projects.id as idProject','projects.name as projectName')
+            ->join('users','users.id','=','project_has_user.user_id')
+            ->join('projects','projects.id','=','project_has_user.project_id')
+            ->where('user_id',$user->id)
+            ->get();
+
+        $positions = DB::table('positions')
+            ->select('name','id')
+            ->get();
+
+        return view('auth/reports',compact('user','project','positions'));
+    }
+
+    public function addReport(Request $request)
+    {
+
 
     }
 }

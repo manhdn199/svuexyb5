@@ -49,3 +49,5 @@ Route::get('/projects/delete/{id}',[ProjectController::class,'delete'])->name('d
 
 Route::get('/employee',[EmployeeController::class,'showProfile']);
 Route::post('/profile',[EmployeeController::class,'editProfile'])->name('editProfile');
+Route::get('/reports/add',[EmployeeController::class,'showFormReport']);
+Route::post('reports/add',[EmployeeController::class,'addReport'])->name('addReport');

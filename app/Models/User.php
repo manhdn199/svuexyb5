@@ -50,6 +50,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserhasRole::class,'user_id');
     }
+
+    public function userHasProject()
+    {
+        return $this->hasOne(ProjectHasUser::class,'user_id');
+    }
 }
 
 

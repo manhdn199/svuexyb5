@@ -14,10 +14,10 @@
         @foreach( $userHasProject as $value)
             <tr>
                 <td>
-                    <input type="text" name="username" value="{{$value->userName}}">
+                    <input type="text" name="user_id" value="{{$value->userName}}">
                 </td>
                 <td>
-                    <input type="text" name="projectName" value="{{$value->projectName}}">
+                    <input type="text" name="project_id" value="{{$value->projectName}}">
                 </td>
             </tr>
         @endforeach
