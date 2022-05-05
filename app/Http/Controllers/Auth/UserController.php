@@ -28,7 +28,9 @@ class UserController extends Controller
 
     public function viewEdit($id)
     {
-        $edit = DB::table('users')->where('id',$id)->first();
+        $edit = DB::table('users')
+            ->where('id',$id)
+            ->first();
 
         return view('auth/edit',['user' => $edit]);
     }
@@ -77,7 +79,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $idUser = $user->id;
-        $projectMem = DB::table('memberList')->where('user_id',$idUser)->first();;
+        $projectMem = DB::table('memberList')
+            ->where('user_id',$idUser)
+            ->first();;
 
         if (empty($projectMem))
         {
@@ -201,7 +205,7 @@ class UserController extends Controller
 
         $users = DB::table('project_has_user')
             ->where('user_id', $user_id)
-            ->orWhere('project_id', $project_id)
+            ->Where('project_id', $project_id)
             ->first();
 
         if (empty($users)) {
@@ -210,12 +214,13 @@ class UserController extends Controller
                 'project_id' => $project_id,
             ]);
         } else {
+
             return response()->json([
                 'success' => 'Exist'
             ], 200);
         }
 
-        return view('auth/userHasRole',compact('userHasProject'));
+        return view('auth/userHasProject',compact('userHasProject'));
 
     }
 
