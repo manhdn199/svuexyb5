@@ -112,6 +112,7 @@ class EmployeeController extends Controller
     {
         $user = Auth::user();
 
+
         $project = DB::table('project_has_user')
             ->select('projects.id as idProject','projects.name as projectName')
             ->join('users','users.id','=','project_has_user.user_id')

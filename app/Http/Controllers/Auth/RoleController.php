@@ -26,7 +26,9 @@ class RoleController extends Controller
 
     public function viewEdit($id)
     {
-        $edit = DB::table('roles')->where('id',$id)->first();
+        $edit = DB::table('roles')
+            ->where('id',$id)
+            ->first();
 
         return view('auth/roles/edit',['role' => $edit]);
     }

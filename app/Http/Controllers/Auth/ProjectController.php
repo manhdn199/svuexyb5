@@ -27,7 +27,9 @@ class ProjectController extends Controller
 
     public function viewEdit($id)
     {
-        $edit = DB::table('projects')->where('id',$id)->first();
+        $edit = DB::table('projects')
+            ->where('id',$id)
+            ->first();
 
         return view('auth/project/edit',['project' => $edit]);
     }
@@ -69,7 +71,9 @@ class ProjectController extends Controller
     {
         $project = Projects::findOrFail($id);
         $idProject = $project->id;
-        $checkRole = DB::table('user_has_role')->where('project_id',$idProject)->first();;
+        $checkRole = DB::table('user_has_role')
+            ->where('project_id',$idProject)
+            ->first();;
 
         if (empty($checkRole))
         {
