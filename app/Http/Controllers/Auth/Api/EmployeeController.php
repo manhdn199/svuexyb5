@@ -118,9 +118,9 @@ class EmployeeController extends Controller
 
     public function destroyReport($id)
     {
-        $user = Report::findOrFail($id);
+        $report = Report::findOrFail($id);
 
-        $user->delete();
+        $report->delete();
 
         return response()->json(['success' => '"success delete report!"'], 200);
     }
