@@ -18,7 +18,7 @@ class Report extends Migration
             $table->id();
             $table->string('detail');
             $table->date('working_time');
-            $table->integer('working_type');
+            $table->string('working_type');
             $table->unsignedBigInteger('position_id');
             $table->foreign('position_id')->references('id')->on('positions');
             $table->unsignedBigInteger('project_id');

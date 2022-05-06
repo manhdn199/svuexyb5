@@ -50,4 +50,9 @@ Route::get('/projects/delete/{id}',[ProjectController::class,'delete'])->name('d
 Route::get('/employee',[EmployeeController::class,'showProfile']);
 Route::post('/profile',[EmployeeController::class,'editProfile'])->name('editProfile');
 Route::get('/reports/add',[EmployeeController::class,'showFormReport']);
-Route::post('reports/add',[EmployeeController::class,'addReport'])->name('addReport');
+Route::post('/reports/add',[EmployeeController::class,'addReport'])->name('addReport');
+Route::get('/reports',[EmployeeController::class,'showReports'])->name('reports');
+Route::get('/reports/edit/{id}',[EmployeeController::class,'showEditReport']);
+Route::post('/reports/edit/{id}',[EmployeeController::class,'editReport'])->name('editReport');
+Route::get('/reports/delete/{id}',[EmployeeController::class,'deleteReport'])->name('deleteReport');
+

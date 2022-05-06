@@ -11,12 +11,12 @@
     Working_type
     <select name="working_type" id="">
         @foreach($positions as $value)
-            <option value="{{ $value->id }}">{{ $value->name }}</option>
+            <option value="{{ $value->name }}">{{ $value->name }}</option>
         @endforeach
     </select>
     <br>
     Project
-    <select name="working_type" id="" required>
+    <select name="project" id="" required>
         @foreach($project as $value)
             <option value="{{ $value->idProject }}">{{ $value->projectName }}</option>
         @endforeach
