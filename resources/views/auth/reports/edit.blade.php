@@ -1,6 +1,6 @@
 <form action="{{route('editReport',$report->id)}}" method="post">
     @csrf
-{{--    @dd($report)--}}
+    {{--    @dd($report)--}}
     <input type="hidden" name="id" value="{{$report->id}}">
 
     Detail
@@ -25,7 +25,7 @@
             @else
                 <option value="{{$value->name}}">{{$value->name}}</option>
             @endif
-                @endforeach
+        @endforeach
     </select>
     Time
     <input type="number" name="time" value="{{$report->time}}">

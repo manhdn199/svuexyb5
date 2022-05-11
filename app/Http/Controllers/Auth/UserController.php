@@ -28,11 +28,11 @@ class UserController extends Controller
 
     public function viewEdit($id)
     {
-        $edit = DB::table('users')
+        $user = DB::table('users')
             ->where('id',$id)
             ->first();
 
-        return view('auth/edit',['user' => $edit]);
+        return view('auth/edit',['user' => $user]);
     }
 
     public function edit(Request $request, $id)
@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         return view('auth/add');
     }
-    public function add(Request $request)
+    public function add(UserRequest $request)
     {
         $input = [];
         $input['password'] = Hash::make($request->password);
@@ -79,6 +79,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $idUser = $user->id;
+
         $projectMem = DB::table('memberList')
             ->where('user_id',$idUser)
             ->first();;
@@ -90,12 +91,15 @@ class UserController extends Controller
         }
         else
         {
-            return Redirect::back()->withErrors([
-                'error' => 'User is in project!'
-            ]);
+            $errors =
+                ['error' => 'User is in project!'];
         }
 
-        return view('/users');
+        $user = DB::table('users')
+            ->select("*")
+            ->get();
+
+        return view('auth/users',compact('errors','user'));
     }
 
     public function viewAddRole()
