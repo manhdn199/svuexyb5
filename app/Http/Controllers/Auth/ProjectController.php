@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\MemberList;
 use App\Models\Projects;
@@ -22,26 +23,27 @@ class ProjectController extends Controller
             ->select("*")
             ->get();
 
-        return view('auth/project/projects',compact('project'));
+        return view('auth/project/projects', compact('project'));
     }
 
     public function viewEdit($id)
     {
         $edit = DB::table('projects')
-            ->where('id',$id)
+            ->where('id', $id)
             ->first();
 
-        return view('auth/project/edit',['project' => $edit]);
+        return view('auth/project/edit', ['project' => $edit]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(ProjectRequest $request, $id)
     {
-//        $input = $request->all();
         $input = [];
         $input['name'] = $request->name;
         $input['detail'] = $request->detail;
         $input['duration'] = $request->duration;
         $input['revenue'] = $request->revenue;
+        $input['start'] = $request->start;
+        $input['end'] = $request->end;
 
         DB::table('projects')
             ->where('id', $id)
@@ -52,15 +54,18 @@ class ProjectController extends Controller
 
     public function viewAdd()
     {
-        return view('auth/roles/add');
+        return view('auth/project/add');
     }
-    public function add(UserRequest $request)
+
+    public function add(ProjectRequest $request)
     {
         $input = [];
         $input['name'] = $request->name;
         $input['detail'] = $request->detail;
         $input['duration'] = $request->duration;
         $input['revenue'] = $request->revenue;
+        $input['start'] = $request->start;
+        $input['end'] = $request->end;
 
         Projects::create($input);
 
@@ -72,15 +77,12 @@ class ProjectController extends Controller
         $project = Projects::findOrFail($id);
         $idProject = $project->id;
         $checkRole = DB::table('user_has_role')
-            ->where('project_id',$idProject)
+            ->where('project_id', $idProject)
             ->first();;
 
-        if (empty($checkRole))
-        {
+        if (empty($checkRole)) {
             $project->delete();
-        }
-        else
-        {
+        } else {
             return Redirect::back()->withErrors([
                 'error' => 'Some one has role!'
             ]);

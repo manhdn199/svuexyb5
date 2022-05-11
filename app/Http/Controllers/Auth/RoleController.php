@@ -21,16 +21,16 @@ class RoleController extends Controller
             ->select("*")
             ->get();
 
-        return view('auth/roles/roles',compact('role'));
+        return view('auth/roles/roles', compact('role'));
     }
 
     public function viewEdit($id)
     {
         $edit = DB::table('roles')
-            ->where('id',$id)
+            ->where('id', $id)
             ->first();
 
-        return view('auth/roles/edit',['role' => $edit]);
+        return view('auth/roles/edit', ['role' => $edit]);
     }
 
     public function edit(Request $request, $id)
@@ -50,13 +50,17 @@ class RoleController extends Controller
     {
         return view('auth/roles/add');
     }
-    public function add(UserRequest $request)
+
+    public function add(Request $request)
     {
-        $input = $request->all();
-
-        Role::create($input);
-
+        $input = $request->name;
+        if (!empty($input))
+        {
+            Role::create($input);
+            return redirect()->route('roles');
+        }
         return redirect()->route('roles');
+
     }
 
     public function delete($id)
@@ -65,20 +69,22 @@ class RoleController extends Controller
         $idRole = $role->id;
 
         $checkRole = DB::table('user_has_role')
-            ->where('role_id',$idRole)
+            ->where('role_id', $idRole)
             ->first();;
 
-        if (empty($checkRole))
-        {
+        if (empty($checkRole)) {
             $role->delete();
-        }
-        else
-        {
-            return Redirect::back()->withErrors([
-                'error' => 'Some one has role!'
-            ]);
+        } else {
+            $errors =
+               [ 'error' => 'Some one has role!'];
+
         }
 
-        return view('/roles');
+        $roles = DB::table('roles')
+            ->select("*")
+            ->get();
+
+        return view('auth/roles/roles', compact('roles','errors'));
+
     }
 }

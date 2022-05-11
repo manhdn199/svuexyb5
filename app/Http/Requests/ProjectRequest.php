@@ -28,6 +28,8 @@ class ProjectRequest extends FormRequest
             'detail' => 'required',
             'duration'=>'required',
             'revenue' => 'required',
+            'start' => 'required',
+            'end' => 'required|after:start'
         ];
     }
 }

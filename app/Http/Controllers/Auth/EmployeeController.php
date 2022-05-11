@@ -36,7 +36,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -47,7 +47,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -58,7 +58,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function editProfile(Request $request)
@@ -85,14 +85,14 @@ class EmployeeController extends Controller
     {
         $user = Auth::user();
 
-        return view('auth/profile',compact('user'));
+        return view('auth/profile', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -103,7 +103,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -116,12 +116,12 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         $reports = DB::table('reports')
-            ->select('*','projects.name as projectName')
-            ->where('user_id',$user->id)
-            ->join('projects','projects.id','=','reports.project_id')
+            ->select('*', 'projects.name as projectName')
+            ->where('user_id', $user->id)
+            ->join('projects', 'projects.id', '=', 'reports.project_id')
             ->get();
 
-        return view('auth/reports/reports',['reports' => $reports]);
+        return view('auth/reports/reports', ['reports' => $reports]);
     }
 
     public function showEditReport($id)
@@ -133,9 +133,9 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         $project = DB::table('project_has_user')
-            ->select('projects.id as idProject','projects.name as projectName')
-            ->join('users','users.id','=','project_has_user.user_id')
-            ->join('projects','projects.id','=','project_has_user.project_id')
+            ->select('projects.id as idProject', 'projects.name as projectName')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->where('user_id', $user->id)
             ->get();
 
@@ -143,14 +143,14 @@ class EmployeeController extends Controller
             ->select('name', 'id')
             ->get();
 
-        return view('auth/reports/edit',compact('report','project','positions'));
+        return view('auth/reports/edit', compact('report', 'project', 'positions'));
     }
 
     public function editReport(Request $request, $id)
     {
         $positions = DB::table('positions')
             ->select('id')
-            ->where('name',$request->working_type)
+            ->where('name', $request->working_type)
             ->first();
         $input = [];
         $input['detail'] = $request->detail;
@@ -162,6 +162,8 @@ class EmployeeController extends Controller
         DB::table('reports')
             ->where('id', $id)
             ->update($input);
+
+        return redirect()->route('reports');
     }
 
     public function showFormReport()
@@ -169,17 +171,17 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         $project = DB::table('project_has_user')
-            ->select('projects.id as idProject','projects.name as projectName')
-            ->join('users','users.id','=','project_has_user.user_id')
-            ->join('projects','projects.id','=','project_has_user.project_id')
-            ->where('user_id',$user->id)
+            ->select('projects.id as idProject', 'projects.name as projectName')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
+            ->where('user_id', $user->id)
             ->get();
 
         $positions = DB::table('positions')
-            ->select('name','id')
+            ->select('name', 'id')
             ->get();
 
-        return view('auth/reports',compact('user','project','positions'));
+        return view('auth/reports', compact('user', 'project', 'positions'));
     }
 
     public function addReport(Request $request)
@@ -189,8 +191,7 @@ class EmployeeController extends Controller
             ->where('name', $request->working_type)
             ->get();
 
-        foreach ( $position as $value)
-        {
+        foreach ($position as $value) {
             $position_id = $value->id;
         }
 

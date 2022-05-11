@@ -18,6 +18,8 @@ class Project extends Migration
             $table->string('name');
             $table->string('detail');
             $table->integer('duration');
+            $table->date('start');
+            $table->date('end');
             $table->integer('revenue');
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();

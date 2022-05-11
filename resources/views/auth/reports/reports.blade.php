@@ -57,8 +57,8 @@
                 </td>
                 <td>
                     @if($value->status = 'waiting')
-                    <a href="{{route('editReport',$value->id)}}">Edit</a>
-                    <a href="{{route('deleteReport',$value->id)}}">Delete</a>
+                        <a href="{{route('editReport',$value->id)}}">Edit</a>
+                        <a href="{{route('deleteReport',$value->id)}}">Delete</a>
                     @endif
                 </td>
             </tr>
