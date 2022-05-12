@@ -23,16 +23,16 @@ class UserController extends Controller
             ->select("*")
             ->get();
 
-        return view('auth/users',compact('user'));
+        return view('auth/users', compact('user'));
     }
 
     public function viewEdit($id)
     {
         $user = DB::table('users')
-            ->where('id',$id)
+            ->where('id', $id)
             ->first();
 
-        return view('auth/edit',['user' => $user]);
+        return view('auth/edit', ['user' => $user]);
     }
 
     public function edit(Request $request, $id)
@@ -58,6 +58,7 @@ class UserController extends Controller
     {
         return view('auth/add');
     }
+
     public function add(UserRequest $request)
     {
         $input = [];
@@ -81,16 +82,13 @@ class UserController extends Controller
         $idUser = $user->id;
 
         $projectMem = DB::table('memberList')
-            ->where('user_id',$idUser)
+            ->where('user_id', $idUser)
             ->first();;
 
-        if (empty($projectMem))
-        {
+        if (empty($projectMem)) {
             $user->delete();
 
-        }
-        else
-        {
+        } else {
             $errors =
                 ['error' => 'User is in project!'];
         }
@@ -99,23 +97,23 @@ class UserController extends Controller
             ->select("*")
             ->get();
 
-        return view('auth/users',compact('errors','user'));
+        return view('auth/users', compact('errors', 'user'));
     }
 
     public function viewAddRole()
     {
         $user = DB::table('users')
-            ->select('id','name')
+            ->select('id', 'name')
             ->get();
 
         $role = DB::table('roles')
-            ->select('id','name')
+            ->select('id', 'name')
             ->get();
 
-        $user ->toArray();
+        $user->toArray();
         $role->toArray();
 
-        return view('auth/roles/userAddRole',compact('user','role'));
+        return view('auth/roles/userAddRole', compact('user', 'role'));
     }
 
     public function addRole(Request $request)
@@ -143,59 +141,59 @@ class UserController extends Controller
             ], 200);
         }
 
-        return view('auth/userHasRole',compact('userHasRole'));
+        return view('auth/userHasRole', compact('userHasRole'));
 
     }
 
     public function userHasRole()
     {
         $userHasRole = DB::table('user_has_role')
-            ->select('users.name as userName','roles.name as roleName')
-            ->join('users','users.id','=','user_has_role.user_id')
-            ->join('roles','roles.id','=','user_has_role.role_id')
+            ->select('users.name as userName', 'roles.name as roleName')
+            ->join('users', 'users.id', '=', 'user_has_role.user_id')
+            ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->get();
 
-        return view('auth/userHasRole',compact('userHasRole'));
+        return view('auth/userHasRole', compact('userHasRole'));
     }
 
     public function userHasProject()
     {
         $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName','projects.name as projectName')
-            ->join('users','users.id','=','project_has_user.user_id')
-            ->join('projects','projects.id','=','project_has_user.project_id')
+            ->select('users.name as userName', 'projects.name as projectName')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->get();
 
-        return view('auth/userHasProject',compact('userHasProject'));
+        return view('auth/userHasProject', compact('userHasProject'));
     }
 
     public function groupProject($id)
     {
         $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName','projects.name as projectName')
-            ->where('project_id',$id)
-            ->join('users','users.id','=','project_has_user.user_id')
-            ->join('projects','projects.id','=','project_has_user.project_id')
+            ->select('users.name as userName', 'projects.name as projectName')
+            ->where('project_id', $id)
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->get();
 
-        return view('auth/userHasProject',compact('userHasProject'));
+        return view('auth/userHasProject', compact('userHasProject'));
 
     }
 
     public function viewAddUserHasProject()
     {
         $user = DB::table('users')
-            ->select('id','name')
+            ->select('id', 'name')
             ->get();
 
         $project = DB::table('projects')
-            ->select('id','name')
+            ->select('id', 'name')
             ->get();
 
         $user->toArray();
         $project->toArray();
 
-        return view('auth/project/userHasProject',compact('user','project'));
+        return view('auth/project/userHasProject', compact('user', 'project'));
     }
 
     public function addProject(Request $request)
@@ -224,7 +222,7 @@ class UserController extends Controller
             ], 200);
         }
 
-        return view('auth/userHasProject',compact('userHasProject'));
+        return view('auth/userHasProject', compact('userHasProject'));
 
     }
 

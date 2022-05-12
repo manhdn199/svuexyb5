@@ -54,8 +54,7 @@ class RoleController extends Controller
     public function add(Request $request)
     {
         $input = $request->name;
-        if (!empty($input))
-        {
+        if (!empty($input)) {
             Role::create($input);
             return redirect()->route('roles');
         }
@@ -76,7 +75,7 @@ class RoleController extends Controller
             $role->delete();
         } else {
             $errors =
-               [ 'error' => 'Some one has role!'];
+                ['error' => 'Some one has role!'];
 
         }
 
@@ -84,7 +83,7 @@ class RoleController extends Controller
             ->select("*")
             ->get();
 
-        return view('auth/roles/roles', compact('roles','errors'));
+        return view('auth/roles/roles', compact('roles', 'errors'));
 
     }
 }
