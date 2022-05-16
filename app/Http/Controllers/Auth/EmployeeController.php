@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddReportRequest;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Position;
 use App\Models\Report;
 use App\Models\User;
@@ -61,7 +64,7 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function editProfile(Request $request)
+    public function editProfile(UserUpdateRequest $request)
     {
         $user = Auth::user();
         $id = $user->id;
@@ -116,10 +119,18 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         $reports = DB::table('reports')
-            ->select('*', 'projects.name as projectName')
-            ->where('user_id', $user->id)
+            ->select('reports.detail',
+                'projects.name as projectName',
+                'reports.working_time',
+                'reports.working_type',
+                'reports.time',
+                'reports.status',
+                'reports.id',
+                'positions.name as position')
+            ->where('reports.user_id', $user->id)
             ->join('projects', 'projects.id', '=', 'reports.project_id')
-            ->get();
+            ->join('positions', 'positions.id', '=', 'reports.position_id')
+            ->paginate(2);
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }
@@ -152,6 +163,7 @@ class EmployeeController extends Controller
             ->select('id')
             ->where('name', $request->working_type)
             ->first();
+
         $input = [];
         $input['detail'] = $request->detail;
         $input['working_time'] = $request->working_time;
@@ -184,16 +196,31 @@ class EmployeeController extends Controller
         return view('auth/reports', compact('user', 'project', 'positions'));
     }
 
-    public function addReport(Request $request)
+    public function addReport(AddReportRequest $request)
     {
+        $user = Auth::user();
+
+        $project = DB::table('project_has_user')
+            ->select('projects.id as idProject', 'projects.name as projectName')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
+            ->where('user_id', $user->id)
+            ->get();
+
+        $positions = DB::table('positions')
+            ->select('name', 'id')
+            ->get();
+
         $position = DB::table('positions')
             ->select('id')
             ->where('name', $request->working_type)
             ->get();
 
-        foreach ($position as $value) {
-            $position_id = $value->id;
-        }
+        $checkTime = DB::table('projects')
+            ->where('id', $request->project)
+            ->where('start', '<', $request->working_time)
+            ->where('end', '>', $request->working_time)
+            ->first();
 
         $input = [];
         $input['user_id'] = $request->user_id;
@@ -202,10 +229,19 @@ class EmployeeController extends Controller
         $input['working_type'] = $request->working_type;
         $input['time'] = $request->time;
         $input['project_id'] = $request->project;
-        $input['position_id'] = $position_id;
+        $input['position_id'] = $request->position_id;
         $input['status'] = 'waiting';
 
-        Report::create($input);
+        if (empty($checkTime)) {
+            $error = 'Time is out time project';
+
+            return view('auth/reports', compact('user', 'project', 'error', 'positions'));
+
+        } else {
+            Report::create($input);
+
+            return redirect()->route('reportsEmployee');
+        }
 
     }
 

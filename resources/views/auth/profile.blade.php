@@ -1,49 +1,185 @@
+@extends('layouts.app')
+{{--@extends('layouts/contentLayoutMaster')--}}
 
-<form method="POST" action="{{ route('editProfile') }}">
-    @csrf
+@section('title', 'Home')
+@section('content')
+    <?php
+    $user = auth()->user();
+    $role = $user->userHasRole->role_id;
+    ?>
+    <div class="container-fluid">
+        <div class="row ">
+            <style>
+                .menu_beet > nav > ul > li > a {
+                    color: black !important;
+                    width: 100%;
+                }
 
-    <table>
-        <tr>
-            <td>
-                <input type="text" name="name" value="{{$user->name}}">
-            </td>
-            <td>
-                <input type="text" name="email" value="{{$user->email}}">
-            </td>
-            <td>
-                <input id="password" type="password" name="password" value="{{$user->password}}">
+                .menu_beet > nav > ul {
+                    width: 100%;
+                }
 
-            </td>
-            <td>
-                <input type="radio" name="gender" value="1">
-                <label for="1">Male</label><br>
-                <input type="radio" name="gender" value="2">
-                <label for="2">Female</label><br>
-                <input type="radio" name="gender" value="3">
-                <label for="3">Other</label><br>
-            </td>
-            <td>
-                <input type="date" name="birthday" value="{{$user->birthday}}">
+                .menu_beet > nav > ul > li {
+                    margin: 2px 0 2px 0;
 
-            </td>
-            <td>
-                <input type="text" name="tel" value="{{$user->tel}}">
-            </td>
-            <td>
-                <input type="text" name="address" value="{{$user->address}}">
-            </td>
+                }
 
-        </tr>
-    </table>
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
+                    transition: 1s;
+                }
+            </style>
+            {{--        menu--}}
+            <div class="col-md-3 menu_beet" style="height: 100%">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        @if($role == 2 || $role == 1)
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{asset('users')}}">Users</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
+                            </li>
+                        @else
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+                {{--end_menu--}}
+            </div>
+            <div class="col-md">
+                <div>
+                    <form method="POST" action="{{ route('editProfile') }}">
+                        @csrf
 
-    <div class="row mb-0">
-        <div class="col-md-6 offset-md-4">
-            <button type="submit" class="btn btn-primary">
-                Update
-            </button>
-            <button href="{{ route('users') }}">
-                Back
-            </button>
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                       name="name" value="{{ $user->name }}" autocomplete="name" autofocus>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email"
+                                   class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                       name="email" value="{{ $user->email }}" autocomplete="email">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password"
+                                   class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password"
+                                       class="form-control @error('password') is-invalid @enderror" name="password"
+                                       value="{{$user->password}}">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="gender" id="gender">
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Birthday') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="birthday" type="date"
+                                       class="form-control @error('birthday') is-invalid @enderror" name="birthday"
+                                       value="{{ $user->birthday }}">
+                                @error('birthday')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Tel') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="tel" type="number" class="form-control @error('tel') is-invalid @enderror"
+                                       name="tel" value="{{ $user->tel }}">
+                                @error('tel')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address" type="text"
+                                       class="form-control @error('address') is-invalid @enderror" name="address"
+                                       value="{{ $user->address }}">
+                                @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Update
+                                </button>
+                                <button href="{{ route('users') }}">
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
-</form>
+@endsection

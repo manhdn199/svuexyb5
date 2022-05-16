@@ -21,7 +21,7 @@ class ProjectController extends Controller
     {
         $project = DB::table('projects')
             ->select("*")
-            ->get();
+            ->paginate(1);
 
         return view('auth/project/projects', compact('project'));
     }

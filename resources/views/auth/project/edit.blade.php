@@ -5,22 +5,51 @@
 @section('content')
     <div class="container-fluid">
         <div class="row ">
-            <div class="col-md-3 ">
-                <nav class="navbar bg-success navbar-dark justify-content-center" style="    padding-bottom: 100%;">
+            <style>
+                .menu_beet>nav>ul>li>a{
+                    color: black !important;
+                    width: 100%;
+                }
+                .menu_beet>nav>ul{
+                    width: 100%;
+                }
+
+                .menu_beet>nav>ul>li{
+                    margin: 2px 0 2px 0;
+
+                }
+
+                .menu_beet>nav>ul>li:hover{
+                    background: silver ;
+                    transition: 1s;
+                }
+            </style>
+            {{--        menu--}}
+            <div class="col-md-3 menu_beet" style="height: 100%">
+                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        <li class="nav-item btn btn-success">
-                            <a class="nav-link " href="{{asset('users')}}">Users</a>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{asset('users')}}" >Users</a>
                         </li>
-                        <li class="nav-item btn btn-success">
-                            <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
                         </li>
-                        <li class="nav-item btn btn-success">
-                            <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('userHasRole') }}" >User add Role</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('userHasProject') }}" >User add Projects</a>
                         </li>
                     </ul>
                 </nav>
-
+                {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div>
@@ -36,8 +65,8 @@
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -52,8 +81,8 @@
 
                                 @error('detail')
                                 <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -68,8 +97,8 @@
 
                                 @error('duration')
                                 <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -84,8 +113,8 @@
 
                                 @error('revenue')
                                 <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -120,8 +149,8 @@
 
                                 @error('end')
                                 <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>

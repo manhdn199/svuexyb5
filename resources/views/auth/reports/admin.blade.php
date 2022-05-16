@@ -3,10 +3,6 @@
 
 @section('title', 'Home')
 @section('content')
-    <?php
-    $user = auth()->user();
-    $role = $user->userHasRole->role_id;
-    ?>
     <div class="container-fluid">
         <div class="row ">
             <style>
@@ -33,36 +29,32 @@
                 <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        @if($role == 2 || $role == 1)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{asset('users')}}" >Users</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('employee_report') }}" >Reports</a>
-                            </li>
-                        @endif
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{asset('users')}}" >Users</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                        </li>
+                        <li class="nav-item btn ">
+                            <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
+                        </li>
                     </ul>
                 </nav>
                 {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div>
+
                     <form action="" method="post">
                         @csrf
 
-                        <table class="table">
+                        <table style="text-align: center" class="table">
                             <tr>
                                 <th>Detail</th>
+                                <th>User</th>
                                 <th>
                                     Project
                                 </th>
@@ -85,7 +77,7 @@
                                     Action
                                 </th>
                             </tr>
-                            @foreach( $reports as $value)
+                            @foreach( $report as $value)
                                 <tr>
                                     <td>
                                         <span>
@@ -94,7 +86,13 @@
                                     </td>
                                     <td>
                                         <span>
-                                            {{ $value->projectName }}
+                                            {{ $value->userName }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <span>
+                                            {{$value->projectName}}
                                         </span>
                                     </td>
                                     <td>
@@ -118,29 +116,27 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span style="color: yellow">
-                                            {{$value->status}}
-                                        </span>
+                                        @if($value->status == 'waiting')
+                                            <span style="color: yellow">
+                                                {{$value->status}}
+                                            </span>
+                                        @else
+                                            <span style="color: green">
+                                                {{$value->status}}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if($value->status = 'waiting')
-                                            <a href="{{route('editReport',$value->id)}}">Edit</a>
-                                            <a href="{{route('deleteReport',$value->id)}}">Delete</a>
+                                            <a href="{{route('acceptReport',$value->id)}}">Accept</a>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </table>
-                        {{ $reports->links() }}
+                        {{ $report->links() }}
                     </form>
-                    <div class="row mb-0">
-                        <div class="col-md-6">
-                            <a type="submit" class="btn btn-primary" href="{{route('showFormAddReport')}}">
-                                Add
-                            </a>
 
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
