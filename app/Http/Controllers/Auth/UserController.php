@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $user = DB::table('users')
             ->select("*")
-            ->get();
+            ->paginate(2);
 
         return view('auth/users', compact('user'));
     }
@@ -87,7 +87,6 @@ class UserController extends Controller
 
         if (empty($projectMem)) {
             $user->delete();
-
         } else {
             $errors =
                 ['error' => 'User is in project!'];
@@ -95,7 +94,7 @@ class UserController extends Controller
 
         $user = DB::table('users')
             ->select("*")
-            ->get();
+            ->paginate(2);
 
         return view('auth/users', compact('errors', 'user'));
     }
@@ -121,24 +120,33 @@ class UserController extends Controller
         $user_id = $request->user_id;
         $role_id = $request->role_id;
 
-        $userHasRole = DB::table('user_has_role')
-            ->select('*')
+        $user = DB::table('users')
+            ->select('id', 'name')
             ->get();
 
-        $users = DB::table('user_has_role')
+        $role = DB::table('roles')
+            ->select('id', 'name')
+            ->get();
+
+        $userHasRole = DB::table('user_has_role')
+            ->select('*')
+            ->paginate(2);
+
+        $checkRole = DB::table('user_has_role')
             ->where('user_id', $user_id)
             ->orWhere('role_id', $role_id)
             ->first();
 
-        if (empty($users)) {
+        if (empty($checkRole)) {
             UserhasRole::create([
                 'user_id' => $user_id,
                 'role_id' => $role_id,
             ]);
         } else {
-            return response()->json([
-                'success' => 'Exist'
-            ], 200);
+            $error = 'User has added a role!';
+
+            return view('auth/roles/userAddRole', compact('user', 'role', 'error'));
+
         }
 
         return view('auth/userHasRole', compact('userHasRole'));
@@ -151,7 +159,7 @@ class UserController extends Controller
             ->select('users.name as userName', 'roles.name as roleName')
             ->join('users', 'users.id', '=', 'user_has_role.user_id')
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
-            ->get();
+            ->paginate(2);
 
         return view('auth/userHasRole', compact('userHasRole'));
     }
@@ -162,7 +170,7 @@ class UserController extends Controller
             ->select('users.name as userName', 'projects.name as projectName')
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
-            ->get();
+            ->paginate(2);
 
         return view('auth/userHasProject', compact('userHasProject'));
     }
@@ -203,23 +211,31 @@ class UserController extends Controller
 
         $userHasProject = DB::table('project_has_user')
             ->select('*')
+            ->paginate(2);
+
+        $user = DB::table('users')
+            ->select('id', 'name')
             ->get();
 
-        $users = DB::table('project_has_user')
+        $project = DB::table('projects')
+            ->select('id', 'name')
+            ->get();
+
+        $checkProject = DB::table('project_has_user')
             ->where('user_id', $user_id)
             ->Where('project_id', $project_id)
             ->first();
 
-        if (empty($users)) {
+        if (empty($checkProject)) {
             ProjectHasUser::create([
                 'user_id' => $user_id,
                 'project_id' => $project_id,
             ]);
         } else {
+            $error = 'User has added a Project!';
 
-            return response()->json([
-                'success' => 'Exist'
-            ], 200);
+            return view('auth/project/userHasProject', compact('user', 'project', 'error'));
+
         }
 
         return view('auth/userHasProject', compact('userHasProject'));

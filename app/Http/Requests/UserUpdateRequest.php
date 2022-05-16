@@ -26,11 +26,13 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'gender' => 'required',
-            'email'=>'email|required',
+            'email' => 'email|required',
             'password' => 'bail|required|min:8',
-            'birthday' =>'required|date|date_format:Y/m/d|before:'.now()->subYears(18)->toDateString(),
+            'tel' => 'required|min:10',
+            'birthday' => 'required|date|before:' . now()->subYears(18)->toDateString(),
         ];
     }
+
     public function messages()
     {
         return [
@@ -40,7 +42,8 @@ class UserUpdateRequest extends FormRequest
             'password.required' => 'Required password',
             'gender.required' => 'Required gender',
             'password.confirmed' => ' confirmed ',
-            'birthday.before' => 'underage'
+            'birthday.before' => 'underage',
+            'tel.required' => 'Required'
         ];
     }
 }

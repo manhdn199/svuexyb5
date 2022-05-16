@@ -19,7 +19,7 @@ class RoleController extends Controller
     {
         $role = DB::table('roles')
             ->select("*")
-            ->get();
+            ->paginate(3);
 
         return view('auth/roles/roles', compact('role'));
     }
@@ -58,6 +58,7 @@ class RoleController extends Controller
             Role::create($input);
             return redirect()->route('roles');
         }
+
         return redirect()->route('roles');
 
     }
@@ -81,7 +82,7 @@ class RoleController extends Controller
 
         $roles = DB::table('roles')
             ->select("*")
-            ->get();
+            ->paginate(3);
 
         return view('auth/roles/roles', compact('roles', 'errors'));
 
