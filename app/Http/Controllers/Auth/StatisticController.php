@@ -86,12 +86,13 @@ class StatisticController extends Controller
                 ->where('user_id', '=', $user_id)
                 ->get();
 
+            $timeStart = $request->start;
+            $timeEnd = $request->end;
+
             if (empty($request->start)) {
                 $timeStart = date('01-m-Y');
+            } elseif(empty($request->end)) {
                 $timeEnd = date('d-m-Y');
-            } else {
-                $timeStart = $request->start;
-                $timeEnd = $request->end;
             }
 
             if (!empty($request->end)) {
