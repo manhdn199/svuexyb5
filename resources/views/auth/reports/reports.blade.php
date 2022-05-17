@@ -10,6 +10,62 @@
     <div class="container-fluid">
         <div class="row ">
             <style>
+                .dropbtn {
+                    background-color: #3498DB;
+                    color: white;
+                    font-size: 16px;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                /*.dropbtn:hover, .dropbtn:focus {*/
+                /*    background-color: #2980B9;*/
+                /*}*/
+
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    width: 467px !important;
+                    display: none;
+                    position: absolute;
+                    background-color: #f1f1f1;
+                    min-width: 160px;
+                    overflow: auto;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                }
+
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                .dropdown a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+
+                .dropdown:hover .dropbtn {
+                    background-color: #3e8e41
+                }
+
+                .show {
+                    display: block;
+                }
+            </style>
+            <style>
                 .menu_beet>nav>ul>li>a{
                     color: black !important;
                     width: 100%;
@@ -55,7 +111,24 @@
                 </nav>
                 {{--end_menu--}}
             </div>
+
             <div class="col-md">
+                {{--form Filter--}}
+                <div>
+                    <div class="dropdown">
+                        <form action="{{route('reportsEmployee')}}" method="get">
+                            <button class="dropbtn btn">Set date</button>
+
+                            <div id="myDropdown" class="dropdown-content">
+                                <span>Start</span>
+                                <input type="date" name="start" class="form-control" >
+                                <span>End</span>
+                                <input type="date" name="end" class="form-control" >
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {{--end form Filter--}}
                 <div>
                     <form action="" method="post">
                         @csrf

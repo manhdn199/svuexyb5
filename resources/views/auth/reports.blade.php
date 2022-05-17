@@ -9,6 +9,7 @@
     ?>
     <div class="container-fluid">
         <div class="row ">
+
             <style>
                 .menu_beet > nav > ul > li > a {
                     color: black !important;

@@ -114,25 +114,63 @@ class EmployeeController extends Controller
         //
     }
 
-    public function showReports()
+    public function showReports(Request $request)
     {
         $paginate = config('constants.paginate');
 
         $user = Auth::user();
 
-        $reports = DB::table('reports')
-            ->select('reports.detail',
-                'projects.name as projectName',
-                'reports.working_time',
-                'reports.working_type',
-                'reports.time',
-                'reports.status',
-                'reports.id',
-                'positions.name as position')
-            ->where('reports.user_id', $user->id)
-            ->join('projects', 'projects.id', '=', 'reports.project_id')
-            ->join('positions', 'positions.id', '=', 'reports.position_id')
-            ->paginate($paginate);
+        if (empty($request))
+        {
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'positions.name as position')
+                ->where('reports.user_id', $user->id)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->paginate($paginate);
+        }
+        else
+        {
+            $timeStart = $request->start;
+            $timeEnd = $request->end;
+
+            if (empty($request->start)) {
+                $timeStart = date('01-m-Y');
+            }
+            if(empty($request->end)) {
+                $timeEnd = date('d-m-Y');
+            }
+//            dd($timeEnd);
+
+            $dateStart = date('Y-m-d',strtotime($timeStart));
+            $dateEnd = date('Y-m-d',strtotime($timeEnd));
+
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'positions.name as position')
+                ->where('reports.user_id', $user->id)
+                ->where('reports.working_time','<=',$dateEnd)
+                ->where('reports.working_time','>=',$dateStart)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->paginate($paginate);
+//            ->toSql();
+//            dd($timeStart);
+        }
+
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }
