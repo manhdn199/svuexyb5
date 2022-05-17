@@ -16,6 +16,8 @@ class ReportController extends Controller
      */
     public function index()
     {
+        $paginate = config('constants.paginate');
+
         $reports = DB::table('reports')
             ->select('reports.detail',
                 'projects.name as projectName',
@@ -30,7 +32,7 @@ class ReportController extends Controller
             ->join('projects', 'projects.id', '=', 'reports.project_id')
             ->join('positions', 'positions.id', '=', 'reports.position_id')
             ->join('users', 'users.id', '=', 'reports.user_id')
-            ->paginate(4);
+            ->paginate($paginate);
 
 
         $project = DB::table('projects')
@@ -81,8 +83,10 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
+        $accept = config('constants.accept');
+
         $report = Report::findOrFail($id);
-        $report->status = 'accept';
+        $report->status = $accept;
 
         $report->save();
 

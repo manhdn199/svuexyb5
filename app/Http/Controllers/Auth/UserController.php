@@ -19,9 +19,11 @@ class UserController extends Controller
 
     public function users()
     {
+        $paginate = config('constants.paginate');
+
         $user = DB::table('users')
             ->select("*")
-            ->paginate(2);
+            ->paginate($paginate);
 
         return view('auth/users', compact('user'));
     }
@@ -78,6 +80,7 @@ class UserController extends Controller
 
     public function delete($id)
     {
+        $paginate = config('constants.paginate');
         $user = User::findOrFail($id);
         $idUser = $user->id;
 
@@ -94,7 +97,7 @@ class UserController extends Controller
 
         $user = DB::table('users')
             ->select("*")
-            ->paginate(2);
+            ->paginate($paginate);
 
         return view('auth/users', compact('errors', 'user'));
     }
@@ -117,6 +120,7 @@ class UserController extends Controller
 
     public function addRole(Request $request)
     {
+        $paginate = config('constants.paginate');
         $user_id = $request->user_id;
         $role_id = $request->role_id;
 
@@ -130,7 +134,7 @@ class UserController extends Controller
 
         $userHasRole = DB::table('user_has_role')
             ->select('*')
-            ->paginate(2);
+            ->paginate($paginate);
 
         $checkRole = DB::table('user_has_role')
             ->where('user_id', $user_id)
@@ -155,33 +159,36 @@ class UserController extends Controller
 
     public function userHasRole()
     {
+        $paginate = config('constants.paginate');
         $userHasRole = DB::table('user_has_role')
             ->select('users.name as userName', 'roles.name as roleName')
             ->join('users', 'users.id', '=', 'user_has_role.user_id')
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
-            ->paginate(2);
+            ->paginate($paginate);
 
         return view('auth/userHasRole', compact('userHasRole'));
     }
 
     public function userHasProject()
     {
+        $paginate = config('constants.paginate');
+
         $userHasProject = DB::table('project_has_user')
             ->select('users.name as userName', 'projects.name as projectName')
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
-            ->paginate(2);
+            ->paginate($paginate);
 
         return view('auth/userHasProject', compact('userHasProject'));
     }
 
     public function groupProject($id)
     {
-        $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName', 'projects.name as projectName')
+        $userHasProject = DB::table('reports')
+            ->select('users.name as userName', 'projects.name as projectName', 'position_id')
             ->where('project_id', $id)
-            ->join('users', 'users.id', '=', 'project_has_user.user_id')
-            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
+            ->join('users', 'users.id', '=', 'reports.user_id')
+            ->join('projects', 'projects.id', '=', 'reports.project_id')
             ->get();
 
         return view('auth/userHasProject', compact('userHasProject'));
@@ -206,12 +213,13 @@ class UserController extends Controller
 
     public function addProject(Request $request)
     {
+        $paginate = config('constants.paginate');
         $user_id = $request->user_id;
         $project_id = $request->project_id;
 
         $userHasProject = DB::table('project_has_user')
             ->select('*')
-            ->paginate(2);
+            ->paginate($paginate);
 
         $user = DB::table('users')
             ->select('id', 'name')

@@ -48,6 +48,12 @@
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
                             </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
+                            </li>
                         @else
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
