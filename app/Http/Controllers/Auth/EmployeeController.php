@@ -116,6 +116,8 @@ class EmployeeController extends Controller
 
     public function showReports()
     {
+        $paginate = config('constants.paginate');
+
         $user = Auth::user();
 
         $reports = DB::table('reports')
@@ -130,7 +132,7 @@ class EmployeeController extends Controller
             ->where('reports.user_id', $user->id)
             ->join('projects', 'projects.id', '=', 'reports.project_id')
             ->join('positions', 'positions.id', '=', 'reports.position_id')
-            ->paginate(2);
+            ->paginate($paginate);
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }
@@ -222,6 +224,8 @@ class EmployeeController extends Controller
             ->where('end', '>', $request->working_time)
             ->first();
 
+        $status = config('constants.status');
+
         $input = [];
         $input['user_id'] = $request->user_id;
         $input['detail'] = $request->detail;
@@ -230,7 +234,7 @@ class EmployeeController extends Controller
         $input['time'] = $request->time;
         $input['project_id'] = $request->project;
         $input['position_id'] = $request->position_id;
-        $input['status'] = 'waiting';
+        $input['status'] = $status;
 
         if (empty($checkTime)) {
             $error = 'Time is out time project';

@@ -19,9 +19,11 @@ class ProjectController extends Controller
 
     public function projects()
     {
+        $paginate = config('constants.paginate');
+
         $project = DB::table('projects')
             ->select("*")
-            ->paginate(1);
+            ->paginate($paginate);
 
         return view('auth/project/projects', compact('project'));
     }
@@ -32,7 +34,32 @@ class ProjectController extends Controller
             ->where('id', $id)
             ->first();
 
-        return view('auth/project/edit', ['project' => $edit]);
+        $member = DB::table('reports')
+            ->select('users.name as nameUser', 'positions.name as namePosition')
+            ->join('users', 'users.id', '=', 'reports.user_id')
+            ->join('positions', 'positions.id', '=', 'reports.position_id')
+            ->where('reports.project_id', '=', $id)
+            ->get();
+
+        $arrayMember = [];
+
+        foreach ($member as $value) {
+            if (array_key_exists($value->nameUser, $arrayMember)) {
+                if (!in_array($value->namePosition, $arrayMember)) {
+                    $arrayMember[$value->nameUser][] = $value->namePosition;
+                }
+            } else {
+                $arrayMember[$value->nameUser] = [$value->namePosition];
+            }
+
+        }
+
+
+//        dd($arrayMember);
+
+
+        return view('auth/project/edit', ['project' => $edit,
+            'arrayMember' => $arrayMember]);
     }
 
     public function edit(ProjectRequest $request, $id)

@@ -6,46 +6,48 @@
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
             {{--        menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{asset('users')}}" >Users</a>
+                            <a class="nav-link " href="{{asset('users')}}">Users</a>
                         </li>
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
+                            <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
                         </li>
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                            <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
                         </li>
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
+                            <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
                         </li>
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasRole') }}" >User add Role</a>
+                            <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
                         </li>
                         <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasProject') }}" >User add Projects</a>
+                            <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
                         </li>
                     </ul>
                 </nav>
@@ -160,12 +162,40 @@
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
-                                <button href="{{ route('projects') }}">
+                                <button href="{{ route('projects') }}" class="btn btn-dark">
                                     Back
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+                {{--project member--}}
+                <div style="margin-top: 1rem">
+                    <h2>User report this project</h2>
+                    <table class="table ">
+                        <tr>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Position
+                            </th>
+                        </tr>
+                        @foreach($arrayMember as $key => $value)
+                            <tr>
+                                <td>
+                                    {{$key}}
+                                </td>
+                                <td>
+                                    @foreach( $value as $k => $v)
+                                        <span style="color: red">
+                                        {{ $v }}
+                                    </span>,
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>

@@ -17,9 +17,11 @@ class RoleController extends Controller
 
     public function roles()
     {
+        $paginate = config('constants.paginate');
+
         $role = DB::table('roles')
             ->select("*")
-            ->paginate(3);
+            ->paginate($paginate);
 
         return view('auth/roles/roles', compact('role'));
     }
@@ -65,6 +67,7 @@ class RoleController extends Controller
 
     public function delete($id)
     {
+        $paginate = config('constants.paginate');
         $role = Role::findOrFail($id);
         $idRole = $role->id;
 
@@ -82,7 +85,7 @@ class RoleController extends Controller
 
         $roles = DB::table('roles')
             ->select("*")
-            ->paginate(3);
+            ->paginate($paginate);
 
         return view('auth/roles/roles', compact('roles', 'errors'));
 

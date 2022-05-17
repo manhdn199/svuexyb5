@@ -4,12 +4,73 @@
 @section('title', 'Home')
 @section('content')
     <?php
+    $roleAdmin = config('constants.admin');
+    $roleManage = config('constants.manage');
+    $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
+    $day = date('01-m-Y');
+    $today = date('d-m-Y');
     ?>
 
     <div class="container-fluid">
         <div class="row ">
+            <style>
+                .dropbtn {
+                    background-color: #3498DB;
+                    color: white;
+                    font-size: 16px;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                /*.dropbtn:hover, .dropbtn:focus {*/
+                /*    background-color: #2980B9;*/
+                /*}*/
+
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    width: 467px !important;
+                    display: none;
+                    position: absolute;
+                    background-color: #f1f1f1;
+                    min-width: 160px;
+                    overflow: auto;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                }
+
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                .dropdown a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+
+                .dropdown:hover .dropbtn {
+                    background-color: #3e8e41
+                }
+
+                .show {
+                    display: block;
+                }
+            </style>
             <style>
                 .menu_beet > nav > ul > li > a {
                     color: black !important;
@@ -36,24 +97,33 @@
                      style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        @if($role == 2 || $role == 1)
+                        @if($role == $roleManage || $role == $roleAdmin)
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{asset('users')}}">Users</a>
                             </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
-                            </li>
+                            @if( $role == $roleAdmin )
+                                <li class="nav-item btn ">
+                                    <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
+                                </li>
+                            @endif
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
                             </li>
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
                             </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
+                            </li>
                         @else
                             <li class="nav-item btn ">
                                 <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
                             </li>
                         @endif
+
                     </ul>
                 </nav>
                 {{--end_menu--}}
@@ -65,7 +135,13 @@
                     <table class="table">
                         <tr>
                             <th width="50%">Project</th>
-                            <th>User</th>
+                            <th>
+                                @if($role == $roleAdmin || $role == $roleManage)
+                                    User
+                                @else
+                                    Time
+                                @endif
+                            </th>
                         </tr>
                         <tr>
                             <td>
@@ -80,84 +156,178 @@
                                     <script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
                                     <canvas id="myChart" style="width:50%;max-width:600px"></canvas>
-                                    <script>
-                                        var xValues = ['#'];
+                                    @if(!empty($positionArray))
+                                        @if($role == $roleAdmin || $role == $roleManage)
+                                            <script>
+                                                var xValues = ['#'];
 
-                                        @foreach ($positionArray as $key => $value)
-                                        xValues.push({{$value}});
-                                        @endforeach
+                                                @foreach ($positionArray as $key => $value)
+                                                xValues.push('{{$value}}');
+                                                @endforeach
 
-                                        var yValues = [0];
+                                                var yValues = [0];
 
-                                        @foreach ($timeArray as $key => $value)
-                                        yValues.push({{$value}});
-                                        @endforeach
-                                        console.log(yValues);
-                                        var barColors = ["red", "green"];
+                                                @foreach ($timeArray as $key => $value)
+                                                yValues.push({{$value}});
+                                                @endforeach
+                                                console.log(xValues);
+                                                var barColors = ["red", "green"];
 
-                                        new Chart("myChart", {
-                                            type: "bar",
-                                            data: {
-                                                labels: xValues,
-                                                datasets: [{
-                                                    backgroundColor: barColors,
-                                                    data: yValues
-                                                }]
-                                            },
-                                            options: {
-                                                legend: {display: false},
-                                                title: {
-                                                    display: true,
-                                                    text: "Total tim use on Project & sum by role "
-                                                }
-                                            }
-                                        });
-                                    </script>
+                                                new Chart("myChart", {
+                                                    type: "bar",
+                                                    data: {
+                                                        labels: xValues,
+                                                        datasets: [{
+                                                            backgroundColor: barColors,
+                                                            data: yValues
+                                                        }]
+                                                    },
+                                                    options: {
+                                                        legend: {display: false},
+                                                        title: {
+                                                            display: true,
+                                                            text: "Total tim use on Project & sum by role "
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        @endif
+                                    @endif
+                                    @if(!empty($totalTimeUser))
+                                        @if($role == $roleMember)
+                                            <script>
+                                                var xValues = ['#'];
+                                                @foreach ($projectName as $key => $value)
+                                                xValues.push('{{$value}}');
+                                                @endforeach
+                                                var yValues = [0];
+                                                @foreach ($totalTimeUser as $key => $value)
+                                                yValues.push({{$value}});
+                                                @endforeach
+                                                console.log(yValues);
+                                                var barColors = ["red", "green"];
+
+                                                new Chart("myChart", {
+                                                    type: "bar",
+                                                    data: {
+                                                        labels: xValues,
+                                                        datasets: [{
+                                                            backgroundColor: barColors,
+                                                            data: yValues
+                                                        }]
+                                                    },
+                                                    options: {
+                                                        legend: {display: false},
+                                                        title: {
+                                                            display: true,
+                                                            text: "Total tim use on Project "
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        @endif
+                                    @endif
                                 </div>
                             </td>
                             <td>
-                                <select name="user_id" id="" class="form-control">
-                                    <option value="" class="form-control" selected>---</option>
-                                    @foreach($users as $value)
-                                        <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
-                                    @endforeach
-                                </select>
+                                @if($role == $roleAdmin || $role == $roleManage)
+                                    <select name="user_id" id="" class="form-control">
+                                        <option value="" class="form-control" selected>---</option>
+                                        @foreach($users as $value)
+                                            <option value="{{$value->id}}"
+                                                    class="form-control">{{$value->name}}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                                @if($role == $roleMember)
+                                    <div class="dropdown">
+                                        <button class="dropbtn btn">Set date</button>
+                                        <form action="">
+                                            <div id="myDropdown" class="dropdown-content">
+                                                <span>Start</span>
+                                                <input type="date" name="start" class="form-control" value="{{$day}}">
+                                                <span>End</span>
+                                                <input type="date" name="end" class="form-control" value="{{$today}}">
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                @endif
                                 <div style="width: 100%;">
                                     <script
-                                        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                        src="https://cdnjs.clo$request->project_idudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
                                     <canvas id="myChart1" style="width:50%;max-width:600px"></canvas>
-                                    <script>
-                                        var xValues1 = ['#'];
-                                        @foreach ($typeArray as $key => $value)
-                                        xValues1.push("{{$value}}");
-                                        @endforeach
+                                    @if(!empty($positionArray))
+                                        @if($role == $roleAdmin || $role == $roleManage)
 
-                                        var yValues1 = [0];
-                                        @foreach ($timeArrayUser as $key => $value)
-                                        yValues1.push("{{$value}}");
-                                        @endforeach
+                                            <script>
+                                                var xValues1 = ['#'];
+                                                @foreach ($typeArray as $key => $value)
+                                                xValues1.push("{{$value}}");
+                                                @endforeach
 
-                                        console.log(xValues1);
-                                        var barColors1 = ["red", "green", "blue", 'yellow'];
+                                                var yValues1 = [0];
+                                                @foreach ($timeArrayUser as $key => $value)
+                                                yValues1.push("{{$value}}");
+                                                @endforeach
 
-                                        new Chart("myChart1", {
-                                            type: "bar",
-                                            data: {
-                                                labels: xValues1,
-                                                datasets: [{
-                                                    backgroundColor: barColors1,
-                                                    data: yValues1
-                                                }]
-                                            },
-                                            options: {
-                                                legend: {display: false},
-                                                title: {
-                                                    display: true,
-                                                    text: "Time use in project by Member"
-                                                }
-                                            }
-                                        });
-                                    </script>
+                                                console.log(xValues1);
+                                                var barColors1 = ["red", "green", "blue", 'yellow'];
+
+                                                new Chart("myChart1", {
+                                                    type: "bar",
+                                                    data: {
+                                                        labels: xValues1,
+                                                        datasets: [{
+                                                            backgroundColor: barColors1,
+                                                            data: yValues1
+                                                        }]
+                                                    },
+                                                    options: {
+                                                        legend: {display: false},
+                                                        title: {
+                                                            display: true,
+                                                            text: "Time use in project by Member"
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        @endif
+                                    @endif
+                                    @if(!empty($totalTimeUser))
+                                        @if($role == $roleMember)
+                                            <script>
+                                                var xValues1 = ['#'];
+                                                @foreach ($arrayWorkingType as $key => $value)
+                                                xValues1.push('{{$value}}');
+                                                @endforeach
+                                                var yValues1 = [0];
+                                                @foreach ($arrayTimeMonth as $key => $value)
+                                                yValues1.push({{$value}});
+                                                @endforeach
+                                                console.log(yValues);
+                                                var barColors = ["red", "green", "blue", "yellow"];
+
+                                                new Chart("myChart1", {
+                                                    type: "bar",
+                                                    data: {
+                                                        labels: xValues1,
+                                                        datasets: [{
+                                                            backgroundColor: barColors,
+                                                            data: yValues1
+                                                        }]
+                                                    },
+                                                    options: {
+                                                        legend: {display: false},
+                                                        title: {
+                                                            display: true,
+                                                            text: "Total tim use on Project "
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        @endif
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -169,5 +339,4 @@
             </div>
         </div>
     </div>
-
 @endsection
