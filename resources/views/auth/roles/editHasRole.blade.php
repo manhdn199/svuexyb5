@@ -54,7 +54,7 @@
             </div>
             <div class="col-md">
                 <div>
-                    <form method="POST" action="{{ route('addUserHasRole') }}">
+                    <form method="POST" action="{{ route('editHasRole',$hasRole->id) }}">
                         @csrf
                         <table class="table">
                             <tr>
@@ -64,37 +64,38 @@
                                 <th>
                                     Role
                                 </th>
-
                             </tr>
                             <tr>
                                 <td>
                                     <select name="user_id" id="" class="form-control">
-                                        @foreach( $user as $value)
-                                            <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
-                                        @endforeach
+                                            <option name="user_id" value="{{$hasRole->user_id}}" class="form-control">{{$hasRole->nameUser}}</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select name="role_id" id="role_id" class="form-control">
-                                        @foreach( $role as $value)
-                                            <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
+                                        @foreach($role as $v)
+                                            @if($v->id == $hasRole->role_id )
+                                            <option selected name="role_id" value="{{$v->id}}" class="form-control">{{$v->name}}</option>
+                                            @endif
+                                            <option  name="role_id" value="{{$v->id}}" class="form-control">{{$v->name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
                             </tr>
+
                             <tr>@if(!empty($error))
-                                <td class="alert-warning">
-                                    <div class="alert alert-warning" role="alert">
-                                        <span >{{ $error }}</span>
-                                    </div>
-                                </td>
+                                    <td class="alert-warning">
+                                        <div class="alert alert-warning" role="alert">
+                                            <span >{{ $error }}</span>
+                                        </div>
+                                    </td>
                                 @endif
                             </tr>
                         </table>
                         <div class="row mb">
                             <div class="col-md-6 ">
                                 <button type="submit" class="btn btn-primary">
-                                    Add
+                                    Update
                                 </button>
                             </div>
                         </div>

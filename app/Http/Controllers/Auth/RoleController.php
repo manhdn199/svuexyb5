@@ -15,13 +15,22 @@ use Illuminate\Support\Facades\Redirect;
 class RoleController extends Controller
 {
 
-    public function roles()
+    public function roles(Request $request)
     {
         $paginate = config('constants.paginate');
 
         $role = DB::table('roles')
             ->select("*")
             ->paginate($paginate);
+
+        if (!empty($request->search)) {
+            $search = '%' . $request->search . '%';
+
+            $role = DB::table('roles')
+                ->select("*")
+                ->where('name','like', $search)
+                ->paginate($paginate);
+        }
 
         return view('auth/roles/roles', compact('role'));
     }
@@ -83,11 +92,11 @@ class RoleController extends Controller
 
         }
 
-        $roles = DB::table('roles')
+        $role = DB::table('roles')
             ->select("*")
             ->paginate($paginate);
 
-        return view('auth/roles/roles', compact('roles', 'errors'));
+        return view('auth/roles/roles', compact('role', 'errors'));
 
     }
 }

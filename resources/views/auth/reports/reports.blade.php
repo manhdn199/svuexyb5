@@ -10,8 +10,74 @@
     <div class="container-fluid">
         <div class="row ">
             <style>
+                .dropdowndate{
+                    /*background-color: #3498DB;*/
+                    color: black;
+                    font-size: 16px;
+                    border: 1px solid silver;
+                    cursor: pointer;
+                }
                 .dropbtn {
-                    background-color: #3498DB;
+                    /*background-color: #3498DB;*/
+                    color: black;
+                    font-size: 16px;
+                    border: solid 1px silver;
+                    cursor: pointer;
+                }
+                .radioChoose{
+                    margin: 10px;
+                }
+                /*.dropbtn:hover, .dropbtn:focus {*/
+                /*    background-color: #2980B9;*/
+                /*}*/
+
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    width: 225px !important;
+                    display: none;
+                    position: absolute;
+                    background-color: #f1f1f1;
+                    min-width: 160px;
+                    overflow: auto;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                }
+
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                .dropdown a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+
+                .dropdown:hover .dropbtn {
+                    background-color: silver;
+                }
+
+                .show {
+                    display: block;
+                }
+            </style>
+
+            <style>
+                .dropbtn {
+                    /*background-color: #3498DB;*/
                     color: white;
                     font-size: 16px;
                     border: none;
@@ -58,7 +124,7 @@
                 }
 
                 .dropdown:hover .dropbtn {
-                    background-color: #3e8e41
+                    /*background-color: #3e8e41*/
                 }
 
                 .show {
@@ -113,11 +179,26 @@
             </div>
 
             <div class="col-md">
+                <div style="margin-bottom: 1rem">
+                    <form action="{{ $_SERVER['REQUEST_URI'] }}" method="get">
+                        <div class="dropdown">
+                            <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
+                            <div id="myDropdown" class="dropdown-content">
+                                <div class="radioChoose">
+                                    <input type="radio" name="option" value="position" checked="checked" /> Position
+                                    <input type="radio" name="option" value="project" /> Project
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
                 {{--form Filter--}}
                 <div>
-                    <div class="dropdown">
+                    <div class="dropdown dropdowndate">
                         <form action="{{route('reportsEmployee')}}" method="get">
-                            <button class="dropbtn btn">Set date</button>
+                            <button class="dropbtn btn" style="    color: black;">Set date</button>
 
                             <div id="myDropdown" class="dropdown-content">
                                 <span>Start</span>
@@ -218,5 +299,17 @@
             </div>
         </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            $("input[name='option']").live("change", function(){
+                if ($(this).val() == "position") {
+                    $("input.search").attr("name", "position");
+                }
+                else if ($(this).val() == "project") {
+                    $("input.search").attr("name", "project");
+                }
+            })});
+    </script>
 @endsection
 

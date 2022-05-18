@@ -28,11 +28,18 @@ Route::post('/edit/{id}',[UserController::class,'edit'])->name('editUser');
 Route::get('/delete/{id}',[UserController::class,'delete'])->name('delete');
 Route::get('/addRole',[UserController::class,'viewAddRole'])->name('viewAddUserHasRole');
 Route::post('/addRole',[UserController::class,'addRole'])->name('addUserHasRole');
-Route::get('/userHasRole',[UserController::class,'userHasRole']);
+Route::get('/userHasRole',[UserController::class,'userHasRole'])->name('userHasRole');
+Route::get('/userHasRole/{id}',[UserController::class,'viewEditRole']);
+Route::post('/userHasRole/{id}',[UserController::class,'editHasRole'])->name('editHasRole');
+Route::get('/userHasRole/delete/{id}',[UserController::class,'deleteHasRole'])->name('deleteHasRole');
 Route::get('/addProject',[UserController::class,'viewAddUserHasProject'])->name('viewAddUserHasProject');
 Route::post('/addProject',[UserController::class,'addProject'])->name('addUserHasProject');
 Route::get('/userHasProject',[UserController::class,'userHasProject']);
 Route::get('/projects/{id}',[UserController::class,'groupProject']);
+Route::get('/userHasProject/{id}',[UserController::class,'viewEditHasProject']);
+Route::post('/userHasProject/{id}',[UserController::class,'editHasProject'])->name('editHasProject');
+Route::get('/userHasProject/delete/{id}',[UserController::class,'deleteHasProject'])->name('deleteHasProject');
+
 
 Route::get('/roles',[RoleController::class,'roles'])->name('roles');
 Route::get('/roles/add',[RoleController::class,'viewAdd'])->name('viewAddRole');

@@ -120,23 +120,22 @@ class EmployeeController extends Controller
 
         $user = Auth::user();
 
-        if (empty($request))
-        {
-            $reports = DB::table('reports')
-                ->select('reports.detail',
-                    'projects.name as projectName',
-                    'reports.working_time',
-                    'reports.working_type',
-                    'reports.time',
-                    'reports.status',
-                    'reports.id',
-                    'positions.name as position')
-                ->where('reports.user_id', $user->id)
-                ->join('projects', 'projects.id', '=', 'reports.project_id')
-                ->join('positions', 'positions.id', '=', 'reports.position_id')
-                ->paginate($paginate);
-        }
-        else
+        $reports = DB::table('reports')
+            ->select('reports.detail',
+                'projects.name as projectName',
+                'reports.working_time',
+                'reports.working_type',
+                'reports.time',
+                'reports.status',
+                'reports.id',
+                'positions.name as position')
+            ->where('reports.user_id', $user->id)
+            ->join('projects', 'projects.id', '=', 'reports.project_id')
+            ->join('positions', 'positions.id', '=', 'reports.position_id')
+            ->paginate($paginate);
+
+
+        if($request->start)
         {
             $timeStart = $request->start;
             $timeEnd = $request->end;
@@ -170,7 +169,26 @@ class EmployeeController extends Controller
 //            ->toSql();
 //            dd($timeStart);
         }
+        elseif(!empty($request->search)){
+            $search = '%'.$request->search.'%';
 
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'positions.name as position')
+                ->where('reports.user_id', $user->id)
+                ->where('projects.name','like',$search)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->paginate($paginate);
+//                        ->toSql();
+//dd($search);
+        }
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }

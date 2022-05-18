@@ -17,13 +17,23 @@ use Illuminate\Support\Facades\Redirect;
 class ProjectController extends Controller
 {
 
-    public function projects()
+    public function projects(Request $request)
     {
         $paginate = config('constants.paginate');
 
         $project = DB::table('projects')
             ->select("*")
             ->paginate($paginate);
+
+        if (!empty($request->search))
+        {
+            $search = '%'.$request->search.'%';
+
+            $project = DB::table('projects')
+                ->select("*")
+                ->where('name','like',$search)
+                ->paginate($paginate);
+        }
 
         return view('auth/project/projects', compact('project'));
     }

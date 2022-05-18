@@ -74,9 +74,6 @@
                             <button type="submit" class="btn btn-primary">
                                 Update
                             </button>
-                            <button href="{{ route('roles') }}" class="btn btn-dark">
-                                Back
-                            </button>
                         </div>
                     </div>
                 </form>
