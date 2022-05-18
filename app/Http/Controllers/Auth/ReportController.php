@@ -14,7 +14,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $paginate = config('constants.paginate');
 
@@ -34,11 +34,95 @@ class ReportController extends Controller
             ->join('users', 'users.id', '=', 'reports.user_id')
             ->paginate($paginate);
 
+        if (!empty($request->search) || !empty($request->user))
+        {
+            $search = $request->search
+                ? '%'.$request->search.'%'
+                : '%'.$request->user.'%' ;
 
-        $project = DB::table('projects')
-            ->select('name')
-            ->get()
-            ->toArray();
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'users.name as userName',
+                    'reports.project_id',
+                    'positions.name as position')
+                ->where('users.name','like', $search)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->paginate($paginate);
+        }
+        elseif (!empty($request->project))
+        {
+            $search = '%'.$request->project.'%';
+
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'users.name as userName',
+                    'reports.project_id',
+                    'positions.name as position')
+                ->where('projects.name','like', $search)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->paginate($paginate);
+        }
+        elseif (!empty($request->position))
+        {
+            $search = '%'.$request->position.'%';
+
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'users.name as userName',
+                    'reports.project_id',
+                    'positions.name as position')
+                ->where('positions.name','like', $search)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->paginate($paginate);
+//            ->toSql();
+//            dd($reports);
+        }
+        elseif (!empty($request->working_type))
+        {
+            $search = '%'.$request->working_type.'%';
+
+
+            $reports = DB::table('reports')
+                ->select('reports.detail',
+                    'projects.name as projectName',
+                    'reports.working_time',
+                    'reports.working_type',
+                    'reports.time',
+                    'reports.status',
+                    'reports.id',
+                    'users.name as userName',
+                    'reports.project_id',
+                    'positions.name as position')
+                ->where('reports.working_type','like', $search)
+                ->join('projects', 'projects.id', '=', 'reports.project_id')
+                ->join('positions', 'positions.id', '=', 'reports.position_id')
+                ->join('users', 'users.id', '=', 'reports.user_id')
+                ->paginate($paginate);
+        }
 
         return view('auth/reports/admin', ['report' => $reports]);
     }

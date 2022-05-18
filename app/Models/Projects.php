@@ -14,6 +14,8 @@ class Projects extends Model
         'name',
         'detail',
         'duration',
-        'revenue'
+        'revenue',
+        'start',
+        'end'
     ];
 }
