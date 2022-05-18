@@ -3,6 +3,16 @@
 
 @section('title', 'Home')
 @section('content')
+    <?php
+    $roleAdmin = config('constants.admin');
+    $roleManage = config('constants.manage');
+    $roleMember = config('constants.member');
+    $user = auth()->user();
+    $role = $user->userHasRole->role_id;
+    $day = date('01-m-Y');
+    $today = date('d-m-Y');
+    ?>
+
     <div class="container-fluid">
         <div class="row ">
             <style>
@@ -91,24 +101,33 @@
                      style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{asset('users')}}">Users</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
-                        </li>
+                        @if($role == $roleManage || $role == $roleAdmin)
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{route('users')}}">Users</a>
+                            </li>
+                            @if( $role == $roleAdmin )
+                                <li class="nav-item btn ">
+                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
+                                </li>
+                            @endif
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
+                            </li>
+                        @else
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
+                            </li>
+                        @endif
+
                     </ul>
                 </nav>
                 {{--end_menu--}}

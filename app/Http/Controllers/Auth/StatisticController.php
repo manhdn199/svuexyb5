@@ -80,69 +80,70 @@ class StatisticController extends Controller
             }
             return view('home', compact('projects', 'users'));
         } else {
-
             $projects = DB::table('project_has_user')
                 ->select('project_id as id', 'projects.name as name')
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
                 ->where('user_id', '=', $user_id)
                 ->get();
+            if (!empty($request->project_id)){
+                $timeStart = $request->start;
+                $timeEnd = $request->end;
 
-            $timeStart = $request->start;
-            $timeEnd = $request->end;
+                if (empty($request->start)) {
+                    $timeStart = date('Y-m-01');
+                }
 
-            if (empty($request->start)) {
-                $timeStart = date('Y-m-01');
-            }
+                if (empty($request->end)) {
+                    $timeEnd = date('Y-m-d');
+                }
 
-            if (empty($request->end)) {
-                $timeEnd = date('Y-m-d');
-            }
-
-            $timeStart = date('Y-m-d', strtotime($timeStart));
-            $timeEnd = date('Y-m-d', strtotime($timeEnd));
+                $timeStart = date('Y-m-d', strtotime($timeStart));
+                $timeEnd = date('Y-m-d', strtotime($timeEnd));
 //            dd($timeStart);
-            $timeByMonth = DB::table('reports')
-                ->select('working_type', DB::raw('SUM(time) as sumTime'))
-                ->where('working_time', '>=', $timeStart)
-                ->where('working_time', '<=', $timeEnd)
-                ->where('user_id', '=', $user_id)
-                ->groupBy('working_type')
-                ->get();
+                $timeByMonth = DB::table('reports')
+                    ->select('working_type', DB::raw('SUM(time) as sumTime'))
+                    ->where('working_time', '>=', $timeStart)
+                    ->where('working_time', '<=', $timeEnd)
+                    ->where('user_id', '=', $user_id)
+                    ->groupBy('working_type')
+                    ->get();
 //dd($timeByMonth);
-            $statisticUserProject = DB::table('reports')
-                ->select(DB::raw('SUM(reports.time) as sumTime'))
-                ->where('user_id', '=', $user_id)
-                ->where('project_id', '=', $request->project_id)
-                ->join('projects', 'projects.id', '=', 'reports.project_id')
-                ->get();
+                $statisticUserProject = DB::table('reports')
+                    ->select(DB::raw('SUM(reports.time) as sumTime'))
+                    ->where('user_id', '=', $user_id)
+                    ->where('project_id', '=', $request->project_id)
+                    ->join('projects', 'projects.id', '=', 'reports.project_id')
+                    ->get();
 
-            $projectNameArray = DB::table('projects')
-                ->select('name')
-                ->where('id', '=', $request->project_id)
-                ->get();
+                $projectNameArray = DB::table('projects')
+                    ->select('name')
+                    ->where('id', '=', $request->project_id)
+                    ->get();
 
-            $totalTimeUser = [];
+                $totalTimeUser = [];
 
-            foreach ($projectNameArray as $value) {
-                $projectName = $value;
-            }
-            foreach ($statisticUserProject as $value) {
-                $totalTimeUser[] = $value->sumTime;
-            }
+                foreach ($projectNameArray as $value) {
+                    $projectName = $value;
+                }
+                foreach ($statisticUserProject as $value) {
+                    $totalTimeUser[] = $value->sumTime;
+                }
 
-            $arrayTimeMonth = [];
-            $arrayWorkingType = [];
+                $arrayTimeMonth = [];
+                $arrayWorkingType = [];
 
-            foreach ($timeByMonth as $value) {
-                $arrayTimeMonth[] = $value->sumTime;
-                $arrayWorkingType[] = $value->working_type;
-            }
+                foreach ($timeByMonth as $value) {
+                    $arrayTimeMonth[] = $value->sumTime;
+                    $arrayWorkingType[] = $value->working_type;
+                }
 //                dd($arrayTimeMonth);
-            return view('home', compact('projects',
-                'projectName',
-                'totalTimeUser',
-                'arrayTimeMonth',
-                'arrayWorkingType'));
+                return view('home', compact('projects',
+                    'projectName',
+                    'totalTimeUser',
+                    'arrayTimeMonth',
+                    'arrayWorkingType'));
+            }
+            return view('home',compact('projects'));
 
         }
     }

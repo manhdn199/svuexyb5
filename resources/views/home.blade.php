@@ -99,28 +99,28 @@
                     <ul class="navbar-nav">
                         @if($role == $roleManage || $role == $roleAdmin)
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{asset('users')}}">Users</a>
+                                <a class="nav-link " href="{{route('users')}}">Users</a>
                             </li>
                             @if( $role == $roleAdmin )
                                 <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
+                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
                                 </li>
                             @endif
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
+                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
+                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
+                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
+                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
                             </li>
                         @else
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
+                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
                             </li>
                         @endif
 
@@ -131,6 +131,7 @@
             <div class="col-md-9">
                 {{--                chart--}}
                 <form action="{{ route('statistic') }}" method="get">
+                    @csrf
 
                     <table class="table">
                         <tr>
@@ -145,7 +146,6 @@
                         </tr>
                         <tr>
                             <td>
-                                @csrf
                                 <select name="project_id" id="" class="form-control">
                                     <option value="" class="form-control" selected>---</option>
                                     @foreach($projects as $value)
@@ -164,11 +164,9 @@
                                         @if($role == $roleAdmin || $role == $roleManage)
                                             <script>
                                                 var xValues = ['#'];
-
                                                 @foreach ($positionArray as $key => $value)
                                                 xValues.push('{{$value}}');
                                                 @endforeach
-
                                                 var yValues = [0];
 
                                                 @foreach ($timeArray as $key => $value)
@@ -224,7 +222,7 @@
                                                         legend: {display: false},
                                                         title: {
                                                             display: true,
-                                                            text: "Total tim use on Project "
+                                                            text: "Total tim use in Project "
                                                         }
                                                     }
                                                 });
@@ -311,7 +309,7 @@
                                                 yValues1.push({{$value}});
                                                 @endforeach
                                                 console.log(yValues);
-                                                var barColors = ["red", "green", "blue", "yellow"];
+                                                var barColors = [ "red","green", "blue", "yellow"];
 
                                                 new Chart("myChart1", {
                                                     type: "bar",
@@ -326,7 +324,7 @@
                                                         legend: {display: false},
                                                         title: {
                                                             display: true,
-                                                            text: "Total tim use on Project "
+                                                            text: "Total tim use in Project by Type "
                                                         }
                                                     }
                                                 });
