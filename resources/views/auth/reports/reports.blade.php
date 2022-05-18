@@ -4,19 +4,26 @@
 @section('title', 'Home')
 @section('content')
     <?php
+    $roleAdmin = config('constants.admin');
+    $roleManage = config('constants.manage');
+    $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
+    $day = date('01-m-Y');
+    $today = date('d-m-Y');
     ?>
+
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .dropdowndate{
+                .dropdowndate {
                     /*background-color: #3498DB;*/
                     color: black;
                     font-size: 16px;
                     border: 1px solid silver;
                     cursor: pointer;
                 }
+
                 .dropbtn {
                     /*background-color: #3498DB;*/
                     color: black;
@@ -24,9 +31,11 @@
                     border: solid 1px silver;
                     cursor: pointer;
                 }
-                .radioChoose{
+
+                .radioChoose {
                     margin: 10px;
                 }
+
                 /*.dropbtn:hover, .dropbtn:focus {*/
                 /*    background-color: #2980B9;*/
                 /*}*/
@@ -132,47 +141,58 @@
                 }
             </style>
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
             {{--        menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        @if($role == 2 || $role == 1)
+                        @if($role == $roleManage || $role == $roleAdmin)
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{asset('users')}}" >Users</a>
+                                <a class="nav-link " href="{{route('users')}}">Users</a>
+                            </li>
+                            @if( $role == $roleAdmin )
+                                <li class="nav-item btn ">
+                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
+                                </li>
+                            @endif
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
+                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
+                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
                             </li>
                         @else
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('employee_report') }}" >Reports</a>
+                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
                             </li>
                         @endif
+
                     </ul>
                 </nav>
                 {{--end_menu--}}
@@ -185,8 +205,8 @@
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
                             <div id="myDropdown" class="dropdown-content">
                                 <div class="radioChoose">
-                                    <input type="radio" name="option" value="position" checked="checked" /> Position
-                                    <input type="radio" name="option" value="project" /> Project
+                                    <input type="radio" name="option" value="position" checked="checked"/> Position
+                                    <input type="radio" name="option" value="project"/> Project
                                 </div>
                             </div>
                         </div>
@@ -202,9 +222,9 @@
 
                             <div id="myDropdown" class="dropdown-content">
                                 <span>Start</span>
-                                <input type="date" name="start" class="form-control" >
+                                <input type="date" name="start" class="form-control">
                                 <span>End</span>
-                                <input type="date" name="end" class="form-control" >
+                                <input type="date" name="end" class="form-control">
                             </div>
                         </form>
                     </div>
@@ -301,15 +321,15 @@
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function(){
-            $("input[name='option']").live("change", function(){
+        $(document).ready(function () {
+            $("input[name='option']").live("change", function () {
                 if ($(this).val() == "position") {
                     $("input.search").attr("name", "position");
-                }
-                else if ($(this).val() == "project") {
+                } else if ($(this).val() == "project") {
                     $("input.search").attr("name", "project");
                 }
-            })});
+            })
+        });
     </script>
 @endsection
 

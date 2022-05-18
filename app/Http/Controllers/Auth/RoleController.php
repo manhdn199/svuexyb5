@@ -28,7 +28,7 @@ class RoleController extends Controller
 
             $role = DB::table('roles')
                 ->select("*")
-                ->where('name','like', $search)
+                ->where('name', 'like', $search)
                 ->paginate($paginate);
         }
 

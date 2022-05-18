@@ -135,21 +135,20 @@ class EmployeeController extends Controller
             ->paginate($paginate);
 
 
-        if($request->start)
-        {
+        if ($request->start) {
             $timeStart = $request->start;
             $timeEnd = $request->end;
 
             if (empty($request->start)) {
                 $timeStart = date('01-m-Y');
             }
-            if(empty($request->end)) {
+            if (empty($request->end)) {
                 $timeEnd = date('d-m-Y');
             }
 //            dd($timeEnd);
 
-            $dateStart = date('Y-m-d',strtotime($timeStart));
-            $dateEnd = date('Y-m-d',strtotime($timeEnd));
+            $dateStart = date('Y-m-d', strtotime($timeStart));
+            $dateEnd = date('Y-m-d', strtotime($timeEnd));
 
             $reports = DB::table('reports')
                 ->select('reports.detail',
@@ -161,16 +160,15 @@ class EmployeeController extends Controller
                     'reports.id',
                     'positions.name as position')
                 ->where('reports.user_id', $user->id)
-                ->where('reports.working_time','<=',$dateEnd)
-                ->where('reports.working_time','>=',$dateStart)
+                ->where('reports.working_time', '<=', $dateEnd)
+                ->where('reports.working_time', '>=', $dateStart)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->paginate($paginate);
 //            ->toSql();
 //            dd($timeStart);
-        }
-        elseif(!empty($request->search)){
-            $search = '%'.$request->search.'%';
+        } elseif (!empty($request->search)) {
+            $search = '%' . $request->search . '%';
 
             $reports = DB::table('reports')
                 ->select('reports.detail',
@@ -182,7 +180,7 @@ class EmployeeController extends Controller
                     'reports.id',
                     'positions.name as position')
                 ->where('reports.user_id', $user->id)
-                ->where('projects.name','like',$search)
+                ->where('projects.name', 'like', $search)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->paginate($paginate);

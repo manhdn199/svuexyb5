@@ -25,13 +25,12 @@ class ProjectController extends Controller
             ->select("*")
             ->paginate($paginate);
 
-        if (!empty($request->search))
-        {
-            $search = '%'.$request->search.'%';
+        if (!empty($request->search)) {
+            $search = '%' . $request->search . '%';
 
             $project = DB::table('projects')
                 ->select("*")
-                ->where('name','like',$search)
+                ->where('name', 'like', $search)
                 ->paginate($paginate);
         }
 
@@ -63,10 +62,6 @@ class ProjectController extends Controller
             }
 
         }
-
-
-//        dd($arrayMember);
-
 
         return view('auth/project/edit', ['project' => $edit,
             'arrayMember' => $arrayMember]);

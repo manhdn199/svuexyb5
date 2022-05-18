@@ -34,11 +34,10 @@ class ReportController extends Controller
             ->join('users', 'users.id', '=', 'reports.user_id')
             ->paginate($paginate);
 
-        if (!empty($request->search) || !empty($request->user))
-        {
+        if (!empty($request->search) || !empty($request->user)) {
             $search = $request->search
-                ? '%'.$request->search.'%'
-                : '%'.$request->user.'%' ;
+                ? '%' . $request->search . '%'
+                : '%' . $request->user . '%';
 
             $reports = DB::table('reports')
                 ->select('reports.detail',
@@ -51,15 +50,13 @@ class ReportController extends Controller
                     'users.name as userName',
                     'reports.project_id',
                     'positions.name as position')
-                ->where('users.name','like', $search)
+                ->where('users.name', 'like', $search)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->join('users', 'users.id', '=', 'reports.user_id')
                 ->paginate($paginate);
-        }
-        elseif (!empty($request->project))
-        {
-            $search = '%'.$request->project.'%';
+        } elseif (!empty($request->project)) {
+            $search = '%' . $request->project . '%';
 
             $reports = DB::table('reports')
                 ->select('reports.detail',
@@ -72,15 +69,13 @@ class ReportController extends Controller
                     'users.name as userName',
                     'reports.project_id',
                     'positions.name as position')
-                ->where('projects.name','like', $search)
+                ->where('projects.name', 'like', $search)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->join('users', 'users.id', '=', 'reports.user_id')
                 ->paginate($paginate);
-        }
-        elseif (!empty($request->position))
-        {
-            $search = '%'.$request->position.'%';
+        } elseif (!empty($request->position)) {
+            $search = '%' . $request->position . '%';
 
             $reports = DB::table('reports')
                 ->select('reports.detail',
@@ -93,17 +88,15 @@ class ReportController extends Controller
                     'users.name as userName',
                     'reports.project_id',
                     'positions.name as position')
-                ->where('positions.name','like', $search)
+                ->where('positions.name', 'like', $search)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->join('users', 'users.id', '=', 'reports.user_id')
                 ->paginate($paginate);
 //            ->toSql();
 //            dd($reports);
-        }
-        elseif (!empty($request->working_type))
-        {
-            $search = '%'.$request->working_type.'%';
+        } elseif (!empty($request->working_type)) {
+            $search = '%' . $request->working_type . '%';
 
 
             $reports = DB::table('reports')
@@ -117,7 +110,7 @@ class ReportController extends Controller
                     'users.name as userName',
                     'reports.project_id',
                     'positions.name as position')
-                ->where('reports.working_type','like', $search)
+                ->where('reports.working_type', 'like', $search)
                 ->join('projects', 'projects.id', '=', 'reports.project_id')
                 ->join('positions', 'positions.id', '=', 'reports.position_id')
                 ->join('users', 'users.id', '=', 'reports.user_id')

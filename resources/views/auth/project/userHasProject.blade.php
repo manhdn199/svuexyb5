@@ -3,50 +3,71 @@
 
 @section('title', 'Home')
 @section('content')
+    <?php
+    $roleAdmin = config('constants.admin');
+    $roleManage = config('constants.manage');
+    $roleMember = config('constants.member');
+    $users = auth()->user();
+    $role = $users->userHasRole->role_id;
+    $day = date('01-m-Y');
+    $today = date('d-m-Y');
+    ?>
+
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
             {{--        menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{asset('users')}}" >Users</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasRole') }}" >User add Role</a>
-                        </li>
-                        <li class="nav-item btn ">
-                            <a class="nav-link " href="{{ asset('userHasProject') }}" >User add Projects</a>
-                        </li>
+                        @if($role == $roleManage || $role == $roleAdmin)
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{route('users')}}">Users</a>
+                            </li>
+                            @if( $role == $roleAdmin )
+                                <li class="nav-item btn ">
+                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
+                                </li>
+                            @endif
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
+                            </li>
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
+                            </li>
+                        @else
+                            <li class="nav-item btn ">
+                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
+                            </li>
+                        @endif
+
                     </ul>
                 </nav>
                 {{--end_menu--}}
@@ -69,14 +90,16 @@
                                 <td>
                                     <select name="user_id" id="" class="form-control">
                                         @foreach( $user as $value)
-                                            <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
+                                            <option value="{{$value->id}}"
+                                                    class="form-control">{{$value->name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
                                 <td>
                                     <select name="project_id" id="project_id" class="form-control">
                                         @foreach( $project as $value)
-                                            <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
+                                            <option value="{{$value->id}}"
+                                                    class="form-control">{{$value->name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -84,7 +107,7 @@
                             <tr>@if(!empty($error))
                                     <td class="alert-warning">
                                         <div class="alert alert-warning" role="alert">
-                                            <span >{{ $error }}</span>
+                                            <span>{{ $error }}</span>
                                         </div>
                                     </td>
                                 @endif

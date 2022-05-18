@@ -99,28 +99,28 @@
                     <ul class="navbar-nav">
                         @if($role == $roleManage || $role == $roleAdmin)
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{asset('users')}}">Users</a>
+                                <a class="nav-link " href="{{route('users')}}">Users</a>
                             </li>
                             @if( $role == $roleAdmin )
                                 <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
+                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
                                 </li>
                             @endif
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
+                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
+                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('userHasRole') }}">User add Role</a>
+                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('userHasProject') }}">User add Projects</a>
+                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
                             </li>
                         @else
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
+                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
                             </li>
                         @endif
 
@@ -131,6 +131,7 @@
             <div class="col-md-9">
                 {{--                chart--}}
                 <form action="{{ route('statistic') }}" method="get">
+                    @csrf
 
                     <table class="table">
                         <tr>
@@ -145,13 +146,16 @@
                         </tr>
                         <tr>
                             <td>
-                                @csrf
                                 <select name="project_id" id="" class="form-control">
                                     <option value="" class="form-control" selected>---</option>
                                     @foreach($projects as $value)
-                                        <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
+                                        <option value="{{$value->id}}" selected
+                                                class="form-control">{{$value->name}}</option>
                                     @endforeach
                                 </select>
+                                @if(!empty($error))
+                                    <span class="alert alert-warning">{{$error}}</span>
+                                @endif
                                 <div style="width: 100%;">
                                     <script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -160,11 +164,9 @@
                                         @if($role == $roleAdmin || $role == $roleManage)
                                             <script>
                                                 var xValues = ['#'];
-
                                                 @foreach ($positionArray as $key => $value)
                                                 xValues.push('{{$value}}');
                                                 @endforeach
-
                                                 var yValues = [0];
 
                                                 @foreach ($timeArray as $key => $value)
@@ -220,7 +222,7 @@
                                                         legend: {display: false},
                                                         title: {
                                                             display: true,
-                                                            text: "Total tim use on Project "
+                                                            text: "Total tim use in Project "
                                                         }
                                                     }
                                                 });
@@ -245,9 +247,9 @@
                                         <form action="">
                                             <div id="myDropdown" class="dropdown-content">
                                                 <span>Start</span>
-                                                <input type="date" name="start" class="form-control" value="{{$day}}">
+                                                <input type="date" name="start" class="form-control" value="">
                                                 <span>End</span>
-                                                <input type="date" name="end" class="form-control" value="{{$today}}">
+                                                <input type="date" name="end" class="form-control" value="">
                                             </div>
                                         </form>
 
@@ -255,7 +257,8 @@
                                 @endif
                                 <div style="width: 100%;">
                                     <script
-                                        src="https://cdnjs.clo$request->project_idudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+                                        type="text/javascript"></script>
                                     <canvas id="myChart1" style="width:50%;max-width:600px"></canvas>
                                     @if(!empty($positionArray))
                                         @if($role == $roleAdmin || $role == $roleManage)
@@ -306,7 +309,7 @@
                                                 yValues1.push({{$value}});
                                                 @endforeach
                                                 console.log(yValues);
-                                                var barColors = ["red", "green", "blue", "yellow"];
+                                                var barColors = [ "red","green", "blue", "yellow"];
 
                                                 new Chart("myChart1", {
                                                     type: "bar",
@@ -321,7 +324,7 @@
                                                         legend: {display: false},
                                                         title: {
                                                             display: true,
-                                                            text: "Total tim use on Project "
+                                                            text: "Total tim use in Project by Type "
                                                         }
                                                     }
                                                 });

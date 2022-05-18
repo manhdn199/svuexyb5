@@ -85,25 +85,29 @@ class StatisticController extends Controller
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
                 ->where('user_id', '=', $user_id)
                 ->get();
+            if (!empty($request->project_id)){
+                $timeStart = $request->start;
+                $timeEnd = $request->end;
 
-            $timeStart = $request->start;
-            $timeEnd = $request->end;
+                if (empty($request->start)) {
+                    $timeStart = date('Y-m-01');
+                }
 
-            if (empty($request->start)) {
-                $timeStart = date('01-m-Y');
-            } elseif(empty($request->end)) {
-                $timeEnd = date('d-m-Y');
-            }
+                if (empty($request->end)) {
+                    $timeEnd = date('Y-m-d');
+                }
 
-            if (!empty($request->end)) {
+                $timeStart = date('Y-m-d', strtotime($timeStart));
+                $timeEnd = date('Y-m-d', strtotime($timeEnd));
+//            dd($timeStart);
                 $timeByMonth = DB::table('reports')
                     ->select('working_type', DB::raw('SUM(time) as sumTime'))
-                    ->where('working_time', '<=', $timeStart)
-                    ->where('working_time', '>=', $timeEnd)
+                    ->where('working_time', '>=', $timeStart)
+                    ->where('working_time', '<=', $timeEnd)
                     ->where('user_id', '=', $user_id)
                     ->groupBy('working_type')
                     ->get();
-
+//dd($timeByMonth);
                 $statisticUserProject = DB::table('reports')
                     ->select(DB::raw('SUM(reports.time) as sumTime'))
                     ->where('user_id', '=', $user_id)
@@ -121,7 +125,6 @@ class StatisticController extends Controller
                 foreach ($projectNameArray as $value) {
                     $projectName = $value;
                 }
-
                 foreach ($statisticUserProject as $value) {
                     $totalTimeUser[] = $value->sumTime;
                 }
@@ -140,8 +143,8 @@ class StatisticController extends Controller
                     'arrayTimeMonth',
                     'arrayWorkingType'));
             }
+            return view('home',compact('projects'));
 
-            return view('home', compact('projects'));
         }
     }
 }

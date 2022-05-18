@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckAdminLogin;
+use App\Http\Middleware\CheckLogin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,5 +70,10 @@ class Kernel extends HttpKernel
         'auth.admin' => \App\Http\Middleware\CheckAdminLogin::class,
         'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+        'checkLogin' => \App\Http\Middleware\CheckLogin::class,
+        'loginByAdmin' => \App\Http\Middleware\LoginByAdmin::class,
+        'loginByManager' => \App\Http\Middleware\LoginByManager::class,
+        'loginByMember' => \App\Http\Middleware\LoginByMember::class,
+        'loginByManagerOrAdmin' => \App\Http\Middleware\LoginByManagerOrAdmin::class,
     ];
 }
