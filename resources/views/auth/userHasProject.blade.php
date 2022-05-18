@@ -177,15 +177,15 @@
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function(){
-            $("input[name='option']").live("change", function(){
+        $(document).ready(function () {
+            $("input[name='option']").live("change", function () {
                 if ($(this).val() == "user") {
                     $("input.search").attr("name", "user");
-                }
-                else if ($(this).val() == "project") {
+                } else if ($(this).val() == "project") {
                     $("input.search").attr("name", "project");
                 }
-            })});
+            })
+        });
     </script>
 @endsection
 

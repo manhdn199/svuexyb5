@@ -13,9 +13,11 @@
                     border: solid 1px silver;
                     cursor: pointer;
                 }
-                .radioChoose{
+
+                .radioChoose {
                     margin: 10px;
                 }
+
                 /*.dropbtn:hover, .dropbtn:focus {*/
                 /*    background-color: #2980B9;*/
                 /*}*/

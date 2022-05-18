@@ -1,4 +1,3 @@
-
 <form method="POST" action="{{ route('addUserHasProject') }}">
     @csrf
 

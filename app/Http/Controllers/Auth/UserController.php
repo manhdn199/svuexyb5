@@ -27,33 +27,28 @@ class UserController extends Controller
             ->select("*")
             ->paginate($paginate);
 
-        if (!empty($request->search) || !empty($request->name))
-        {
+        if (!empty($request->search) || !empty($request->name)) {
             $search = $request->search
-                ? '%'.$request->search.'%'
-                : '%'.$request->name.'%' ;
+                ? '%' . $request->search . '%'
+                : '%' . $request->name . '%';
 
             $user = DB::table('users')
                 ->select("*")
-                ->where('name','like',$search)
+                ->where('name', 'like', $search)
                 ->paginate($paginate);
-        }
-        elseif (!empty($request->email))
-        {
-            $search = '%'.$request->email.'%';
+        } elseif (!empty($request->email)) {
+            $search = '%' . $request->email . '%';
 
             $user = DB::table('users')
                 ->select("*")
-                ->where('email','like',$search)
+                ->where('email', 'like', $search)
                 ->paginate($paginate);
-        }
-        elseif (!empty($request->tel))
-        {
-            $search = '%'.$request->tel.'%';
+        } elseif (!empty($request->tel)) {
+            $search = '%' . $request->tel . '%';
 
             $user = DB::table('users')
                 ->select("*")
-                ->where('tel','like',$search)
+                ->where('tel', 'like', $search)
                 ->paginate($paginate);
         }
 
@@ -201,30 +196,27 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->paginate($paginate);
 
-        if (!empty($request->search) || !empty($request->user))
-        {
+        if (!empty($request->search) || !empty($request->user)) {
             $search = $request->search
-                ? '%'.$request->search.'%'
-                : '%'.$request->user.'%' ;
+                ? '%' . $request->search . '%'
+                : '%' . $request->user . '%';
 
             $userHasRole = DB::table('user_has_role')
                 ->select('users.name as userName',
                     'roles.name as roleName',
                     'user_has_role.id')
-                ->where('users.name','like',$search)
+                ->where('users.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'user_has_role.user_id')
                 ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
                 ->paginate($paginate);
-        }
-        elseif(!empty($request->role))
-        {
-            $search = '%'.$request->role.'%' ;
+        } elseif (!empty($request->role)) {
+            $search = '%' . $request->role . '%';
 
             $userHasRole = DB::table('user_has_role')
                 ->select('users.name as userName',
                     'roles.name as roleName',
                     'user_has_role.id')
-                ->where('roles.name','like',$search)
+                ->where('roles.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'user_has_role.user_id')
                 ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
                 ->paginate($paginate);
@@ -240,22 +232,22 @@ class UserController extends Controller
 
         $hasRole = DB::table('user_has_role')
             ->select('user_has_role.id',
-                            'users.name as nameUser',
-                            'roles.name as nameRole',
-                            'user_id',
-                            'role_id')
-            ->where('user_id','=',$useHasRole->user_id)
-            ->where('role_id','=',$useHasRole->role_id)
+                'users.name as nameUser',
+                'roles.name as nameRole',
+                'user_id',
+                'role_id')
+            ->where('user_id', '=', $useHasRole->user_id)
+            ->where('role_id', '=', $useHasRole->role_id)
             ->join('users', 'users.id', '=', 'user_has_role.user_id')
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->first();
 
         $role = Role::all();
 
-        return view('auth/roles/editHasRole',compact('hasRole','role'));
+        return view('auth/roles/editHasRole', compact('hasRole', 'role'));
     }
 
-    public function editHasRole(Request $request,$id)
+    public function editHasRole(Request $request, $id)
     {
         $paginate = config('constants.paginate');
 
@@ -304,31 +296,28 @@ class UserController extends Controller
         $paginate = config('constants.paginate');
 
         $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName', 'projects.name as projectName','project_has_user.id')
+            ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
 
-        if (!empty($request->search) || !empty($request->user))
-        {
+        if (!empty($request->search) || !empty($request->user)) {
             $search = $request->search
-                ? '%'.$request->search.'%'
-                : '%'.$request->user.'%' ;
+                ? '%' . $request->search . '%'
+                : '%' . $request->user . '%';
 
             $userHasProject = DB::table('project_has_user')
-                ->select('users.name as userName', 'projects.name as projectName','project_has_user.id')
-                ->where('users.name','like',$search)
+                ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
+                ->where('users.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'project_has_user.user_id')
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
                 ->paginate($paginate);
-        }
-        elseif(!empty($request->project))
-        {
-            $search = '%'.$request->project.'%' ;
+        } elseif (!empty($request->project)) {
+            $search = '%' . $request->project . '%';
 
             $userHasProject = DB::table('project_has_user')
-                ->select('users.name as userName', 'projects.name as projectName','project_has_user.id')
-                ->where('projects.name','like',$search)
+                ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
+                ->where('projects.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'project_has_user.user_id')
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
                 ->paginate($paginate);
@@ -347,20 +336,20 @@ class UserController extends Controller
                 'projects.name as nameProject',
                 'user_id',
                 'project_id')
-            ->where('user_id','=',$useHasProject->user_id)
-            ->where('project_id','=',$useHasProject->project_id)
+            ->where('user_id', '=', $useHasProject->user_id)
+            ->where('project_id', '=', $useHasProject->project_id)
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->first();
 
         $projects = DB::table('projects')
-        ->select('*')
-        ->get();
+            ->select('*')
+            ->get();
 
-        return view('auth/project/editHasProject',compact('hasProject','projects'));
+        return view('auth/project/editHasProject', compact('hasProject', 'projects'));
     }
 
-    public function editHasProject(Request $request,$id)
+    public function editHasProject(Request $request, $id)
     {
         $paginate = config('constants.paginate');
 
@@ -373,7 +362,7 @@ class UserController extends Controller
             ->update($input);
 
         $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName', 'projects.name as projectName','project_has_user.id')
+            ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);

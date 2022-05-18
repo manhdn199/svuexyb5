@@ -149,9 +149,13 @@
                                 <select name="project_id" id="" class="form-control">
                                     <option value="" class="form-control" selected>---</option>
                                     @foreach($projects as $value)
-                                        <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
+                                        <option value="{{$value->id}}" selected
+                                                class="form-control">{{$value->name}}</option>
                                     @endforeach
                                 </select>
+                                @if(!empty($error))
+                                    <span class="alert alert-warning">{{$error}}</span>
+                                @endif
                                 <div style="width: 100%;">
                                     <script
                                         src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -245,9 +249,9 @@
                                         <form action="">
                                             <div id="myDropdown" class="dropdown-content">
                                                 <span>Start</span>
-                                                <input type="date" name="start" class="form-control" value="{{$day}}">
+                                                <input type="date" name="start" class="form-control" value="">
                                                 <span>End</span>
-                                                <input type="date" name="end" class="form-control" value="{{$today}}">
+                                                <input type="date" name="end" class="form-control" value="">
                                             </div>
                                         </form>
 
@@ -255,7 +259,8 @@
                                 @endif
                                 <div style="width: 100%;">
                                     <script
-                                        src="https://cdnjs.clo$request->project_idudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                                        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+                                        type="text/javascript"></script>
                                     <canvas id="myChart1" style="width:50%;max-width:600px"></canvas>
                                     @if(!empty($positionArray))
                                         @if($role == $roleAdmin || $role == $roleManage)

@@ -116,11 +116,11 @@
                             <div class="dropdown">
                                 <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
 {{--                                <div id="myDropdown" class="dropdown-content">--}}
-{{--                                    <div class="radioChoose">--}}
-{{--                                        <input type="radio" name="option" value="name" checked="checked" /> Name--}}
-{{--                                        <input type="radio" name="option" value="detail" /> Detail--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                {{--                                    <div class="radioChoose">--}}
+                                {{--                                        <input type="radio" name="option" value="name" checked="checked" /> Name--}}
+                                {{--                                        <input type="radio" name="option" value="detail" /> Detail--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
                             </div>
                         </form>
                     </div>

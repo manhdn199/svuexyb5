@@ -10,45 +10,47 @@
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
             {{--        menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
                         @if($role == 2 || $role == 1)
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{asset('users')}}" >Users</a>
+                                <a class="nav-link " href="{{asset('users')}}">Users</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
+                                <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                                <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
                             </li>
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('reports') }}" >Reports</a>
+                                <a class="nav-link " href="{{ asset('reports') }}">Reports</a>
                             </li>
                         @else
                             <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ asset('employee_report') }}" >Reports</a>
+                                <a class="nav-link " href="{{ asset('employee_report') }}">Reports</a>
                             </li>
                         @endif
                     </ul>
@@ -83,15 +85,15 @@
                         Working_Type
                         <select name="working_type" id="" class="form-control">
                             @if($report->working_type == 'Remote')
-                            <option value="Remote" selected class="form-control">Remote</option>
+                                <option value="Remote" selected class="form-control">Remote</option>
                             @elseif($report->working_type == 'Offline')
-                            <option value="Offline" selected class="form-control">Offline</option>
+                                <option value="Offline" selected class="form-control">Offline</option>
                             @else
-                            <option value="Onsite" selected class="form-control">Onsite</option>
+                                <option value="Onsite" selected class="form-control">Onsite</option>
                             @endif
-                                <option value="Remote"  class="form-control">Remote</option>
-                                <option value="Offline"  class="form-control">Offline</option>
-                                <option value="Onsite"  class="form-control">Onsite</option>
+                            <option value="Remote" class="form-control">Remote</option>
+                            <option value="Offline" class="form-control">Offline</option>
+                            <option value="Onsite" class="form-control">Onsite</option>
 
                         </select>
                         <br>
@@ -100,7 +102,8 @@
 
                             @foreach( $positions as $value)
                                 @if($value->id == $report->position_id)
-                                    <option value="{{$report->position_id}}" selected class="form-control">{{$value->name}}</option>
+                                    <option value="{{$report->position_id}}" selected
+                                            class="form-control">{{$value->name}}</option>
                                 @else
                                     <option value="{{$value->id}}" class="form-control">{{$value->name}}</option>
                                 @endif
@@ -110,7 +113,8 @@
                         Time
                         <input type="number" name="time" value="{{$report->time}}" class="form-control">
 
-                        <input id="update" type="submit" value="update" disabled="" class="btn btn-primary" style="margin-top:1rem;">
+                        <input id="update" type="submit" value="update" disabled="" class="btn btn-primary"
+                               style="margin-top:1rem;">
                     </form>
                 </div>
             </div>
