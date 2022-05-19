@@ -5,7 +5,7 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $users = auth()->user();
     $role = $users->userHasRole->role_id;
@@ -23,9 +23,11 @@
                     border: solid 1px silver;
                     cursor: pointer;
                 }
-                .radioChoose{
+
+                .radioChoose {
                     margin: 10px;
                 }
+
                 /*.dropbtn:hover, .dropbtn:focus {*/
                 /*    background-color: #2980B9;*/
                 /*}*/
@@ -137,9 +139,9 @@
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
                             <div id="myDropdown" class="dropdown-content">
                                 <div class="radioChoose">
-                                    <input type="radio" name="option" value="name" checked="checked" /> Name
-                                    <input type="radio" name="option" value="email" /> Email
-                                    <input type="radio" name="option" value="tel" /> Tel
+                                    <input type="radio" name="option" value="name" checked="checked"/> Name
+                                    <input type="radio" name="option" value="email"/> Email
+                                    <input type="radio" name="option" value="tel"/> Tel
                                 </div>
                             </div>
                         </div>
@@ -162,17 +164,21 @@
                             </span>
 
                         @endif
+                        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                              rel="stylesheet"
+                              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+                              crossorigin="anonymous">
 
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>gender</th>
-                                <th>Birthday</th>
-                                <th>Tel</th>
-                                <th>Address</th>
+                                <th>@sortablelink('name', __('Name'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('email', __('Email'), ['page' => request()->get('page')])</th>
+                                <th>Gender</th>
+                                <th>@sortablelink('birthday', __('Birthday'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('tel', __('Tel'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('address', __('Address'), ['page' => request()->get('page')])</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -202,7 +208,7 @@
                                 </tr>
                             @endforeach
                         </table>
-                        {{ $user->appends(Request::except('page'))->links() }}
+                        {!! $user->appends(\Request::all())->render() !!}
                     </form>
                 </div>
             </div>
@@ -210,19 +216,17 @@
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function(){
-            $("input[name='option']").live("change", function(){
+        $(document).ready(function () {
+            $("input[name='option']").live("change", function () {
                 if ($(this).val() == "name") {
                     $("input.search").attr("name", "name");
-                }
-                else if ($(this).val() == "email") {
+                } else if ($(this).val() == "email") {
                     $("input.search").attr("name", "email");
-                }
-                else if ($(this).val() == "tel")
-                {
+                } else if ($(this).val() == "tel") {
                     $("input.search").attr("name", "tel");
 
                 }
-            })});
+            })
+        });
     </script>
 @endsection

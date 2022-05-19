@@ -21,15 +21,13 @@ class ProjectController extends Controller
     {
         $paginate = config('constants.paginate');
 
-        $project = DB::table('projects')
-            ->select("*")
+        $project = Projects::sortable()
             ->paginate($paginate);
 
         if (!empty($request->search)) {
             $search = '%' . $request->search . '%';
 
-            $project = DB::table('projects')
-                ->select("*")
+            $project = Projects::sortable()
                 ->where('name', 'like', $search)
                 ->paginate($paginate);
         }

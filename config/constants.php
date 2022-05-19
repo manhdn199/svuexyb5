@@ -4,6 +4,7 @@ return [
     'status' => 'waiting',
     'accept' => ' accept',
     'admin' => 2,
-    'manage' => 1,
+    'manager' => 1,
     'member' => 3,
+    'start' => date('Y-m-01'),
 ];

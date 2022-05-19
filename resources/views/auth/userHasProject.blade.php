@@ -5,7 +5,7 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $users = auth()->user();
     $role = $users->userHasRole->role_id;
@@ -23,9 +23,11 @@
                     border: solid 1px silver;
                     cursor: pointer;
                 }
-                .radioChoose{
+
+                .radioChoose {
                     margin: 10px;
                 }
+
                 /*.dropbtn:hover, .dropbtn:focus {*/
                 /*    background-color: #2980B9;*/
                 /*}*/
@@ -94,7 +96,7 @@
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
                 <nav class="navbar  navbar-dark justify-content-center"
                      style="padding-bottom: 100%; border-right: solid 1px silver">
@@ -138,8 +140,8 @@
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
                             <div id="myDropdown" class="dropdown-content">
                                 <div class="radioChoose">
-                                    <input type="radio" name="option" value="user" checked="checked" /> User
-                                    <input type="radio" name="option" value="project" /> Project
+                                    <input type="radio" name="option" value="user" checked="checked"/> User
+                                    <input type="radio" name="option" value="project"/> Project
                                 </div>
                             </div>
                         </div>

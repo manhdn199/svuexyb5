@@ -19,15 +19,13 @@ class RoleController extends Controller
     {
         $paginate = config('constants.paginate');
 
-        $role = DB::table('roles')
-            ->select("*")
+        $role = Role::sortable()
             ->paginate($paginate);
 
         if (!empty($request->search)) {
             $search = '%' . $request->search . '%';
 
-            $role = DB::table('roles')
-                ->select("*")
+            $role = Role::sortable()
                 ->where('name', 'like', $search)
                 ->paginate($paginate);
         }

@@ -5,13 +5,15 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
     $day = date('01-m-Y');
     $today = date('d-m-Y');
     ?>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <div class="container-fluid">
         <div class="row ">
@@ -169,26 +171,18 @@
 
                         <table style="text-align: center" class="table">
                             <tr>
-                                <th>Detail</th>
-                                <th>User</th>
-                                <th>
-                                    Project
+                                <th>@sortablelink('detail', __('Detail'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('user', __('User'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('project', __('Project'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('position', __('Position'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('working_time', __('Working_time'), ['page' =>
+                                    request()->get('page')])
                                 </th>
-                                <th>
-                                    Position
+                                <th>@sortablelink('working_type', __('Working_type'), ['page' =>
+                                    request()->get('page')])
                                 </th>
-                                <th>
-                                    Working_time
-                                </th>
-                                <th>
-                                    Working_type
-                                </th>
-                                <th>
-                                    Time
-                                </th>
-                                <th>
-                                    Status
-                                </th>
+                                <th>@sortablelink('time', __('Time'), ['page' => request()->get('page')])</th>
+                                <th>@sortablelink('status', __('Status'), ['page' => request()->get('page')])</th>
                                 <th>
                                     Action
                                 </th>
@@ -250,7 +244,7 @@
                                 </tr>
                             @endforeach
                         </table>
-                        {{ $report->appends(Request::except('page'))->links() }}
+                        {{ $report->appends(Request::all())->render() }}
                     </form>
 
                 </div>
