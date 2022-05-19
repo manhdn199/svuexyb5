@@ -5,38 +5,42 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $roler = $user->userHasRole->role_id;
     $day = date('01-m-Y');
     $today = date('d-m-Y');
     ?>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
                         @if($roler == $roleManage || $roler == $roleAdmin)
@@ -89,7 +93,7 @@
                         <table class="table">
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>@sortablelink('name', __('Name'), ['page' => request()->get('page')])</th>
                                 <th>Action</th>
                             </tr>
                             @foreach($role as $key => $value)
@@ -98,12 +102,14 @@
                                     <td>{{ $value->name  }}</td>
                                     <td>
                                         <a href="{{ route('viewEditRole',$value->id) }}"> Edit</a>
-                                        <a onclick="return confirm('Do u want delete?')" href="{{route('deleteRole',$value->id)}}">Delete</a>
+                                        <a onclick="return confirm('Do u want delete?')"
+                                           href="{{route('deleteRole',$value->id)}}">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
                         </table>
-                        {{ $role->links() }}
+                        {!! $role->appends(\Request::all())->render() !!}
+
 
                     </form>
                 </div>

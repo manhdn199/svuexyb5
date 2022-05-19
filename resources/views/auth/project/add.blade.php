@@ -5,7 +5,7 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
@@ -16,27 +16,29 @@
     <div class="container-fluid">
         <div class="row ">
             <style>
-                .menu_beet>nav>ul>li>a{
+                .menu_beet > nav > ul > li > a {
                     color: black !important;
                     width: 100%;
                 }
-                .menu_beet>nav>ul{
+
+                .menu_beet > nav > ul {
                     width: 100%;
                 }
 
-                .menu_beet>nav>ul>li{
+                .menu_beet > nav > ul > li {
                     margin: 2px 0 2px 0;
 
                 }
 
-                .menu_beet>nav>ul>li:hover{
-                    background: silver ;
+                .menu_beet > nav > ul > li:hover {
+                    background: silver;
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center" style="padding-bottom: 100%; border-right: solid 1px silver">
+                <nav class="navbar  navbar-dark justify-content-center"
+                     style="padding-bottom: 100%; border-right: solid 1px silver">
                     <!-- Links -->
                     <ul class="navbar-nav">
                         @if($role == $roleManage || $role == $roleAdmin)
@@ -78,7 +80,8 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                   name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                             @error('name')
                             <span class="invalid-feedback" role="alert">
@@ -92,7 +95,8 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Detail') }}</label>
 
                         <div class="col-md-6">
-                            <input id="detail" type="text" class="form-control @error('detail') is-invalid @enderror" name="detail" value="{{ old('detail') }}" required autocomplete="name" autofocus>
+                            <input id="detail" type="text" class="form-control @error('detail') is-invalid @enderror"
+                                   name="detail" value="{{ old('detail') }}" required autocomplete="name" autofocus>
 
                             @error('detail')
                             <span class="invalid-feedback" role="alert">
@@ -106,7 +110,9 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Duration') }}</label>
 
                         <div class="col-md-6">
-                            <input id="duration" type="text" class="form-control @error('duration') is-invalid @enderror" name="duration" value="{{ old('duration') }}" required autocomplete="name" autofocus>
+                            <input id="duration" type="text"
+                                   class="form-control @error('duration') is-invalid @enderror" name="duration"
+                                   value="{{ old('duration') }}" required autocomplete="name" autofocus>
 
                             @error('duration')
                             <span class="invalid-feedback" role="alert">
@@ -120,7 +126,8 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Revenue') }}</label>
 
                         <div class="col-md-6">
-                            <input id="revenue" type="text" class="form-control @error('revenue') is-invalid @enderror" name="revenue" value="{{ old('revenue') }}" required autocomplete="name" autofocus>
+                            <input id="revenue" type="text" class="form-control @error('revenue') is-invalid @enderror"
+                                   name="revenue" value="{{ old('revenue') }}" required autocomplete="name" autofocus>
 
                             @error('revenue')
                             <span class="invalid-feedback" role="alert">
@@ -134,7 +141,8 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Date_Start') }}</label>
 
                         <div class="col-md-6">
-                            <input id="Date_Start" type="date" class="form-control @error('start') is-invalid @enderror" name="start" value="{{old('start') }}" required autocomplete="name" autofocus>
+                            <input id="Date_Start" type="date" class="form-control @error('start') is-invalid @enderror"
+                                   name="start" value="{{old('start') }}" required autocomplete="name" autofocus>
 
                             @error('start')
                             <span class="invalid-feedback" role="alert">
@@ -153,7 +161,8 @@
                         <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Date_End') }}</label>
 
                         <div class="col-md-6">
-                            <input id="end" type="date" class="form-control @error('end') is-invalid @enderror" name="end" value="{{old('end')}}" required autocomplete="name" autofocus>
+                            <input id="end" type="date" class="form-control @error('end') is-invalid @enderror"
+                                   name="end" value="{{old('end')}}" required autocomplete="name" autofocus>
 
                             @error('end')
                             <span class="invalid-feedback" role="alert">

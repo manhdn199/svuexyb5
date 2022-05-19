@@ -5,13 +5,13 @@
                 <!-- Links -->
                 <ul class="navbar-nav">
                     <li class="nav-item btn btn-success">
-                        <a class="nav-link " href="{{asset('users')}}" >Users</a>
+                        <a class="nav-link " href="{{asset('users')}}">Users</a>
                     </li>
                     <li class="nav-item btn btn-success">
-                        <a class="nav-link " href="{{ asset('roles') }}" >Roles</a>
+                        <a class="nav-link " href="{{ asset('roles') }}">Roles</a>
                     </li>
                     <li class="nav-item btn btn-success">
-                        <a class="nav-link " href="{{ asset('projects') }}" >Projects</a>
+                        <a class="nav-link " href="{{ asset('projects') }}">Projects</a>
                     </li>
                 </ul>
             </nav>

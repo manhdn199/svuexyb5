@@ -18,7 +18,7 @@ class ReportController extends Controller
     {
         $paginate = config('constants.paginate');
 
-        $reports = DB::table('reports')
+        $reports = Report::sortable()
             ->select('reports.detail',
                 'projects.name as projectName',
                 'reports.working_time',
@@ -39,7 +39,7 @@ class ReportController extends Controller
                 ? '%' . $request->search . '%'
                 : '%' . $request->user . '%';
 
-            $reports = DB::table('reports')
+            $reports = Report::sortable()
                 ->select('reports.detail',
                     'projects.name as projectName',
                     'reports.working_time',
@@ -58,7 +58,7 @@ class ReportController extends Controller
         } elseif (!empty($request->project)) {
             $search = '%' . $request->project . '%';
 
-            $reports = DB::table('reports')
+            $reports = Report::sortable()
                 ->select('reports.detail',
                     'projects.name as projectName',
                     'reports.working_time',
@@ -77,7 +77,7 @@ class ReportController extends Controller
         } elseif (!empty($request->position)) {
             $search = '%' . $request->position . '%';
 
-            $reports = DB::table('reports')
+            $reports = Report::sortable()
                 ->select('reports.detail',
                     'projects.name as projectName',
                     'reports.working_time',
@@ -99,7 +99,7 @@ class ReportController extends Controller
             $search = '%' . $request->working_type . '%';
 
 
-            $reports = DB::table('reports')
+            $reports = Report::sortable()
                 ->select('reports.detail',
                     'projects.name as projectName',
                     'reports.working_time',

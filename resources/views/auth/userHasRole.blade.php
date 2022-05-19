@@ -5,7 +5,7 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
@@ -96,7 +96,7 @@
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
                 <nav class="navbar  navbar-dark justify-content-center"
                      style="padding-bottom: 100%; border-right: solid 1px silver">
@@ -140,8 +140,8 @@
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
                             <div id="myDropdown" class="dropdown-content">
                                 <div class="radioChoose">
-                                    <input type="radio" name="option" value="user" checked="checked" /> User
-                                    <input type="radio" name="option" value="role" /> Role
+                                    <input type="radio" name="option" value="user" checked="checked"/> User
+                                    <input type="radio" name="option" value="role"/> Role
                                 </div>
                             </div>
                         </div>
@@ -198,15 +198,15 @@
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function(){
-            $("input[name='option']").live("change", function(){
+        $(document).ready(function () {
+            $("input[name='option']").live("change", function () {
                 if ($(this).val() == "user") {
                     $("input.search").attr("name", "user");
-                }
-                else if ($(this).val() == "role") {
+                } else if ($(this).val() == "role") {
                     $("input.search").attr("name", "role");
                 }
-            })});
+            })
+        });
     </script>
 @endsection
 

@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Kyslik\ColumnSortable\Sortable;
+
 
 class UserController extends Controller
 {
@@ -23,32 +25,26 @@ class UserController extends Controller
     {
         $paginate = config('constants.paginate');
 
-        $user = DB::table('users')
-            ->select("*")
-            ->paginate($paginate);
+        $user = User::sortable()->paginate($paginate);
 
         if (!empty($request->search) || !empty($request->name)) {
             $search = $request->search
                 ? '%' . $request->search . '%'
                 : '%' . $request->name . '%';
 
-            $user = DB::table('users')
-                ->select("*")
-                ->where('name', 'like', $search)
+            $user = User::sortable()->where('name', 'like', $search)
                 ->paginate($paginate);
+
         } elseif (!empty($request->email)) {
             $search = '%' . $request->email . '%';
 
-            $user = DB::table('users')
-                ->select("*")
-                ->where('email', 'like', $search)
+            $user = User::sortable()->where('email', 'like', $search)
                 ->paginate($paginate);
+
         } elseif (!empty($request->tel)) {
             $search = '%' . $request->tel . '%';
 
-            $user = DB::table('users')
-                ->select("*")
-                ->where('tel', 'like', $search)
+            $user = User::sortable()->where('tel', 'like', $search)
                 ->paginate($paginate);
         }
 

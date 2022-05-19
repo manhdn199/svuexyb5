@@ -5,13 +5,15 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
     $day = date('01-m-Y');
     $today = date('d-m-Y');
     ?>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <div class="container-fluid">
         <div class="row ">
@@ -36,7 +38,7 @@
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
                 <nav class="navbar  navbar-dark justify-content-center"
                      style="padding-bottom: 100%; border-right: solid 1px silver">

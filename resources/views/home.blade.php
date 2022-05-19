@@ -5,7 +5,7 @@
 @section('content')
     <?php
     $roleAdmin = config('constants.admin');
-    $roleManage = config('constants.manage');
+    $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
@@ -189,6 +189,13 @@
                                                         title: {
                                                             display: true,
                                                             text: "Total tim use on Project & sum by role "
+                                                        },
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    beginAtZero: true
+                                                                }
+                                                            }]
                                                         }
                                                     }
                                                 });
@@ -223,7 +230,15 @@
                                                         title: {
                                                             display: true,
                                                             text: "Total tim use in Project "
+                                                        },
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    beginAtZero: true
+                                                                }
+                                                            }]
                                                         }
+
                                                     }
                                                 });
                                             </script>
@@ -291,6 +306,13 @@
                                                         title: {
                                                             display: true,
                                                             text: "Time use in project by Member"
+                                                        },
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    beginAtZero: true
+                                                                }
+                                                            }]
                                                         }
                                                     }
                                                 });
@@ -309,7 +331,7 @@
                                                 yValues1.push({{$value}});
                                                 @endforeach
                                                 console.log(yValues);
-                                                var barColors = [ "red","green", "blue", "yellow"];
+                                                var barColors = ["red", "green", "blue", "yellow"];
 
                                                 new Chart("myChart1", {
                                                     type: "bar",
@@ -325,6 +347,13 @@
                                                         title: {
                                                             display: true,
                                                             text: "Total tim use in Project by Type "
+                                                        },
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    beginAtZero: true
+                                                                }
+                                                            }]
                                                         }
                                                     }
                                                 });

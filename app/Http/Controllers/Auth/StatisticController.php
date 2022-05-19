@@ -14,8 +14,9 @@ class StatisticController extends Controller
     public function StatisticProject(Request $request)
     {
         $roleAdmin = config('constants.admin');
-        $roleManage = config('constants.manage');
+        $roleManage = config('constants.manager');
         $roleMember = config('constants.member');
+        $startByMonth = config('constants.start');
         $user_id = Auth::user()->id;
         $user = Auth::user();
         $role = $user->userHasRole->role_id;
@@ -26,6 +27,7 @@ class StatisticController extends Controller
 
             $users = DB::table('users')
                 ->get();
+
             $positions = DB::table('positions')
                 ->get();
 
@@ -90,7 +92,7 @@ class StatisticController extends Controller
                 $timeEnd = $request->end;
 
                 if (empty($request->start)) {
-                    $timeStart = date('Y-m-01');
+                    $timeStart = $startByMonth;
                 }
 
                 if (empty($request->end)) {
