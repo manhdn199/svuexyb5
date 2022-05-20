@@ -37,39 +37,8 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
+                @include('layouts.menu')
 
-                    </ul>
-                </nav>
                 {{--end_menu--}}
             </div>
             <div class="col-md">
@@ -91,7 +60,35 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Permission') }}</label>
+                            <div class="col-md-6">
+                                <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+                                <select class="js-example-basic-multiple form-control @if(!empty($_GET['errorSetPermission'])) is-invalid @endif " name="permissions[]" multiple="multiple">
+                                    @foreach($permissions as $value)
+                                        <option value="{{$value->id}}" >{{$value->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                @if(!empty($_GET['errorSetPermission']))
+                                    <span class="invalid-feedback" role="alert">
+                                <strong>{{ $_GET['errorSetPermission'] }}
+                                </strong>
+                            </span>
+                                @endif
+                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" type="text/javascript"></script>
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $('.js-example-basic-multiple').select2({
+                                            tags:true,
+                                            tokenSeparators: [',', ' ']
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

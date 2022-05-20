@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Charts\StatisticPositionChart;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmail;
 use App\Models\Report;
+use App\Models\User;
+use App\Models\UserhasRole;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +21,21 @@ class StatisticController extends Controller
         $roleManage = config('constants.manager');
         $roleMember = config('constants.member');
         $startByMonth = config('constants.start');
-        $user_id = Auth::user()->id;
+
         $user = Auth::user();
+        $user_id = $user->id;
+        $role = DB::table('user_has_role')
+            ->select('role_id')
+            ->where('user_id', '=',$user_id)
+            ->first();
+
+        if(empty($role) ){
+            \cache()->flush();
+
+            return view('auth/login');
+
+        }
+
         $role = $user->userHasRole->role_id;
 
         if ($role == $roleAdmin || $role == $roleManage) {

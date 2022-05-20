@@ -6,27 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 
-class UserhasRole extends Model
+class RoleHasPermission extends Model
 {
-    use HasFactory, Sortable;
-    protected $table = 'user_has_role';
+    use HasFactory,Sortable;
+    protected $table = 'role_has_permission';
     protected $fillable = [
-        'user_id',
+        'permission_id',
         'role_id',
     ];
     protected $sortable = [
-        'user_id',
+        'permission_id',
         'role_id',
     ];
-    public function hasUser()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    public function hasRole()
+
+    public function hasRolePermission()
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    public function hasPermission()
+    {
+        return $this->belongsTo(Permission::class, 'permission_id');
+    }
 }
-
-

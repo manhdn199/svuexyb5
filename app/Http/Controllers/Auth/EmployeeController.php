@@ -308,6 +308,6 @@ class EmployeeController extends Controller
         $report = Report::findOrFail($id);
         $report->delete();
 
-        return redirect()->route('reports');
+        return redirect()->route('reportsEmployee');
     }
 }
