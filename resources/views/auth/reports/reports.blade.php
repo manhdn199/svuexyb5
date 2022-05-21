@@ -173,6 +173,7 @@
 
             <div class="col-md">
                 <div style="margin-bottom: 1rem">
+{{--form search--}}
                     <form action="{{ $_SERVER['REQUEST_URI'] }}" method="get">
                         <div class="dropdown">
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
@@ -184,6 +185,7 @@
                             </div>
                         </div>
                     </form>
+{{--end form search--}}
 
                 </div>
 
@@ -204,6 +206,7 @@
                 </div>
                 {{--end form Filter--}}
                 <div>
+                {{--report by employee--}}
                     <form action="" method="post">
                         @csrf
 
@@ -289,6 +292,8 @@
 
                         </div>
                     </div>
+                {{--end report by employee--}}
+
                 </div>
             </div>
         </div>

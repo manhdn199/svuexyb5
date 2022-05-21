@@ -43,7 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
-
+{{--form edit report--}}
                     <form action="{{route('editReport',$report->id)}}" method="post">
                         @csrf
                         {{--    @dd($report)--}}
@@ -100,6 +100,7 @@
                         <input id="update" type="submit" value="update" disabled="" class="btn btn-primary"
                                style="margin-top:1rem;">
                     </form>
+{{--end form edit report--}}
                 </div>
             </div>
         </div>

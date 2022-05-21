@@ -117,8 +117,10 @@
                     </form>
 
                 </div>
+
                 <div>
                     <a class="btn btn-success" href="{{ route('viewAddUser') }}">Add</a>
+                    {{--form users--}}
                     <form action="" method="post">
                         @csrf
                         @if(!empty($errors))
@@ -179,6 +181,7 @@
                         </table>
                         {!! $user->appends(\Request::all())->render() !!}
                     </form>
+                    {{--end form users--}}
                 </div>
             </div>
         </div>

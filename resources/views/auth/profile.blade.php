@@ -43,6 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--profile--}}
                     <form method="POST" action="{{ route('editProfile') }}">
                         @csrf
 
@@ -66,7 +67,7 @@
                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                <input id="email" type="email" class="form-control @if(!empty($error_email)) is-invalid @endif @error('email') is-invalid @enderror"
                                        name="email" value="{{ $user->email }}" autocomplete="email">
 
                                 @error('email')
@@ -74,6 +75,11 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                @if(!empty($error_email))
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $error_email }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -125,7 +131,7 @@
                             <label class="col-md-4 col-form-label text-md-end">{{ __('Tel') }}</label>
 
                             <div class="col-md-6">
-                                <input id="tel" type="number" class="form-control @error('tel') is-invalid @enderror"
+                                <input id="tel" type="text" class="form-control @error('tel') is-invalid @enderror"
                                        name="tel" value="{{ $user->tel }}">
                                 @error('tel')
                                 <span class="invalid-feedback" role="alert">
@@ -161,7 +167,7 @@
                             </div>
                         </div>
                     </form>
-
+                    {{--end profile--}}
                 </div>
             </div>
         </div>

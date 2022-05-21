@@ -43,6 +43,7 @@
             </div>
 
             <div class="col-md">
+                {{--form edit role--}}
                 <form method="POST" action="{{route('editRole',$roless->id)}}">
                     @csrf
 
@@ -103,6 +104,7 @@
                         </div>
                     </div>
                 </form>
+                {{--end form edit role--}}
 
             </div>
 

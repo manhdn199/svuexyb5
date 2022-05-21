@@ -38,9 +38,9 @@
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
                 @include('layouts.menu')
-
-                {{--end_menu--}}
+            {{--end_menu--}}
             </div>
+            {{--form add project--}}
             <div class="col-md">
                 <div>
                     <form action="{{route('addProject')}}" method="post">
@@ -155,6 +155,7 @@
                     </form>
                 </div>
             </div>
+            {{--end form add project--}}
         </div>
     </div>
 @endsection

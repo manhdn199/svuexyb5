@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckAdminLogin;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\PermissionUser;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -75,5 +76,11 @@ class Kernel extends HttpKernel
         'loginByManager' => \App\Http\Middleware\LoginByManager::class,
         'loginByMember' => \App\Http\Middleware\LoginByMember::class,
         'loginByManagerOrAdmin' => \App\Http\Middleware\LoginByManagerOrAdmin::class,
+        'PerUser' => \App\Http\Middleware\PermissionUser::class,
+        'PerProject' => \App\Http\Middleware\PermissionProject::class,
+        'PerUserHasRole' => \App\Http\Middleware\PermissionUserHasRole::class,
+        'PerUserHasProject' => \App\Http\Middleware\PermissionUserHasProject::class,
+        'PerReports' => \App\Http\Middleware\PermissionReport::class,
+
     ];
 }

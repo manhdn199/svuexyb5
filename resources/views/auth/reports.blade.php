@@ -46,6 +46,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--form create report--}}
                     <form action="{{route('addReport')}}" method="post">
                         @csrf
 
@@ -121,7 +122,7 @@
                             Add
                         </button>
                     </form>
-
+                    {{--end form create report--}}
                 </div>
             </div>
         </div>

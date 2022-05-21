@@ -43,6 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--form add user has role--}}
                     <form method="POST" action="{{ route('addUserHasRole') }}">
                         @csrf
                         <table class="table">
@@ -90,8 +91,7 @@
                             </div>
                         </div>
                     </form>
-
-
+                    {{--end form add user has role--}}
                 </div>
             </div>
         </div>

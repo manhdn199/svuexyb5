@@ -43,6 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--form edit user--}}
                     <form method="POST" action="{{route('edit',$user->id)}}">
                         @csrf
 
@@ -153,6 +154,7 @@
                             </div>
                         </div>
                     </form>
+                    {{--end form edit user--}}
 
                 </div>
             </div>

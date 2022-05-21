@@ -22,7 +22,7 @@ use Kyslik\ColumnSortable\Sortable;
 
 class UserController extends Controller
 {
-
+//show all users
     public function users(Request $request)
     {
 
@@ -53,7 +53,7 @@ class UserController extends Controller
 
         return view('auth/users', compact('user'));
     }
-
+// view edit user
     public function viewEdit($id)
     {
         $user = DB::table('users')
@@ -62,10 +62,9 @@ class UserController extends Controller
 
         return view('auth/edit', ['user' => $user]);
     }
-
+// edit user
     public function edit(Request $request, $id)
     {
-//        $input = $request->all();
         $input = [];
         $input['password'] = Hash::make($request->password);
         $input['name'] = $request->name;
@@ -81,12 +80,12 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
-
+//view add user
     public function viewAdd()
     {
         return view('auth/add');
     }
-
+//add user
     public function add(UserRequest $request)
     {
         $input = [];
@@ -103,7 +102,7 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
-
+// delete user
     public function delete($id)
     {
         $paginate = config('constants.paginate');
@@ -127,7 +126,7 @@ class UserController extends Controller
 
         return view('auth/users', compact('errors', 'user'));
     }
-
+// view add user has role
     public function viewAddRole()
     {
         $user = DB::table('users')
@@ -178,7 +177,7 @@ class UserController extends Controller
         return \redirect()->route('userHasRole', compact('userHasRole'));
 
     }
-
+//view list user has role
     public function userHasRole(Request $request)
     {
         $paginate = config('constants.paginate');
@@ -220,7 +219,7 @@ class UserController extends Controller
 
         return view('auth/userHasRole', compact('userHasRole'));
     }
-
+// view edit user has role
     public function viewEditRole($id)
     {
         $useHasRole = UserhasRole::findOrFail($id);
@@ -241,7 +240,7 @@ class UserController extends Controller
 
         return view('auth/roles/editHasRole', compact('hasRole', 'roles'));
     }
-
+// edit user has role
     public function editHasRole(Request $request, $id)
     {
         $paginate = config('constants.paginate');
@@ -264,7 +263,7 @@ class UserController extends Controller
 
         return \redirect()->route('userHasRole');
     }
-
+// delete user has role
     public function deleteHasRole($id)
     {
         $userhasRole = UserhasRole::findOrFail($id);
@@ -285,7 +284,7 @@ class UserController extends Controller
 
 
     }
-
+// view list user has project
     public function userHasProject()
     {
         $paginate = config('constants.paginate');

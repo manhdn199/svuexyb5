@@ -30,7 +30,8 @@ class UserRequest extends FormRequest
             'name' => 'required|max:255',
             'gender' => 'required',
             'email'=>'email|required|unique:users',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|min:8',
             'birthday' =>'required|date|before:'.now()->subYears(18)->toDateString(),
             'tel' => 'required',
             'address' => 'required'

@@ -64,10 +64,13 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
+    // Edit profile
     public function editProfile(UserUpdateRequest $request)
     {
         $user = Auth::user();
+        $emailUser = $user->email;
         $id = $user->id;
+
         $input = [];
         $input['password'] = Hash::make($request->password);
         $input['name'] = $request->name;
@@ -77,13 +80,15 @@ class EmployeeController extends Controller
         $input['tel'] = $request->tel;
         $input['address'] = $request->address;
 
+        $checkEmail = User::select('email')->get();
+
         DB::table('users')
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('home');
+        return redirect()->route('statistic');
     }
-
+//view Profile
     public function showProfile()
     {
         $user = Auth::user();
@@ -113,7 +118,7 @@ class EmployeeController extends Controller
     {
         //
     }
-
+// Show reports
     public function showReports(Request $request)
     {
         $paginate = config('constants.paginate');
@@ -190,7 +195,7 @@ class EmployeeController extends Controller
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }
-
+// Show edit report
     public function showEditReport($id)
     {
         $report = DB::table('reports')
@@ -212,7 +217,7 @@ class EmployeeController extends Controller
 
         return view('auth/reports/edit', compact('report', 'project', 'positions'));
     }
-
+// Edit report
     public function editReport(Request $request, $id)
     {
         $positions = DB::table('positions')
@@ -233,7 +238,7 @@ class EmployeeController extends Controller
 
         return redirect()->route('reports');
     }
-
+// show form create report
     public function showFormReport()
     {
         $user = Auth::user();
@@ -251,7 +256,7 @@ class EmployeeController extends Controller
 
         return view('auth/reports', compact('user', 'project', 'positions'));
     }
-
+// Create report
     public function addReport(AddReportRequest $request)
     {
         $user = Auth::user();
@@ -302,7 +307,7 @@ class EmployeeController extends Controller
         }
 
     }
-
+// Delete report if status: waiting
     public function deleteReport($id)
     {
         $report = Report::findOrFail($id);

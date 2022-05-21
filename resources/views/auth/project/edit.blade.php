@@ -41,8 +41,10 @@
 
                 {{--end_menu--}}
             </div>
+
             <div class="col-md">
                 <div>
+                    {{--view form edit project--}}
                     <form method="POST" action="{{route('editProject',$project->id)}}">
                         @csrf
 
@@ -156,8 +158,9 @@
                             </div>
                         </div>
                     </form>
+                    {{--end form edit project--}}
                 </div>
-                {{--project member--}}
+                {{--form project member report--}}
                 <div style="margin-top: 1rem">
                     <h2>User report this project</h2>
                     <table class="table ">
@@ -185,6 +188,29 @@
                         @endforeach
                     </table>
                 </div>
+                {{--end form project member report--}}
+
+                {{--form project member --}}
+                <div style="margin-top: 1rem">
+                    <h2>User in project</h2>
+                    <table class="table ">
+                        <tr>
+                            <th>
+                                User
+                            </th>
+                        </tr>
+                        @foreach($nameUser as $key => $value)
+                            <tr>
+                                <td>
+                                    {{$value->nameUser}}
+                                </td>
+
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                {{--end form project member --}}
+
             </div>
         </div>
     </div>

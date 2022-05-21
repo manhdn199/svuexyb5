@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
 {
+    // view home with statistic
     public function StatisticProject(Request $request)
     {
         $roleAdmin = config('constants.admin');

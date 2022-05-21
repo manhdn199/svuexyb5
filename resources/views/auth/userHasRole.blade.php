@@ -118,9 +118,9 @@
 
                 </div>
                 <div>
+                    {{--form user has role--}}
                     <form method="POST" >
                         @csrf
-
                         <div class="row mb-3">
                             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
                                   rel="stylesheet"
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                     </form>
-
+                    {{--form user has role--}}
                 </div>
             </div>
         </div>

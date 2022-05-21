@@ -14,6 +14,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // show reports by all user
     public function index(Request $request)
     {
         $paginate = config('constants.paginate');
@@ -158,6 +159,7 @@ class ReportController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
+    // accept reports
     public function edit($id)
     {
         $accept = config('constants.accept');

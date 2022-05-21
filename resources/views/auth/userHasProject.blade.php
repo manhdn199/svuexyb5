@@ -119,6 +119,7 @@
                 </div>
 
                 <div>
+                    {{--form user has project--}}
                     <form method="get" action="">
                         @csrf
 
@@ -161,6 +162,7 @@
                             </a>
                         </div>
                     </div>
+                    {{--end form user has project--}}
                 </div>
             </div>
         </div>

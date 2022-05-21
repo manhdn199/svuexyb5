@@ -43,6 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
+{{--add role--}}
                     <form method="POST" action="{{ route('addRole') }}">
                         @csrf
 
@@ -100,6 +101,7 @@
                             </div>
                         </div>
                     </form>
+{{--end form add role--}}
                 </div>
             </div>
         </div>

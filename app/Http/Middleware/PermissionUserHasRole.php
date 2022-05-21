@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LoginByAdmin
+class PermissionUserHasRole
 {
     /**
      * Handle an incoming request.
@@ -19,32 +19,29 @@ class LoginByAdmin
     public function handle(Request $request, Closure $next)
     {
         $roleAdmin = config('constants.admin');
-
-        $perRoles = config('constants.Roles');
+        $roleManager = config('constants.manager');
+        $perUserHasRole = config('constants.UserAddRole');
         $user =Auth::user();
         $role = $user->userHasRole->role_id;
 
-        $permission = RoleHasPermission::select('*')
+        $permissionInRole = RoleHasPermission::select('*')
             ->where('role_id','=',$role)
             ->get();
 
-        foreach($permission as $value)
+        foreach ($permissionInRole as $value)
         {
-            if ($value->permission_id == $perRoles)
+            if ($value->permission_id == $perUserHasRole)
             {
                 return $next($request);
             }
         }
-
-        if (!($role == $roleAdmin))
+        if ($role == $roleAdmin || $role == $roleManager)
         {
-            return redirect()->route('statistic');
+            return $next($request);
         }
         else
         {
-            return $next($request);
-
+            return redirect()->route('statistic');
         }
-
     }
 }

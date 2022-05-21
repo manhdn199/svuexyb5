@@ -25,7 +25,7 @@ class RoleController extends Controller
         $this->reportByEmployee = config('constants.reportbyemployee');
         $this->errorReportEmployee = config('constants.errorReportEmployee');
     }
-
+//show all roles
     public function roles(Request $request)
     {
         $paginate = config('constants.paginate');
@@ -43,7 +43,7 @@ class RoleController extends Controller
 
         return view('auth/roles/roles', compact('roles'));
     }
-
+//view edit role
     public function viewEdit($id)
     {
         $edit = DB::table('roles')
@@ -73,7 +73,7 @@ class RoleController extends Controller
         }
 
     }
-
+// edit role
     public function edit(Request $request, $id)
     {
         $input = [];
@@ -100,14 +100,14 @@ class RoleController extends Controller
 
         return redirect()->route('roles');
     }
-
+// view add role
     public function viewAdd()
     {
         $permissions = Permission::all();
 
         return view('auth/roles/add',compact('permissions'));
     }
-
+//add role
     public function add(Request $request)
     {
         $input = [];
@@ -134,7 +134,7 @@ class RoleController extends Controller
 
         return redirect()->route('roles');
     }
-
+//delete role
     public function delete($id)
     {
         $paginate = config('constants.paginate');

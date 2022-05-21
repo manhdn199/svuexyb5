@@ -100,7 +100,6 @@
             <!--menu-->
             <div class="col-md-3 menu_beet" style="height: 100%">
                 @include('layouts.menu')
-
                 {{--end_menu--}}
             </div>
             <div class="col-md">
@@ -134,7 +133,7 @@
                     </form>
                 </div>
                 <div>
-
+                    {{--show reports --}}
                     <form action="" method="post">
                         @csrf
 
@@ -215,6 +214,7 @@
                         </table>
                         {{ $report->appends(Request::all())->render() }}
                     </form>
+                    {{--end show reports --}}
 
                 </div>
             </div>

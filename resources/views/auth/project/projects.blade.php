@@ -100,26 +100,29 @@
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
                 @include('layouts.menu')
-
-                {{--end_menu--}}
+            {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div style="margin-bottom: 1rem">
                     <div>
+                        {{--form search--}}
                         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="get">
                             <div class="dropdown">
                                 <input type="text" name="search" class="dropbtn form-control search"
                                        placeholder="Search">
-                                {{--                                <div id="myDropdown" class="dropdown-content">--}}
-                                {{--                                    <div class="radioChoose">--}}
-                                {{--                                        <input type="radio" name="option" value="name" checked="checked" /> Name--}}
-                                {{--                                        <input type="radio" name="option" value="detail" /> Detail--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
+                                <div id="myDropdown" class="dropdown-content">
+                                    <div class="radioChoose">
+                                        <input type="radio" name="option" value="name" checked="checked" /> Name
+                                        <input type="radio" name="option" value="detail" /> Detail
+                                    </div>
+                                </div>
                             </div>
                         </form>
+                        {{--end form search--}}
+
                     </div>
                 </div>
+                {{--show projects--}}
                 <div>
                     <a class="btn btn-success" href="{{ route('viewAddProject') }}">Add</a>
                     <form action="" method="post">
@@ -168,6 +171,8 @@
                         {!! $project->appends(\Request::all())->render() !!}
                     </form>
                 </div>
+                {{--show projects--}}
+
             </div>
         </div>
     </div>

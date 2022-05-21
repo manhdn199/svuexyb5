@@ -41,8 +41,10 @@
 
                 {{--end_menu--}}
             </div>
+
             <div class="col-md">
                 <div>
+{{--view form edit user has project--}}
                     <form method="POST" action="{{ route('editHasProject',$hasProject->id) }}">
                         @csrf
                         <table class="table">
@@ -92,7 +94,7 @@
                             </div>
                         </div>
                     </form>
-
+{{--end form edit user has project--}}
 
                 </div>
             </div>

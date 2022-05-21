@@ -45,6 +45,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--form roles--}}
                     <a class="btn btn-success" href="{{ route('viewAddRole') }}">Add</a>
                     <form action="" method="post">
                         @csrf
@@ -81,6 +82,7 @@
 
 
                     </form>
+                    {{--end form roles--}}
                 </div>
             </div>
         </div>

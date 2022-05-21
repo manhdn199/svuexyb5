@@ -43,6 +43,7 @@
             </div>
             <div class="col-md">
                 <div>
+                    {{--form add user has project--}}
                     <form method="POST" action="{{ route('addUserHasProject') }}">
                         @csrf
 
@@ -92,7 +93,7 @@
                             </div>
                         </div>
                     </form>
-
+                    {{--end form add user has project--}}
                 </div>
             </div>
         </div>
