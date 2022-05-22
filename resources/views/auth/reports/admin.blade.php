@@ -99,39 +99,7 @@
             </style>
             <!--menu-->
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </nav>
+                @include('layouts.menu')
                 {{--end_menu--}}
             </div>
             <div class="col-md">
@@ -165,7 +133,7 @@
                     </form>
                 </div>
                 <div>
-
+                    {{--show reports --}}
                     <form action="" method="post">
                         @csrf
 
@@ -237,7 +205,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($value->status = 'waiting')
+                                        @if($value->status == 'waiting')
                                             <a href="{{route('acceptReport',$value->id)}}">Accept</a>
                                         @endif
                                     </td>
@@ -246,6 +214,7 @@
                         </table>
                         {{ $report->appends(Request::all())->render() }}
                     </form>
+                    {{--end show reports --}}
 
                 </div>
             </div>

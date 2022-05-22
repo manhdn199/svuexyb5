@@ -8,10 +8,12 @@ use App\Models\MemberList;
 use App\Models\ProjectHasUser;
 use App\Models\Projects;
 use App\Models\Role;
+use App\Models\RoleHasPermission;
 use App\Models\User;
 use App\Models\UserhasRole;
 use Database\Seeders\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -20,9 +22,10 @@ use Kyslik\ColumnSortable\Sortable;
 
 class UserController extends Controller
 {
-
+//show all users
     public function users(Request $request)
     {
+
         $paginate = config('constants.paginate');
 
         $user = User::sortable()->paginate($paginate);
@@ -50,7 +53,7 @@ class UserController extends Controller
 
         return view('auth/users', compact('user'));
     }
-
+// view edit user
     public function viewEdit($id)
     {
         $user = DB::table('users')
@@ -59,10 +62,9 @@ class UserController extends Controller
 
         return view('auth/edit', ['user' => $user]);
     }
-
+// edit user
     public function edit(Request $request, $id)
     {
-//        $input = $request->all();
         $input = [];
         $input['password'] = Hash::make($request->password);
         $input['name'] = $request->name;
@@ -76,14 +78,16 @@ class UserController extends Controller
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('users');
-    }
+        $edit_user = 'Success edit user';
 
+        return redirect()->route('users',compact('edit_user'));
+    }
+//view add user
     public function viewAdd()
     {
         return view('auth/add');
     }
-
+//add user
     public function add(UserRequest $request)
     {
         $input = [];
@@ -98,9 +102,11 @@ class UserController extends Controller
         DB::table('users')
             ->insert($input);
 
-        return redirect()->route('users');
-    }
+        $add_user = 'Success add user';
 
+        return redirect()->route('users',compact('add_user'));
+    }
+// delete user
     public function delete($id)
     {
         $paginate = config('constants.paginate');
@@ -124,21 +130,18 @@ class UserController extends Controller
 
         return view('auth/users', compact('errors', 'user'));
     }
-
+// view add user has role
     public function viewAddRole()
     {
         $user = DB::table('users')
             ->select('id', 'name')
             ->get();
 
-        $role = DB::table('roles')
+        $roles = DB::table('roles')
             ->select('id', 'name')
             ->get();
 
-        $user->toArray();
-        $role->toArray();
-
-        return view('auth/roles/userAddRole', compact('user', 'role'));
+        return view('auth/roles/userAddRole', compact('user', 'roles'));
     }
 
     public function addRole(Request $request)
@@ -151,17 +154,16 @@ class UserController extends Controller
             ->select('id', 'name')
             ->get();
 
-        $role = DB::table('roles')
+        $roles = DB::table('roles')
             ->select('id', 'name')
             ->get();
 
-        $userHasRole = DB::table('user_has_role')
-            ->select('*')
+        $userHasRole = UserhasRole::sortable()
             ->paginate($paginate);
 
         $checkRole = DB::table('user_has_role')
             ->where('user_id', $user_id)
-            ->orWhere('role_id', $role_id)
+            ->Where('role_id', $role_id)
             ->first();
 
         if (empty($checkRole)) {
@@ -172,19 +174,21 @@ class UserController extends Controller
         } else {
             $error = 'User has added a role!';
 
-            return view('auth/roles/userAddRole', compact('user', 'role', 'error'));
+            return view('auth/roles/userAddRole', compact('user', 'roles', 'error'));
 
         }
 
-        return view('auth/userHasRole', compact('userHasRole'));
+        $add_role_user = 'Success user add role';
+
+        return \redirect()->route('userHasRole', compact('userHasRole','add_role_user'));
 
     }
-
+//view list user has role
     public function userHasRole(Request $request)
     {
         $paginate = config('constants.paginate');
 
-        $userHasRole = DB::table('user_has_role')
+        $userHasRole = UserhasRole::sortable()
             ->select('users.name as userName',
                 'roles.name as roleName',
                 'user_has_role.id')
@@ -197,7 +201,7 @@ class UserController extends Controller
                 ? '%' . $request->search . '%'
                 : '%' . $request->user . '%';
 
-            $userHasRole = DB::table('user_has_role')
+            $userHasRole = UserhasRole::sortable()
                 ->select('users.name as userName',
                     'roles.name as roleName',
                     'user_has_role.id')
@@ -208,7 +212,7 @@ class UserController extends Controller
         } elseif (!empty($request->role)) {
             $search = '%' . $request->role . '%';
 
-            $userHasRole = DB::table('user_has_role')
+            $userHasRole = UserhasRole::sortable()
                 ->select('users.name as userName',
                     'roles.name as roleName',
                     'user_has_role.id')
@@ -221,12 +225,12 @@ class UserController extends Controller
 
         return view('auth/userHasRole', compact('userHasRole'));
     }
-
+// view edit user has role
     public function viewEditRole($id)
     {
         $useHasRole = UserhasRole::findOrFail($id);
 
-        $hasRole = DB::table('user_has_role')
+        $hasRole = UserhasRole::sortable()
             ->select('user_has_role.id',
                 'users.name as nameUser',
                 'roles.name as nameRole',
@@ -238,11 +242,11 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->first();
 
-        $role = Role::all();
+        $roles = Role::all();
 
-        return view('auth/roles/editHasRole', compact('hasRole', 'role'));
+        return view('auth/roles/editHasRole', compact('hasRole', 'roles'));
     }
-
+// edit user has role
     public function editHasRole(Request $request, $id)
     {
         $paginate = config('constants.paginate');
@@ -255,7 +259,7 @@ class UserController extends Controller
             ->where('id', $id)
             ->update($input);
 
-        $userHasRole = DB::table('user_has_role')
+        $userHasRole = UserhasRole::sortable()
             ->select('users.name as userName',
                 'roles.name as roleName',
                 'user_has_role.id')
@@ -263,9 +267,10 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->paginate($paginate);
 
-        return view('auth/userHasRole', compact('userHasRole'));
+        $edit_role_user = 'Success update user has role';
+        return \redirect()->route('userHasRole',compact('edit_role_user'));
     }
-
+// delete user has role
     public function deleteHasRole($id)
     {
         $userhasRole = UserhasRole::findOrFail($id);
@@ -274,7 +279,7 @@ class UserController extends Controller
 
         $paginate = config('constants.paginate');
 
-        $userHasRole = DB::table('user_has_role')
+        $userHasRole = UserhasRole::sortable()
             ->select('users.name as userName',
                 'roles.name as roleName',
                 'user_has_role.id')
@@ -282,17 +287,23 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->paginate($paginate);
 
-        return view('auth/userHasRole', compact('userHasRole'));
+        $delete_role_user = 'Success delete user has role';
+
+        return view('auth/userHasRole', compact('userHasRole','delete_role_user'));
 
 
     }
-
+// view list user has project
     public function userHasProject()
     {
         $paginate = config('constants.paginate');
 
         $userHasProject = DB::table('project_has_user')
-            ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
+            ->select('users.name as userName',
+                'projects.name as projectName',
+                'project_has_user.id',
+                'user_id',
+                'project_id')
             ->join('users', 'users.id', '=', 'project_has_user.user_id')
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
@@ -303,7 +314,11 @@ class UserController extends Controller
                 : '%' . $request->user . '%';
 
             $userHasProject = DB::table('project_has_user')
-                ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
+                ->select('users.name as userName',
+                    'projects.name as projectName',
+                    'project_has_user.id',
+                    'user_id',
+                    'project_id')
                 ->where('users.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'project_has_user.user_id')
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
@@ -312,7 +327,11 @@ class UserController extends Controller
             $search = '%' . $request->project . '%';
 
             $userHasProject = DB::table('project_has_user')
-                ->select('users.name as userName', 'projects.name as projectName', 'project_has_user.id')
+                ->select('users.name as userName',
+                    'projects.name as projectName',
+                    'project_has_user.id',
+                    'user_id',
+                    'project_id')
                 ->where('projects.name', 'like', $search)
                 ->join('users', 'users.id', '=', 'project_has_user.user_id')
                 ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
@@ -363,7 +382,9 @@ class UserController extends Controller
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
 
-        return view('auth/userHasProject', compact('userHasProject'));
+        $edit_user_has_project = ' Success update user has project';
+
+        return \redirect()->route('userHasProject',compact('edit_user_has_project'));
     }
 
     public function groupProject($id)
@@ -400,9 +421,14 @@ class UserController extends Controller
         $paginate = config('constants.paginate');
         $user_id = $request->user_id;
         $project_id = $request->project_id;
-
         $userHasProject = DB::table('project_has_user')
-            ->select('*')
+            ->select('users.name as userName',
+                'projects.name as projectName',
+                'project_has_user.id',
+                'user_id',
+                'project_id')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
 
         $user = DB::table('users')
@@ -430,8 +456,31 @@ class UserController extends Controller
 
         }
 
-        return view('auth/userHasProject', compact('userHasProject'));
+        $add_user_has_project = 'Success add user has project';
 
+        return view('auth/userHasProject', compact('userHasProject','add_user_has_project'));
+    }
+
+    public function deleteHasProject($id)
+    {
+        $userHasProject = ProjectHasUser::findOrFail($id);
+
+        $userHasProject->delete();
+
+        $paginate = config('constants.paginate');
+
+        $userHasProject = DB::table('project_has_user')
+            ->select('users.name as userName',
+                'projects.name as projectName',
+                'project_has_user.id',
+                'user_id',
+                'project_id')
+            ->join('users', 'users.id', '=', 'project_has_user.user_id')
+            ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
+            ->paginate($paginate);
+
+        $delete_user_project = 'Success delete';
+        return \redirect()->route('userHasProject', compact('userHasProject','delete_user_project'));
     }
 
 }

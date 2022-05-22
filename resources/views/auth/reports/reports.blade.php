@@ -7,6 +7,8 @@
     $roleAdmin = config('constants.admin');
     $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
+    $status = config('constants.status');
+    $accept = config('constants.accept');
     $user = auth()->user();
     $role = $user->userHasRole->role_id;
     $day = date('01-m-Y');
@@ -164,44 +166,14 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
+                @include('layouts.menu')
 
-                    </ul>
-                </nav>
                 {{--end_menu--}}
             </div>
 
             <div class="col-md">
                 <div style="margin-bottom: 1rem">
+{{--form search--}}
                     <form action="{{ $_SERVER['REQUEST_URI'] }}" method="get">
                         <div class="dropdown">
                             <input type="text" name="search" class="dropbtn form-control search" placeholder="Search">
@@ -213,6 +185,7 @@
                             </div>
                         </div>
                     </form>
+{{--end form search--}}
 
                 </div>
 
@@ -233,6 +206,7 @@
                 </div>
                 {{--end form Filter--}}
                 <div>
+                {{--report by employee--}}
                     <form action="" method="post">
                         @csrf
 
@@ -288,12 +262,18 @@
                                         </span>
                                     </td>
                                     <td>
+                                        @if($value->status == $status)
                                         <span style="color: yellow">
                                             {{$value->status}}
                                         </span>
+                                        @else
+                                            <span style="color: green">
+                                            {{$value->status}}
+                                        </span>
+                                        @endif
                                     </td>
                                     <td>
-                                        @if($value->status = 'waiting')
+                                        @if($value->status == $status)
                                             <a href="{{route('editReport',$value->id)}}">Edit</a>
                                             <a href="{{route('deleteReport',$value->id)}}">Delete</a>
                                         @endif
@@ -312,6 +292,8 @@
 
                         </div>
                     </div>
+                {{--end report by employee--}}
+
                 </div>
             </div>
         </div>

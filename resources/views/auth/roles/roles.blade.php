@@ -8,7 +8,7 @@
     $roleManage = config('constants.manager');
     $roleMember = config('constants.member');
     $user = auth()->user();
-    $roler = $user->userHasRole->role_id;
+    $role = $user->userHasRole->role_id;
     $day = date('01-m-Y');
     $today = date('d-m-Y');
     ?>
@@ -39,43 +39,13 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($roler == $roleManage || $roler == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $roler == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
+                @include('layouts.menu')
 
-                    </ul>
-                </nav>
                 {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div>
+                    {{--form roles--}}
                     <a class="btn btn-success" href="{{ route('viewAddRole') }}">Add</a>
                     <form action="" method="post">
                         @csrf
@@ -96,7 +66,7 @@
                                 <th>@sortablelink('name', __('Name'), ['page' => request()->get('page')])</th>
                                 <th>Action</th>
                             </tr>
-                            @foreach($role as $key => $value)
+                            @foreach($roles as $key => $value)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $value->name  }}</td>
@@ -108,10 +78,11 @@
                                 </tr>
                             @endforeach
                         </table>
-                        {!! $role->appends(\Request::all())->render() !!}
+                        {!! $roles->appends(\Request::all())->render() !!}
 
 
                     </form>
+                    {{--end form roles--}}
                 </div>
             </div>
         </div>

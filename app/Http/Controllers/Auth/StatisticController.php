@@ -4,21 +4,39 @@ namespace App\Http\Controllers\Auth;
 
 use App\Charts\StatisticPositionChart;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmail;
 use App\Models\Report;
+use App\Models\User;
+use App\Models\UserhasRole;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
 {
+    // view home with statistic
     public function StatisticProject(Request $request)
     {
         $roleAdmin = config('constants.admin');
         $roleManage = config('constants.manager');
         $roleMember = config('constants.member');
         $startByMonth = config('constants.start');
-        $user_id = Auth::user()->id;
+
         $user = Auth::user();
+        $user_id = $user->id;
+        $role = DB::table('user_has_role')
+            ->select('role_id')
+            ->where('user_id', '=',$user_id)
+            ->first();
+
+        if(empty($role) ){
+            \cache()->flush();
+
+            return view('auth/login');
+
+        }
+
         $role = $user->userHasRole->role_id;
 
         if ($role == $roleAdmin || $role == $roleManage) {
@@ -32,6 +50,8 @@ class StatisticController extends Controller
                 ->get();
 
             if (!empty($request->project_id)) {
+                $request_project = $request->project_id;
+                $request_user = $request->user_id;
 
                 $statisticPosition = DB::table('reports')
                     ->select('position_id', DB::raw('SUM(reports.time) as sumTime'))
@@ -78,7 +98,9 @@ class StatisticController extends Controller
                     'timeArray',
                     'users',
                     'timeArrayUser',
-                    'typeArray'));
+                    'typeArray',
+                    'request_project',
+                    'request_user'));
             }
             return view('home', compact('projects', 'users'));
         } else {
@@ -88,6 +110,7 @@ class StatisticController extends Controller
                 ->where('user_id', '=', $user_id)
                 ->get();
             if (!empty($request->project_id)){
+                $request_project = $request->project_id;
                 $timeStart = $request->start;
                 $timeEnd = $request->end;
 
@@ -143,7 +166,9 @@ class StatisticController extends Controller
                     'projectName',
                     'totalTimeUser',
                     'arrayTimeMonth',
-                    'arrayWorkingType'));
+                    'arrayWorkingType',
+                    'request_project',
+                    'request_user'));
             }
             return view('home',compact('projects'));
 

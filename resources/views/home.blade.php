@@ -91,45 +91,13 @@
                     transition: 1s;
                 }
             </style>
-            {{--        menu--}}
+            {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </nav>
+                @include('layouts.menu')
                 {{--end_menu--}}
             </div>
             <div class="col-md-9">
-                {{--                chart--}}
+                {{--chart--}}
                 <form action="{{ route('statistic') }}" method="get">
                     @csrf
 
@@ -149,8 +117,12 @@
                                 <select name="project_id" id="" class="form-control">
                                     <option value="" class="form-control" selected>---</option>
                                     @foreach($projects as $value)
+                                        @if(!(empty($request_project)) && $request_project == $value->id)
                                         <option value="{{$value->id}}" selected
                                                 class="form-control">{{$value->name}}</option>
+                                        @endif
+                                            <option value="{{$value->id}}"
+                                                    class="form-control">{{$value->name}}</option>
                                     @endforeach
                                 </select>
                                 @if(!empty($error))
@@ -163,11 +135,11 @@
                                     @if(!empty($positionArray))
                                         @if($role == $roleAdmin || $role == $roleManage)
                                             <script>
-                                                var xValues = ['#'];
+                                                var xValues = [];
                                                 @foreach ($positionArray as $key => $value)
                                                 xValues.push('{{$value}}');
                                                 @endforeach
-                                                var yValues = [0];
+                                                var yValues = [];
 
                                                 @foreach ($timeArray as $key => $value)
                                                 yValues.push({{$value}});
@@ -205,11 +177,11 @@
                                     @if(!empty($totalTimeUser))
                                         @if($role == $roleMember)
                                             <script>
-                                                var xValues = ['#'];
+                                                var xValues = [];
                                                 @foreach ($projectName as $key => $value)
                                                 xValues.push('{{$value}}');
                                                 @endforeach
-                                                var yValues = [0];
+                                                var yValues = [];
                                                 @foreach ($totalTimeUser as $key => $value)
                                                 yValues.push({{$value}});
                                                 @endforeach
@@ -249,10 +221,14 @@
                             <td>
                                 @if($role == $roleAdmin || $role == $roleManage)
                                     <select name="user_id" id="" class="form-control">
-                                        <option value="" class="form-control" selected>---</option>
+                                        <option value="" class="form-control" >---</option>
                                         @foreach($users as $value)
-                                            <option value="{{$value->id}}"
+                                            @if(!(empty($request_user)) && $request_user == $value->id)
+                                            <option value="{{$value->id}}" selected
                                                     class="form-control">{{$value->name}}</option>
+                                            @endif
+                                            <option value="{{$value->id}}"
+                                                class="form-control">{{$value->name}}</option>
                                         @endforeach
                                     </select>
                                 @endif
@@ -272,19 +248,19 @@
                                 @endif
                                 <div style="width: 100%;">
                                     <script
-                                        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+{{--                                        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"--}}
                                         type="text/javascript"></script>
                                     <canvas id="myChart1" style="width:50%;max-width:600px"></canvas>
                                     @if(!empty($positionArray))
                                         @if($role == $roleAdmin || $role == $roleManage)
 
                                             <script>
-                                                var xValues1 = ['#'];
+                                                var xValues1 = [];
                                                 @foreach ($typeArray as $key => $value)
                                                 xValues1.push("{{$value}}");
                                                 @endforeach
 
-                                                var yValues1 = [0];
+                                                var yValues1 = [];
                                                 @foreach ($timeArrayUser as $key => $value)
                                                 yValues1.push("{{$value}}");
                                                 @endforeach
@@ -322,11 +298,11 @@
                                     @if(!empty($totalTimeUser))
                                         @if($role == $roleMember)
                                             <script>
-                                                var xValues1 = ['#'];
+                                                var xValues1 = [];
                                                 @foreach ($arrayWorkingType as $key => $value)
                                                 xValues1.push('{{$value}}');
                                                 @endforeach
-                                                var yValues1 = [0];
+                                                var yValues1 = [];
                                                 @foreach ($arrayTimeMonth as $key => $value)
                                                 yValues1.push({{$value}});
                                                 @endforeach
@@ -368,6 +344,8 @@
                     </table>
                 </form>
                 {{--end chart--}}
+
+
             </div>
         </div>
     </div>

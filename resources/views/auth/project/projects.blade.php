@@ -99,58 +99,30 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
-
-                    </ul>
-                </nav>
-                {{--end_menu--}}
+                @include('layouts.menu')
+            {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div style="margin-bottom: 1rem">
                     <div>
+                        {{--form search--}}
                         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="get">
                             <div class="dropdown">
                                 <input type="text" name="search" class="dropbtn form-control search"
                                        placeholder="Search">
-                                {{--                                <div id="myDropdown" class="dropdown-content">--}}
-                                {{--                                    <div class="radioChoose">--}}
-                                {{--                                        <input type="radio" name="option" value="name" checked="checked" /> Name--}}
-                                {{--                                        <input type="radio" name="option" value="detail" /> Detail--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
+                                <div id="myDropdown" class="dropdown-content">
+                                    <div class="radioChoose">
+                                        <input type="radio" name="option" value="name" checked="checked" /> Name
+                                        <input type="radio" name="option" value="detail" /> Detail
+                                    </div>
+                                </div>
                             </div>
                         </form>
+                        {{--end form search--}}
+
                     </div>
                 </div>
+                {{--show projects--}}
                 <div>
                     <a class="btn btn-success" href="{{ route('viewAddProject') }}">Add</a>
                     <form action="" method="post">
@@ -199,6 +171,8 @@
                         {!! $project->appends(\Request::all())->render() !!}
                     </form>
                 </div>
+                {{--show projects--}}
+
             </div>
         </div>
     </div>

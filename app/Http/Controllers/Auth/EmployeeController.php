@@ -64,10 +64,13 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
+    // Edit profile
     public function editProfile(UserUpdateRequest $request)
     {
         $user = Auth::user();
+        $emailUser = $user->email;
         $id = $user->id;
+
         $input = [];
         $input['password'] = Hash::make($request->password);
         $input['name'] = $request->name;
@@ -81,9 +84,11 @@ class EmployeeController extends Controller
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('home');
-    }
+        $success_update_profile = 'Success update profile';
 
+        return redirect()->route('statistic',compact('success_update_profile'));
+    }
+//view Profile
     public function showProfile()
     {
         $user = Auth::user();
@@ -113,7 +118,7 @@ class EmployeeController extends Controller
     {
         //
     }
-
+// Show reports
     public function showReports(Request $request)
     {
         $paginate = config('constants.paginate');
@@ -190,7 +195,7 @@ class EmployeeController extends Controller
 
         return view('auth/reports/reports', ['reports' => $reports]);
     }
-
+// Show edit report
     public function showEditReport($id)
     {
         $report = DB::table('reports')
@@ -212,28 +217,24 @@ class EmployeeController extends Controller
 
         return view('auth/reports/edit', compact('report', 'project', 'positions'));
     }
-
+// Edit report
     public function editReport(Request $request, $id)
     {
-        $positions = DB::table('positions')
-            ->select('id')
-            ->where('name', $request->working_type)
-            ->first();
-
         $input = [];
         $input['detail'] = $request->detail;
         $input['working_time'] = $request->working_time;
         $input['working_type'] = $request->working_type;
         $input['time'] = $request->time;
-        $input['position_id'] = $positions->id;
+        $input['position_id'] = $request->position_id;
 
         DB::table('reports')
             ->where('id', $id)
             ->update($input);
+        $success_edit_report = "Success update reports";
 
-        return redirect()->route('reports');
+        return redirect()->route('reportsEmployee',compact('success_edit_report'));
     }
-
+// show form create report
     public function showFormReport()
     {
         $user = Auth::user();
@@ -251,7 +252,7 @@ class EmployeeController extends Controller
 
         return view('auth/reports', compact('user', 'project', 'positions'));
     }
-
+// Create report
     public function addReport(AddReportRequest $request)
     {
         $user = Auth::user();
@@ -297,17 +298,19 @@ class EmployeeController extends Controller
 
         } else {
             Report::create($input);
+            $add_report ='Success add report';
 
-            return redirect()->route('reportsEmployee');
+            return redirect()->route('reportsEmployee',compact('add_report'));
         }
 
     }
-
+// Delete report if status: waiting
     public function deleteReport($id)
     {
         $report = Report::findOrFail($id);
         $report->delete();
+        $delete_report = 'Delete report';
 
-        return redirect()->route('reports');
+        return redirect()->route('reportsEmployee',compact('delete_report'));
     }
 }

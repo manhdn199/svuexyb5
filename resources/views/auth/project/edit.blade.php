@@ -37,43 +37,14 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
+                @include('layouts.menu')
 
-                    </ul>
-                </nav>
                 {{--end_menu--}}
             </div>
+
             <div class="col-md">
                 <div>
+                    {{--view form edit project--}}
                     <form method="POST" action="{{route('editProject',$project->id)}}">
                         @csrf
 
@@ -187,8 +158,9 @@
                             </div>
                         </div>
                     </form>
+                    {{--end form edit project--}}
                 </div>
-                {{--project member--}}
+                {{--form project member report--}}
                 <div style="margin-top: 1rem">
                     <h2>User report this project</h2>
                     <table class="table ">
@@ -216,6 +188,29 @@
                         @endforeach
                     </table>
                 </div>
+                {{--end form project member report--}}
+
+                {{--form project member --}}
+                <div style="margin-top: 1rem">
+                    <h2>User in project</h2>
+                    <table class="table ">
+                        <tr>
+                            <th>
+                                User
+                            </th>
+                        </tr>
+                        @foreach($nameUser as $key => $value)
+                            <tr>
+                                <td>
+                                    {{$value->nameUser}}
+                                </td>
+
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                {{--end form project member --}}
+
             </div>
         </div>
     </div>

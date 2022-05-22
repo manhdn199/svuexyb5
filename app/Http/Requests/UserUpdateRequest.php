@@ -28,7 +28,7 @@ class UserUpdateRequest extends FormRequest
             'gender' => 'required',
             'email' => 'email|required',
             'password' => 'bail|required|min:8',
-            'tel' => 'required|min:10',
+            'tel' => 'required|min:9',
             'birthday' => 'required|date|before:' . now()->subYears(18)->toDateString(),
         ];
     }

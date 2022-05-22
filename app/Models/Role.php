@@ -27,6 +27,11 @@ class Role extends Model
     {
         return $this->hasOne(UserhasRole::class,'role_id');
     }
+
+    public function RoleHasPermission()
+    {
+        return $this->belongsTo(RoleHasPermission::class,'role_id');
+    }
 }
 
 

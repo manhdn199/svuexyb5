@@ -86,8 +86,116 @@
             </div>
         </div>
     </nav>
-
+{{--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">--}}
+    @if(!empty($_GET['success_update_profile']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['success_update_profile']}}.
+        </div>
+    @elseif(!empty($_GET['success_edit_report']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['success_edit_report']}}.
+        </div>
+    @elseif(!empty($_GET['add_report']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_report']}}.
+        </div>
+    @elseif(!empty($_GET['delete_report']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['delete_report']}}.
+        </div>
+    @elseif(!empty($_GET['edit_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['edit_project']}}.
+        </div>
+    @elseif(!empty($_GET['add_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_project']}}.
+        </div>
+    @elseif(!empty($_GET['error_delete_project']))
+        <div class="alert alert-danger" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Danger! </strong> {{$_GET['error_delete_project']}}.
+        </div>
+    @elseif(!empty($_GET['add_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_project']}}.
+        </div>
+    @elseif(!empty($_GET['accept_report']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['accept_report']}}.
+        </div>
+    @elseif(!empty($_GET['edit_role']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['edit_role']}}.
+        </div>
+    @elseif(!empty($_GET['add_role']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_role']}}.
+        </div>
+    @elseif(!empty($_GET['edit_user']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['edit_user']}}.
+        </div>
+    @elseif(!empty($_GET['add_user']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_user']}}.
+        </div>
+    @elseif(!empty($_GET['add_role_user']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_role_user']}}.
+        </div>
+    @elseif(!empty($_GET['edit_role_user']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['edit_role_user']}}.
+        </div>
+    @elseif(!empty($_GET['delete_role_user']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['delete_role_user']}}.
+        </div>
+    @elseif(!empty($_GET['edit_user_has_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['edit_user_has_project']}}.
+        </div>
+    @elseif(!empty($_GET['add_user_has_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['add_user_has_project']}}.
+        </div>
+    @elseif(!empty($_GET['delete_user_project']))
+        <div class="alert alert-success" id="success-alert" style="margin-left: 71%;
+        position: absolute;">
+            <strong>Success! </strong> {{$_GET['delete_user_project']}}.
+        </div>
+    @endif
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#success-alert").hide();
+            $("#myWish").click(function showAlert() {
+                $("#success-alert").fadeTo(4000, 4000).slideUp(4000, function() {
+                    $("#success-alert").slideUp(4000);
+                });
+            });
+        });
+    </script>
     <main class="py-4">
+
         @yield('content')
     </main>
 </div>

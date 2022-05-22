@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\RoleHasPermission;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,17 @@ class LoginByManagerOrAdmin
         $user =Auth::user();
         $role = $user->userHasRole->role_id;
 
+        $permissionInRole = RoleHasPermission::sortable()
+            ->select('permission_id')
+            ->where('role_id','=',$role)
+            ->join('roles', 'roles.id', '=', 'role_has_permission.role_id')
+            ->join('permissions', 'permissions.id', '=', 'role_has_permission.permission_id')
+            ->get();
+
+        foreach ($permissionInRole as $value)
+        {
+            $arrayPermission = $value->permission_id;
+        }
         if ($role == $roleAdmin || $role == $roleManager)
         {
             return $next($request);

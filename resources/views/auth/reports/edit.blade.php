@@ -37,44 +37,13 @@
             </style>
             {{--menu--}}
             <div class="col-md-3 menu_beet" style="height: 100%">
-                <nav class="navbar  navbar-dark justify-content-center"
-                     style="padding-bottom: 100%; border-right: solid 1px silver">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        @if($role == $roleManage || $role == $roleAdmin)
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{route('users')}}">Users</a>
-                            </li>
-                            @if( $role == $roleAdmin )
-                                <li class="nav-item btn ">
-                                    <a class="nav-link " href="{{ route('roles') }}">Roles</a>
-                                </li>
-                            @endif
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('projects') }}">Projects</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reports') }}">Reports</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasRole') }}">User add Role</a>
-                            </li>
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('userHasProject') }}">User add Projects</a>
-                            </li>
-                        @else
-                            <li class="nav-item btn ">
-                                <a class="nav-link " href="{{ route('reportsEmployee') }}">Reports</a>
-                            </li>
-                        @endif
+                @include('layouts.menu')
 
-                    </ul>
-                </nav>
                 {{--end_menu--}}
             </div>
             <div class="col-md">
                 <div>
-
+{{--form edit report--}}
                     <form action="{{route('editReport',$report->id)}}" method="post">
                         @csrf
                         {{--    @dd($report)--}}
@@ -128,9 +97,10 @@
                         Time
                         <input type="number" name="time" value="{{$report->time}}" class="form-control">
 
-                        <input id="update" type="submit" value="update" disabled="" class="btn btn-primary"
+                        <input id="update" type="submit" value="update"  class="btn btn-primary"
                                style="margin-top:1rem;">
                     </form>
+{{--end form edit report--}}
                 </div>
             </div>
         </div>
@@ -142,45 +112,45 @@
 <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="exponential.js"></script>
-<script>
-    var button = $('#update');
-    var orig = [];
+{{--<script>--}}
+{{--    var button = $('#update');--}}
+{{--    var orig = [];--}}
 
-    $.fn.getType = function () {
-        return this[0].tagName == "INPUT" ? $(this[0]).attr("type").toLowerCase() : this[0].tagName.toLowerCase();
-    }
+{{--    $.fn.getType = function () {--}}
+{{--        return this[0].tagName == "INPUT" ? $(this[0]).attr("type").toLowerCase() : this[0].tagName.toLowerCase();--}}
+{{--    }--}}
 
-    $("form :input").each(function () {
-        var type = $(this).getType();
-        var tmp = {
-            'type': type,
-            'value': $(this).val()
-        };
-        if (type == 'radio') {
-            tmp.checked = $(this).is(':checked');
-        }
-        orig[$(this).attr('id')] = tmp;
-    });
+{{--    $("form :input").each(function () {--}}
+{{--        var type = $(this).getType();--}}
+{{--        var tmp = {--}}
+{{--            'type': type,--}}
+{{--            'value': $(this).val()--}}
+{{--        };--}}
+{{--        if (type == 'radio') {--}}
+{{--            tmp.checked = $(this).is(':checked');--}}
+{{--        }--}}
+{{--        orig[$(this).attr('id')] = tmp;--}}
+{{--    });--}}
 
-    $('form').bind('change keyup', function () {
+{{--    $('form').bind('change keyup', function () {--}}
 
-        var disable = true;
-        $("form :input").each(function () {
-            var type = $(this).getType();
-            var id = $(this).attr('id');
+{{--        var disable = true;--}}
+{{--        $("form :input").each(function () {--}}
+{{--            var type = $(this).getType();--}}
+{{--            var id = $(this).attr('id');--}}
 
-            if (type == 'text' || type == 'select') {
-                disable = (orig[id].value == $(this).val());
-            } else if (type == 'radio') {
-                disable = (orig[id].checked == $(this).is(':checked'));
-            }
+{{--            if (type == 'text' || type == 'select') {--}}
+{{--                disable = (orig[id].value == $(this).val());--}}
+{{--            } else if (type == 'radio') {--}}
+{{--                disable = (orig[id].checked == $(this).is(':checked'));--}}
+{{--            }--}}
 
-            if (!disable) {
-                return false; // break out of loop
-            }
-        });
+{{--            if (!disable) {--}}
+{{--                return false; // break out of loop--}}
+{{--            }--}}
+{{--        });--}}
 
-        button.prop('disabled', disable);
-    });
-</script>
+{{--        button.prop('disabled', disable);--}}
+{{--    });--}}
+{{--</script>--}}
 
