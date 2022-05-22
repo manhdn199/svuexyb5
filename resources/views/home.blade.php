@@ -117,8 +117,12 @@
                                 <select name="project_id" id="" class="form-control">
                                     <option value="" class="form-control" selected>---</option>
                                     @foreach($projects as $value)
+                                        @if(!(empty($request_project)) && $request_project == $value->id)
                                         <option value="{{$value->id}}" selected
                                                 class="form-control">{{$value->name}}</option>
+                                        @endif
+                                            <option value="{{$value->id}}"
+                                                    class="form-control">{{$value->name}}</option>
                                     @endforeach
                                 </select>
                                 @if(!empty($error))
@@ -217,10 +221,14 @@
                             <td>
                                 @if($role == $roleAdmin || $role == $roleManage)
                                     <select name="user_id" id="" class="form-control">
-                                        <option value="" class="form-control" selected>---</option>
+                                        <option value="" class="form-control" >---</option>
                                         @foreach($users as $value)
+                                            @if(!(empty($request_user)) && $request_user == $value->id)
                                             <option value="{{$value->id}}" selected
                                                     class="form-control">{{$value->name}}</option>
+                                            @endif
+                                            <option value="{{$value->id}}"
+                                                class="form-control">{{$value->name}}</option>
                                         @endforeach
                                     </select>
                                 @endif
@@ -336,6 +344,8 @@
                     </table>
                 </form>
                 {{--end chart--}}
+
+
             </div>
         </div>
     </div>

@@ -115,10 +115,10 @@
                             <label class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
 
                             <div class="col-md-6">
-                                <select name="gender" id="gender">
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                    <option value="3">Other</option>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="1" class="form-control">Male</option>
+                                    <option value="2" class="form-control">Female</option>
+                                    <option value="3" class="form-control">Other</option>
                                 </select>
                             </div>
                         </div>

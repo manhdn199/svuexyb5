@@ -78,7 +78,9 @@ class UserController extends Controller
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('users');
+        $edit_user = 'Success edit user';
+
+        return redirect()->route('users',compact('edit_user'));
     }
 //view add user
     public function viewAdd()
@@ -100,7 +102,9 @@ class UserController extends Controller
         DB::table('users')
             ->insert($input);
 
-        return redirect()->route('users');
+        $add_user = 'Success add user';
+
+        return redirect()->route('users',compact('add_user'));
     }
 // delete user
     public function delete($id)
@@ -174,7 +178,9 @@ class UserController extends Controller
 
         }
 
-        return \redirect()->route('userHasRole', compact('userHasRole'));
+        $add_role_user = 'Success user add role';
+
+        return \redirect()->route('userHasRole', compact('userHasRole','add_role_user'));
 
     }
 //view list user has role
@@ -261,7 +267,8 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->paginate($paginate);
 
-        return \redirect()->route('userHasRole');
+        $edit_role_user = 'Success update user has role';
+        return \redirect()->route('userHasRole',compact('edit_role_user'));
     }
 // delete user has role
     public function deleteHasRole($id)
@@ -280,7 +287,9 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'user_has_role.role_id')
             ->paginate($paginate);
 
-        return view('auth/userHasRole', compact('userHasRole'));
+        $delete_role_user = 'Success delete user has role';
+
+        return view('auth/userHasRole', compact('userHasRole','delete_role_user'));
 
 
     }
@@ -373,8 +382,9 @@ class UserController extends Controller
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
 
-        return \redirect()->route('userHasProject');
-        return view('auth/userHasProject', compact('userHasProject'));
+        $edit_user_has_project = ' Success update user has project';
+
+        return \redirect()->route('userHasProject',compact('edit_user_has_project'));
     }
 
     public function groupProject($id)
@@ -446,7 +456,9 @@ class UserController extends Controller
 
         }
 
-        return view('auth/userHasProject', compact('userHasProject'));
+        $add_user_has_project = 'Success add user has project';
+
+        return view('auth/userHasProject', compact('userHasProject','add_user_has_project'));
     }
 
     public function deleteHasProject($id)
@@ -467,7 +479,8 @@ class UserController extends Controller
             ->join('projects', 'projects.id', '=', 'project_has_user.project_id')
             ->paginate($paginate);
 
-        return \redirect()->route('userHasProject', compact('userHasProject'));
+        $delete_user_project = 'Success delete';
+        return \redirect()->route('userHasProject', compact('userHasProject','delete_user_project'));
     }
 
 }

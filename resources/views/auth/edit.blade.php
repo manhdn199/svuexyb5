@@ -130,7 +130,7 @@
                             <label class="col-md-4 col-form-label text-md-end">{{ __('Tel') }}</label>
 
                             <div class="col-md-6">
-                                <input id="tel" type="number" class="form-control" name="tel" value="{{ $user->tel }}">
+                                <input id="tel" type="text" class="form-control" name="tel" value="{{ $user->tel }}">
                             </div>
                         </div>
 

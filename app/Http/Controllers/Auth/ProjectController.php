@@ -95,8 +95,9 @@ class ProjectController extends Controller
         DB::table('projects')
             ->where('id', $id)
             ->update($input);
+        $edit_project = 'Success update project';
 
-        return redirect()->route('projects');
+        return redirect()->route('projects',compact('edit_project'));
     }
 //view add project
     public function viewAdd()
@@ -115,26 +116,30 @@ class ProjectController extends Controller
         $input['end'] = $request->end;
 
         Projects::create($input);
+        $add_project = 'Success add project';
 
-        return redirect()->route('projects');
+        return redirect()->route('projects',compact('add_project'));
     }
 //delete project
     public function delete($id)
     {
         $project = Projects::findOrFail($id);
         $idProject = $project->id;
-        $checkRole = DB::table('user_has_role')
+        $checkRole = DB::table('project_has_user')
             ->where('project_id', $idProject)
-            ->first();;
+            ->first();
 
         if (empty($checkRole)) {
             $project->delete();
         } else {
-            return Redirect::back()->withErrors([
-                'error' => 'Some one has role!'
-            ]);
+            $error_delete_project =  'Some one has role';
+
+            return \redirect()->route('projects',compact('error_delete_project'));
         }
 
-        return view('/projects');
+        $delete_project = 'Success detele project';
+
+        return \redirect()->route('projects',compact('delete_project'));
+
     }
 }

@@ -80,13 +80,13 @@ class EmployeeController extends Controller
         $input['tel'] = $request->tel;
         $input['address'] = $request->address;
 
-        $checkEmail = User::select('email')->get();
-
         DB::table('users')
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('statistic');
+        $success_update_profile = 'Success update profile';
+
+        return redirect()->route('statistic',compact('success_update_profile'));
     }
 //view Profile
     public function showProfile()
@@ -220,23 +220,19 @@ class EmployeeController extends Controller
 // Edit report
     public function editReport(Request $request, $id)
     {
-        $positions = DB::table('positions')
-            ->select('id')
-            ->where('name', $request->working_type)
-            ->first();
-
         $input = [];
         $input['detail'] = $request->detail;
         $input['working_time'] = $request->working_time;
         $input['working_type'] = $request->working_type;
         $input['time'] = $request->time;
-        $input['position_id'] = $positions->id;
+        $input['position_id'] = $request->position_id;
 
         DB::table('reports')
             ->where('id', $id)
             ->update($input);
+        $success_edit_report = "Success update reports";
 
-        return redirect()->route('reports');
+        return redirect()->route('reportsEmployee',compact('success_edit_report'));
     }
 // show form create report
     public function showFormReport()
@@ -302,8 +298,9 @@ class EmployeeController extends Controller
 
         } else {
             Report::create($input);
+            $add_report ='Success add report';
 
-            return redirect()->route('reportsEmployee');
+            return redirect()->route('reportsEmployee',compact('add_report'));
         }
 
     }
@@ -312,7 +309,8 @@ class EmployeeController extends Controller
     {
         $report = Report::findOrFail($id);
         $report->delete();
+        $delete_report = 'Delete report';
 
-        return redirect()->route('reportsEmployee');
+        return redirect()->route('reportsEmployee',compact('delete_report'));
     }
 }

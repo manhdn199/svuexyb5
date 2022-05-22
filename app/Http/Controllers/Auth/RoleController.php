@@ -98,7 +98,8 @@ class RoleController extends Controller
             ->where('id', $id)
             ->update($input);
 
-        return redirect()->route('roles');
+        $edit_role = 'Success update role';
+        return redirect()->route('roles',compact('edit_role'));
     }
 // view add role
     public function viewAdd()
@@ -131,8 +132,9 @@ class RoleController extends Controller
         {
             DB::insert("INSERT INTO role_has_permission(role_id,permission_id)VALUES('$newRole_id->id','$v')");
         }
+        $add_role = 'Success add role';
 
-        return redirect()->route('roles');
+        return redirect()->route('roles',compact('add_role'));
     }
 //delete role
     public function delete($id)
@@ -153,11 +155,11 @@ class RoleController extends Controller
 
         }
 
-        $role = DB::table('roles')
+        $roles = DB::table('roles')
             ->select("*")
             ->paginate($paginate);
 
-        return view('auth/roles/roles', compact('role', 'errors'));
+        return view('auth/roles/roles', compact('roles', 'errors'));
 
     }
 

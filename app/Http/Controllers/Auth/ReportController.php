@@ -168,8 +168,9 @@ class ReportController extends Controller
         $report->status = $accept;
 
         $report->save();
+        $accept_report = 'Success accept report';
 
-        return redirect()->route('reports');
+        return redirect()->route('reports',compact('accept_report'));
     }
 
     /**

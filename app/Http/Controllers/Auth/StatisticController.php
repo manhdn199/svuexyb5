@@ -50,6 +50,8 @@ class StatisticController extends Controller
                 ->get();
 
             if (!empty($request->project_id)) {
+                $request_project = $request->project_id;
+                $request_user = $request->user_id;
 
                 $statisticPosition = DB::table('reports')
                     ->select('position_id', DB::raw('SUM(reports.time) as sumTime'))
@@ -96,7 +98,9 @@ class StatisticController extends Controller
                     'timeArray',
                     'users',
                     'timeArrayUser',
-                    'typeArray'));
+                    'typeArray',
+                    'request_project',
+                    'request_user'));
             }
             return view('home', compact('projects', 'users'));
         } else {
@@ -106,6 +110,7 @@ class StatisticController extends Controller
                 ->where('user_id', '=', $user_id)
                 ->get();
             if (!empty($request->project_id)){
+                $request_project = $request->project_id;
                 $timeStart = $request->start;
                 $timeEnd = $request->end;
 
@@ -161,7 +166,9 @@ class StatisticController extends Controller
                     'projectName',
                     'totalTimeUser',
                     'arrayTimeMonth',
-                    'arrayWorkingType'));
+                    'arrayWorkingType',
+                    'request_project',
+                    'request_user'));
             }
             return view('home',compact('projects'));
 

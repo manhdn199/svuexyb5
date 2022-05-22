@@ -97,7 +97,7 @@
                         Time
                         <input type="number" name="time" value="{{$report->time}}" class="form-control">
 
-                        <input id="update" type="submit" value="update" disabled="" class="btn btn-primary"
+                        <input id="update" type="submit" value="update"  class="btn btn-primary"
                                style="margin-top:1rem;">
                     </form>
 {{--end form edit report--}}
@@ -112,45 +112,45 @@
 <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="exponential.js"></script>
-<script>
-    var button = $('#update');
-    var orig = [];
+{{--<script>--}}
+{{--    var button = $('#update');--}}
+{{--    var orig = [];--}}
 
-    $.fn.getType = function () {
-        return this[0].tagName == "INPUT" ? $(this[0]).attr("type").toLowerCase() : this[0].tagName.toLowerCase();
-    }
+{{--    $.fn.getType = function () {--}}
+{{--        return this[0].tagName == "INPUT" ? $(this[0]).attr("type").toLowerCase() : this[0].tagName.toLowerCase();--}}
+{{--    }--}}
 
-    $("form :input").each(function () {
-        var type = $(this).getType();
-        var tmp = {
-            'type': type,
-            'value': $(this).val()
-        };
-        if (type == 'radio') {
-            tmp.checked = $(this).is(':checked');
-        }
-        orig[$(this).attr('id')] = tmp;
-    });
+{{--    $("form :input").each(function () {--}}
+{{--        var type = $(this).getType();--}}
+{{--        var tmp = {--}}
+{{--            'type': type,--}}
+{{--            'value': $(this).val()--}}
+{{--        };--}}
+{{--        if (type == 'radio') {--}}
+{{--            tmp.checked = $(this).is(':checked');--}}
+{{--        }--}}
+{{--        orig[$(this).attr('id')] = tmp;--}}
+{{--    });--}}
 
-    $('form').bind('change keyup', function () {
+{{--    $('form').bind('change keyup', function () {--}}
 
-        var disable = true;
-        $("form :input").each(function () {
-            var type = $(this).getType();
-            var id = $(this).attr('id');
+{{--        var disable = true;--}}
+{{--        $("form :input").each(function () {--}}
+{{--            var type = $(this).getType();--}}
+{{--            var id = $(this).attr('id');--}}
 
-            if (type == 'text' || type == 'select') {
-                disable = (orig[id].value == $(this).val());
-            } else if (type == 'radio') {
-                disable = (orig[id].checked == $(this).is(':checked'));
-            }
+{{--            if (type == 'text' || type == 'select') {--}}
+{{--                disable = (orig[id].value == $(this).val());--}}
+{{--            } else if (type == 'radio') {--}}
+{{--                disable = (orig[id].checked == $(this).is(':checked'));--}}
+{{--            }--}}
 
-            if (!disable) {
-                return false; // break out of loop
-            }
-        });
+{{--            if (!disable) {--}}
+{{--                return false; // break out of loop--}}
+{{--            }--}}
+{{--        });--}}
 
-        button.prop('disabled', disable);
-    });
-</script>
+{{--        button.prop('disabled', disable);--}}
+{{--    });--}}
+{{--</script>--}}
 
